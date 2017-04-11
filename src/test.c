@@ -12,7 +12,7 @@
 
 #include "include/libac.h"
 
-int main(void)
+static void str_test(void)
 {
 	char str1[] = "Hello World\r\n";
 	char str2[] = "Hello World\r\n";
@@ -20,6 +20,11 @@ int main(void)
 
 	printf("ac_str_chomp  : %s\n", ac_str_chomp(str1));
 	printf("ac_str_substr : %s\n", ac_str_substr(str2, dst, 32, 3, 4));
+}
+
+int main(void)
+{
+	str_test();
 
 	exit(EXIT_SUCCESS);
 }
