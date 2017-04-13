@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.2.0
+Version:	0.3.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -28,8 +28,8 @@ rm -rf $RPM_BUILD_ROOT
 install -Dp -m644 src/include/libac.h $RPM_BUILD_ROOT/%{_includedir}/libac.h
 install -Dp -m0755 src/libac.so.%{version} $RPM_BUILD_ROOT/%{_libdir}/libac.so.%{version}
 cd $RPM_BUILD_ROOT/%{_libdir}
-ln -s libac.so.%{version} libac.so.0.2
-ln -s libac.so.0.2 libac.so
+ln -s libac.so.%{version} libac.so.0.3
+ln -s libac.so.0.3 libac.so
 cd -
 
 %post -p /sbin/ldconfig
@@ -46,6 +46,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Thu Apr 13 2017 Andrew Clayton <andrew@digital-domain.net> - 0.3.0-1
+- Added a couple of filesystem related functions.
+- Version v0.3.0
 
 * Thu Apr 13 2017 Andrew Clayton <andrew@digital-domain.net> - 0.2.0-1
 - Added a couple of time related functions
