@@ -18,6 +18,10 @@
 extern "C" {
 #endif
 
+#define LIBAC_MAJOR_VERSION	0
+#define LIBAC_MINOR_VERSION	2
+#define LIBAC_MICRO_VERSION	0
+
 typedef struct ac_btree_t {
 	void *rootp;
 	int (*compar)(const void *, const void *);
