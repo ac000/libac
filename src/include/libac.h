@@ -10,6 +10,7 @@
 #ifndef _LIBAC_H_
 #define _LIBAC_H_
 
+#include <stdbool.h>
 #include <search.h>
 #include <time.h>
 
@@ -32,6 +33,9 @@ void *ac_btree_lookup(ac_btree_t *tree, const void *key);
 void *ac_btree_add(ac_btree_t *tree, const void *key);
 void *ac_btree_remove(ac_btree_t *tree, const void *key);
 void ac_btree_destroy(ac_btree_t *tree);
+
+bool ac_fs_is_posix_name(const char *name);
+int ac_fs_mkdir_p(const char *path);
 
 char *ac_str_chomp(char *string);
 char *ac_str_substr(const char *src, void *dest, size_t dest_size, int start,

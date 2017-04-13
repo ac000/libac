@@ -89,6 +89,32 @@ static void btree_test(void)
 	printf("\n");
 }
 
+static void fs_test(void)
+{
+	const char name1[] = "-bad name";
+	const char name2[] = "a_good_name";
+
+	printf("*** fs_test\n");
+
+	if (ac_fs_is_posix_name(name1))
+		printf("Good : ");
+	else
+		printf("Bad  : ");
+	printf("'%s'\n", name1);
+
+	if (ac_fs_is_posix_name(name2))
+		printf("Good : ");
+	else
+		printf("Bad  : ");
+	printf("'%s'\n", name2);
+
+	printf("Creating direstory : /tmp/libac/mkdir_p/test\n");
+	ac_fs_mkdir_p("/tmp/libac/mkdir_p/test");
+
+	printf("*** fs_test\n");
+	printf("\n");
+}
+
 static void str_test(void)
 {
 	char str1[] = "Hello World\r\n";
@@ -142,6 +168,7 @@ static void time_test(void)
 int main(void)
 {
 	btree_test();
+	fs_test();
 	str_test();
 	time_test();
 

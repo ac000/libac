@@ -34,6 +34,17 @@ functions.
     void ac_btree_destroy(ac_btree_t *tree)
 
 
+### Filesystem related functions
+
+#### ac\_is\_posix\_name
+
+    bool ac_fs_is_posix_name(const char *name)
+
+#### ac\_fs\_mkdir\_p
+
+    int ac_fs_mkdir_p(const char *path)
+
+
 ### String functions
 
 #### ac\_str\_chomp
