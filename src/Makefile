@@ -2,11 +2,16 @@ CC	= gcc
 CFLAGS	= -Wall -std=c99 -g -O2 -fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
 LDFLAGS	= -shared -Wl,-z,now
 
-objects = ac_str.o
+objects = 	ac_btree.o \
+		ac_str.o
 
 libac: $(objects)
 	@echo -e "  LNK\t$@"
 	@$(CC) $(LDFLAGS),-soname,libac.so.0 -o libac.so.0.0.1 $(objects)
+
+ac_btree.o: ac_btree.c
+	@echo -e "  CC\t$@"
+	@$(CC) $(CFLAGS) -c -o $@ $<
 
 ac_str.o: ac_str.c
 	@echo -e "  CC\t$@"
