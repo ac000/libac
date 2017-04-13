@@ -45,6 +45,20 @@ functions.
     char *ac_str_substr(const char *src, void *dest, size_t dest_size,
                         int start, int len)
 
+
+### Time related functions
+
+#### ac\_time\_tspec\_diff
+
+    double ac_time_tspec_diff(struct timespec *delta,
+                              const struct timespec *end,
+                              const struct timespec *start)
+
+### ac\_time\_secs\_to\_hms
+
+    void ac_time_secs_to_hms(long total, int *hours, int *minutes, int *seconds)
+
+
 ## License
 
 This library is licensed under the GNU Lesser General Public License (LGPL)

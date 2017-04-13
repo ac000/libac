@@ -11,6 +11,7 @@
 #define _LIBAC_H_
 
 #include <search.h>
+#include <time.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,6 +36,10 @@ void ac_btree_destroy(ac_btree_t *tree);
 char *ac_str_chomp(char *string);
 char *ac_str_substr(const char *src, void *dest, size_t dest_size, int start,
 		    int len);
+
+double ac_time_tspec_diff(struct timespec *delta, const struct timespec *end,
+			  const struct timespec *start);
+void ac_time_secs_to_hms(long total, int *hours, int *minutes, int *seconds);
 
 #ifdef __cplusplus
 } /* extern "C" */

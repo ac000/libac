@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <search.h>
+#include <time.h>
 
 #include "include/libac.h"
 
@@ -102,10 +103,47 @@ static void str_test(void)
 	printf("\n");
 }
 
+static void time_test(void)
+{
+	int i;
+	int h;
+	int m;
+	int s;
+	double et;
+	struct timespec delta;
+	struct _times {
+		struct timespec start;
+		struct timespec end;
+	};
+	static const struct _times times[] = {
+		{ { 100, 899972154 }, { 101, 15534107 } },
+		{ { 100, 250000000 }, { 100, 700000000 } },
+		{ { 100, 500000000 }, { 102, 350000000 } },
+		{ { 150, 250000000 }, { 151, 250000000 } },
+		{ { 150, 500000000 }, { 140, 0 } },
+		{ { 150, 0 }, { 140, 500000000 } },
+		{ { 0, 0 }, { 0, 0} }
+	};
+
+	printf("*** time_test\n");
+
+	for (i = 0; times[i].start.tv_nsec != 0; i++) {
+		et = ac_time_tspec_diff(&delta, &times[i].end, &times[i].start);
+		printf("Time difference is %f seconds\n", et);
+	}
+
+	ac_time_secs_to_hms(3675, &h, &m, &s);
+	printf("%lds = %dh %dm %ds\n", 3675L, h, m, s);
+
+	printf("*** time_test\n");
+	printf("\n");
+}
+
 int main(void)
 {
 	btree_test();
 	str_test();
+	time_test();
 
 	exit(EXIT_SUCCESS);
 }
