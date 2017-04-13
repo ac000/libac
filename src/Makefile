@@ -8,7 +8,7 @@ objects = 	ac_btree.o \
 
 libac: $(objects)
 	@echo -e "  LNK\t$@"
-	@$(CC) $(LDFLAGS),-soname,libac.so.0.1 -o libac.so.0.1.0 $(objects)
+	@$(CC) $(LDFLAGS),-soname,libac.so.0.2 -o libac.so.0.2.0 $(objects)
 
 ac_btree.o: ac_btree.c
 	@echo -e "  CC\t$@"
