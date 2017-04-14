@@ -46,17 +46,22 @@ bool ac_fs_is_posix_name(const char *name)
 int ac_fs_mkdir_p(const char *path)
 {
 	int ret = 0;
-	char *dir = strdup(path);
+	char *dir;
+	char *ptr;
 	char *token;
 	char *saveptr;
-	char mdir[4096] = "/";
+	char mdir[4096] = "";
 
-	if (strlen(dir) >= sizeof(mdir)) {
+	if (strlen(path) >= sizeof(mdir)) {
 		errno = ENAMETOOLONG;
-		ret = -1;
-		goto out_free;
+		return -1;
 	}
 
+	if (path[0] == '/')
+		strcat(mdir, "/");
+
+	dir = strdup(path);
+	ptr = dir;
 	for ( ; ; ) {
 		token = strtok_r(dir, "/", &saveptr);
 		if (token == NULL)
@@ -64,13 +69,11 @@ int ac_fs_mkdir_p(const char *path)
 		strcat(mdir, token);
 		ret = mkdir(mdir, 0777);
 		if (ret == -1 && errno != EEXIST)
-			goto out_free;
+			break;
 		strcat(mdir, "/");
 		dir = NULL;
 	}
-
-out_free:
-	free(dir);
+	free(ptr);
 
 	return ret;
 }
