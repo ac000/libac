@@ -48,7 +48,6 @@ int ac_fs_mkdir_p(const char *path)
 	int ret = 0;
 	char *dir;
 	char *ptr;
-	char *token;
 	char *saveptr;
 	char mdir[4096] = "";
 
@@ -63,6 +62,8 @@ int ac_fs_mkdir_p(const char *path)
 	dir = strdup(path);
 	ptr = dir;
 	for ( ; ; ) {
+		char *token;
+
 		token = strtok_r(dir, "/", &saveptr);
 		if (token == NULL)
 			break;

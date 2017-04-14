@@ -135,7 +135,6 @@ static void time_test(void)
 	int h;
 	int m;
 	int s;
-	double et;
 	struct timespec delta;
 	struct _times {
 		struct timespec start;
@@ -154,6 +153,8 @@ static void time_test(void)
 	printf("*** time_test\n");
 
 	for (i = 0; times[i].start.tv_nsec != 0; i++) {
+		double et;
+
 		et = ac_time_tspec_diff(&delta, &times[i].end, &times[i].start);
 		printf("Time difference is %f seconds\n", et);
 	}
