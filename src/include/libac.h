@@ -20,7 +20,7 @@ extern "C" {
 
 #define LIBAC_MAJOR_VERSION	0
 #define LIBAC_MINOR_VERSION	3
-#define LIBAC_MICRO_VERSION	0
+#define LIBAC_MICRO_VERSION	1
 
 typedef struct ac_btree_t {
 	void *rootp;

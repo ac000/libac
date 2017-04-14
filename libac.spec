@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.3.0
+Version:	0.3.1
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -46,6 +46,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Fri Apr 14 2017 Andrew Clayton <andrew@digital-domain.net> - 0.3.1-1
+- Fix a memory leak in ac_fs_mkdir_p()
+- Allow to create relative directory paths in ac_fs_mkdir_p()
+- Version v0.3.1
 
 * Thu Apr 13 2017 Andrew Clayton <andrew@digital-domain.net> - 0.3.0-1
 - Added a couple of filesystem related functions.
