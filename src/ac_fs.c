@@ -7,8 +7,7 @@
  * See COPYING
  */
 
-#define _POSIX_C_SOURCE   1		/* strtok_r(3) */
-#define _XOPEN_SOURCE	500		/* strdup(3) */
+#define _GNU_SOURCE		/* strtok_r(3) & strdup(3) */
 
 #include <stdlib.h>
 #include <stdbool.h>

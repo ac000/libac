@@ -7,7 +7,7 @@
  * See COPYING
  */
 
-#define _POSIX_C_SOURCE	199309L		/* struct timespec with -std=c99 */
+#define _GNU_SOURCE		/* struct timespec */
 
 #include <time.h>
 
