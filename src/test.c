@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <inttypes.h>
 #include <string.h>
 #include <search.h>
 #include <time.h>
@@ -115,6 +116,33 @@ static void fs_test(void)
 	printf("\n");
 }
 
+static void misc_test(void)
+{
+	ac_misc_ppb_t ppb;
+	int bytes = 14568264;
+	u64 bytes2 = 7375982736;
+
+	printf("*** misc_test\n");
+
+	ac_misc_ppb(bytes, AC_SI_UNITS_YES, &ppb);
+	if (ppb.factor == AC_MISC_PPB_BYTES)
+		printf("%d bytes : %hu bytes\n", bytes, ppb.value.v_u16);
+	else
+		printf("%d bytes : %.2f %s\n", bytes, ppb.value.v_float,
+				ppb.prefix);
+
+	ac_misc_ppb(bytes2, AC_SI_UNITS_NO, &ppb);
+	if (ppb.factor == AC_MISC_PPB_BYTES)
+		printf("%" PRIu64 " bytes : %hu bytes\n", bytes2,
+				ppb.value.v_u16);
+	else
+		printf("%" PRIu64 " bytes : %.2f %s\n", bytes2,
+				ppb.value.v_float, ppb.prefix);
+
+	printf("*** misc_test\n");
+	printf("\n");
+}
+
 static void str_test(void)
 {
 	char str1[] = "Hello World\r\n";
@@ -170,6 +198,7 @@ int main(void)
 {
 	btree_test();
 	fs_test();
+	misc_test();
 	str_test();
 	time_test();
 

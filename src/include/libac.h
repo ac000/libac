@@ -10,6 +10,7 @@
 #ifndef _LIBAC_H_
 #define _LIBAC_H_
 
+#include <stdint.h>
 #include <stdbool.h>
 #include <search.h>
 #include <time.h>
@@ -21,6 +22,39 @@ extern "C" {
 #define LIBAC_MAJOR_VERSION	0
 #define LIBAC_MINOR_VERSION	3
 #define LIBAC_MICRO_VERSION	1
+
+typedef uint64_t u64;
+typedef int64_t  s64;
+typedef uint32_t u32;
+typedef int32_t  s32;
+typedef uint16_t u16;
+typedef int16_t  s16;
+typedef uint8_t   u8;
+typedef int8_t    s8;
+
+typedef enum ac_si_units_t {
+	AC_SI_UNITS_NO = 0,
+	AC_SI_UNITS_YES
+} ac_si_units_t;
+
+typedef enum ac_misc_ppb_factor_t {
+	AC_MISC_PPB_BYTES = 0,
+	AC_MISC_PPB_KBYTES,
+	AC_MISC_PPB_MBYTES,
+	AC_MISC_PPB_GBYTES,
+	AC_MISC_PPB_TBYTES,
+	AC_MISC_PPB_PBYTES,
+	AC_MISC_PPB_EBYTES
+} ac_misc_ppb_factor_t;
+
+typedef struct ac_misc_ppb_t {
+	ac_misc_ppb_factor_t factor;
+	char prefix[6];
+	union {
+		u16 v_u16;
+		float v_float;
+	} value;
+} ac_misc_ppb_t;
 
 typedef struct ac_btree_t {
 	void *rootp;
@@ -40,6 +74,8 @@ void ac_btree_destroy(ac_btree_t *tree);
 
 bool ac_fs_is_posix_name(const char *name);
 int ac_fs_mkdir_p(const char *path);
+
+void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
 
 char *ac_str_chomp(char *string);
 char *ac_str_substr(const char *src, void *dest, size_t dest_size, int start,

@@ -45,6 +45,13 @@ functions.
     int ac_fs_mkdir_p(const char *path)
 
 
+### Miscellaneous functions
+
+#### ac\_misc\_ppb
+
+    void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb)
+
+
 ### String functions
 
 #### ac\_str\_chomp

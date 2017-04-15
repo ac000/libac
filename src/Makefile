@@ -4,6 +4,7 @@ LDFLAGS	= -shared -Wl,-z,now
 
 objects = 	ac_btree.o \
 		ac_fs.o \
+		ac_misc.o \
 		ac_str.o \
 		ac_time.o
 
@@ -16,6 +17,10 @@ ac_btree.o: ac_btree.c
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
 ac_fs.o: ac_fs.c
+	@echo -e "  CC\t$@"
+	@$(CC) $(CFLAGS) -c -o $@ $<
+
+ac_misc.o: ac_misc.c
 	@echo -e "  CC\t$@"
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
