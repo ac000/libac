@@ -36,7 +36,7 @@ functions.
 
 ### Filesystem related functions
 
-#### ac\_is\_posix\_name
+#### ac\_fs\_is\_posix\_name
 
     bool ac_fs_is_posix_name(const char *name)
 
