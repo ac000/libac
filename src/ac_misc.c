@@ -29,7 +29,7 @@ static const char *TS;
 static const char *PS;
 static const char *ES;
 
-static void set_units(bool si)
+static void set_si_units(bool si)
 {
 	if (!si) {
 		K = 1024;
@@ -61,9 +61,9 @@ static void set_units(bool si)
 void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb)
 {
 	if (si == AC_SI_UNITS_YES)
-		set_units(true);
+		set_si_units(true);
 	else
-		set_units(false);
+		set_si_units(false);
 
         if (bytes < K) {
 		ppb->factor = AC_MISC_PPB_BYTES;
