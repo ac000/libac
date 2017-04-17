@@ -52,6 +52,27 @@ functions.
     void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb)
 
 
+### Network related functions
+
+#### ac\_net\_ns\_lookup\_by\_host
+
+
+    int ac_net_ns_lookup_by_host(const struct addrinfo *hints,
+                                 const char *node,
+                                 bool (*ac_ns_lookup_cb)
+                                      (const struct addrinfo *ai,
+                                       const char *res))
+
+#### ac\_net\_ns\_lookup\_by\_ip
+
+
+    int ac_net_ns_lookup_by_ip(const struct addrinfo *hints,
+                               const char *node,
+                               bool (*ac_ns_lookup_cb)
+                                    (const struct addrinfo *ai,
+                                     const char *res))
+
+
 ### String functions
 
 #### ac\_str\_chomp

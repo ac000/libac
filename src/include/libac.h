@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <search.h>
+#include <netdb.h>
 #include <time.h>
 
 #ifdef __cplusplus
@@ -76,6 +77,14 @@ bool ac_fs_is_posix_name(const char *name);
 int ac_fs_mkdir_p(const char *path);
 
 void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
+
+int ac_net_ns_lookup_by_host(const struct addrinfo *hints, const char *node,
+			     bool (*ac_ns_lookup_cb)(const struct addrinfo *ai,
+						     const char *res));
+
+int ac_net_ns_lookup_by_ip(const struct addrinfo *hints, const char *node,
+			   bool (*ac_ns_lookup_cb)(const struct addrinfo *ai,
+						   const char *res));
 
 char *ac_str_chomp(char *string);
 char *ac_str_substr(const char *src, void *dest, size_t dest_size, int start,

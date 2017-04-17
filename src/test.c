@@ -7,13 +7,14 @@
  * See COPYING
  */
 
-#define _XOPEN_SOURCE	500		/* strdup(3) */
+#define _GNU_SOURCE			/* strdup(3), struct addrinfo */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
 #include <string.h>
 #include <search.h>
+#include <netdb.h>
 #include <time.h>
 
 #include "include/libac.h"
@@ -143,6 +144,38 @@ static void misc_test(void)
 	printf("\n");
 }
 
+static bool ns_lookup_cb(const struct addrinfo *ai, const char *res)
+{
+	printf("\t%s\n", res);
+
+	return true;
+}
+
+static void net_test(void)
+{
+	int err;
+	struct addrinfo hints;
+
+	printf("*** net_test\n");
+
+	memset(&hints, 0, sizeof(struct addrinfo));
+	hints.ai_family = AF_UNSPEC;
+	hints.ai_socktype = SOCK_STREAM;
+
+	printf("localhost ->\n");
+	err = ac_net_ns_lookup_by_host(&hints, "localhost", ns_lookup_cb);
+	if (err)
+		perror("ac_net_ns_lookup_by_host");
+
+	printf("::1 ->\n");
+	err = ac_net_ns_lookup_by_ip(&hints, "::1", ns_lookup_cb);
+	if (err)
+		perror("ac_net_ns_lookup_by_ip");
+
+	printf("*** net_test\n");
+	printf("\n");
+}
+
 static void str_test(void)
 {
 	char str1[] = "Hello World\r\n";
@@ -199,6 +232,7 @@ int main(void)
 	btree_test();
 	fs_test();
 	misc_test();
+	net_test();
 	str_test();
 	time_test();
 
