@@ -61,7 +61,7 @@ static void btree_test(void)
 	struct tnode *tn;
 	struct tnode stn;
 
-	printf("*** btree_test\n");
+	printf("*** %s\n", __func__);
 	tree = ac_btree_new(compare, free_tnode);
 
 	tn = malloc(sizeof(struct tnode));
@@ -87,8 +87,7 @@ static void btree_test(void)
 	ac_btree_remove(tree, &stn);
 	ac_btree_destroy(tree);
 
-	printf("*** btree_test\n");
-	printf("\n");
+	printf("*** %s\n\n", __func__);
 }
 
 static void fs_test(void)
@@ -96,7 +95,7 @@ static void fs_test(void)
 	const char name1[] = "-bad name";
 	const char name2[] = "a_good_name";
 
-	printf("*** fs_test\n");
+	printf("*** %s\n", __func__);
 
 	if (ac_fs_is_posix_name(name1))
 		printf("Good : ");
@@ -113,8 +112,7 @@ static void fs_test(void)
 	printf("Creating direstory : /tmp/libac/mkdir_p/test\n");
 	ac_fs_mkdir_p("/tmp/libac/mkdir_p/test");
 
-	printf("*** fs_test\n");
-	printf("\n");
+	printf("*** %s\n\n", __func__);
 }
 
 static void misc_test(void)
@@ -123,7 +121,7 @@ static void misc_test(void)
 	int bytes = 14568264;
 	u64 bytes2 = 7375982736;
 
-	printf("*** misc_test\n");
+	printf("*** %s\n", __func__);
 
 	ac_misc_ppb(bytes, AC_SI_UNITS_YES, &ppb);
 	if (ppb.factor == AC_MISC_PPB_BYTES)
@@ -140,8 +138,7 @@ static void misc_test(void)
 		printf("%" PRIu64 " bytes : %.2f %s\n", bytes2,
 				ppb.value.v_float, ppb.prefix);
 
-	printf("*** misc_test\n");
-	printf("\n");
+	printf("*** %s\n\n", __func__);
 }
 
 static bool ns_lookup_cb(const struct addrinfo *ai, const char *res)
@@ -156,7 +153,7 @@ static void net_test(void)
 	int err;
 	struct addrinfo hints;
 
-	printf("*** net_test\n");
+	printf("*** %s\n", __func__);
 
 	memset(&hints, 0, sizeof(struct addrinfo));
 	hints.ai_family = AF_UNSPEC;
@@ -172,8 +169,7 @@ static void net_test(void)
 	if (err)
 		perror("ac_net_ns_lookup_by_ip");
 
-	printf("*** net_test\n");
-	printf("\n");
+	printf("*** %s\n\n", __func__);
 }
 
 static void str_test(void)
@@ -182,12 +178,10 @@ static void str_test(void)
 	char str2[] = "Hello World\r\n";
 	char dst[32];
 
-	printf("*** str_test\n");
+	printf("*** %s\n", __func__);
 	printf("ac_str_chomp  : %s\n", ac_str_chomp(str1));
 	printf("ac_str_substr : %s\n", ac_str_substr(str2, dst, 32, 3, 4));
-	printf("*** str_test\n");
-
-	printf("\n");
+	printf("*** %s\n\n", __func__);
 }
 
 static void time_test(void)
@@ -211,7 +205,7 @@ static void time_test(void)
 		{ { 0, 0 }, { 0, 0} }
 	};
 
-	printf("*** time_test\n");
+	printf("*** %s\n", __func__);
 
 	for (i = 0; times[i].start.tv_nsec != 0; i++) {
 		double et;
@@ -223,8 +217,7 @@ static void time_test(void)
 	ac_time_secs_to_hms(3675, &h, &m, &s);
 	printf("%lds = %dh %dm %ds\n", 3675L, h, m, s);
 
-	printf("*** time_test\n");
-	printf("\n");
+	printf("*** %s\n\n", __func__);
 }
 
 int main(void)
