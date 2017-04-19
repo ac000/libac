@@ -34,6 +34,39 @@ functions.
     void ac_btree_destroy(ac_btree_t *tree)
 
 
+### Circular queue functions
+
+#### ac\_cqueue\_new
+
+    ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item))
+
+#### ac\_cqueue\_push
+
+    int ac_cqueue_push(ac_cqueue_t *cqueue, void *item)
+
+#### ac\_cqueue\_pop
+
+    void *ac_cqueue_pop(ac_cqueue_t *cqueue)
+
+#### ac\_cqueue\_foreach
+
+    void ac_cqueue_foreach(const ac_cqueue_t *cqueue,
+                           void (*action)(void *item, void *data),
+                           void *user_data)
+
+#### ac\_cqueue\_is\_empty
+
+    bool ac_cqueue_is_empty(const ac_cqueue_t *cqueue)
+
+#### ac\_cqueue\_nr\_items
+
+    size_t ac_cqueue_nr_items(const ac_cqueue_t *cqueue)
+
+#### ac\_cqueue\_destroy
+
+    void ac_cqueue_destroy(ac_cqueue_t *cqueue)
+
+
 ### Filesystem related functions
 
 #### ac\_fs\_is\_posix\_name

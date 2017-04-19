@@ -90,6 +90,84 @@ static void btree_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
+struct queue_data {
+	char *name;
+	int item;
+};
+
+static void print_queue_item(void *item, void *data)
+{
+	struct queue_data *qd = item;
+
+	printf("\titem %d : %s\n", qd->item, qd->name);
+}
+
+static void free_queue_item(void *item)
+{
+	struct queue_data *qd = item;
+
+	printf("Freeing item %d : %s\n", qd->item, qd->name);
+	free(qd->name);
+	free(qd);
+}
+
+static void cqueue_test(void)
+{
+	ac_cqueue_t *queue = ac_cqueue_new(3, free_queue_item);
+	struct queue_data *qd;
+
+	printf("*** %s\n", __func__);
+
+	printf("The queue is %sempty\n", ac_cqueue_is_empty(queue) ? "" :
+			"not ");
+
+	qd = malloc(sizeof(struct queue_data));
+	qd->name = strdup("mercury");
+	qd->item = 0;
+	printf("Pushing item 0 into the queue\n");
+	ac_cqueue_push(queue, qd);
+
+	qd = malloc(sizeof(struct queue_data));
+	qd->name = strdup("venus");
+	qd->item = 1;
+	printf("Pushing item 1 into the queue\n");
+	ac_cqueue_push(queue, qd);
+
+	qd = malloc(sizeof(struct queue_data));
+	qd->name = strdup("earth");
+	qd->item = 2;
+	printf("Pushing item 2 into the queue\n");
+	ac_cqueue_push(queue, qd);
+	printf("There are %zu items in the queue :-\n",
+			ac_cqueue_nr_items(queue));
+	ac_cqueue_foreach(queue, print_queue_item, NULL);
+
+	printf("Popping item 0 from the queue\n");
+	qd = ac_cqueue_pop(queue);
+	free_queue_item(qd);
+	ac_cqueue_foreach(queue, print_queue_item, NULL);
+
+	qd = malloc(sizeof(struct queue_data));
+	qd->name = strdup("mars");
+	qd->item = 3;
+	printf("Pushing item 3 into the queue\n");
+	ac_cqueue_push(queue, qd);
+	ac_cqueue_foreach(queue, print_queue_item, NULL);
+
+	printf("Popping item 1 from the queue\n");
+	qd = ac_cqueue_pop(queue);
+	printf("Pushing item 1 back into the queue\n");
+	ac_cqueue_push(queue, qd);
+	ac_cqueue_foreach(queue, print_queue_item, NULL);
+
+	printf("The queue is %sempty\n", ac_cqueue_is_empty(queue) ? "" :
+			"not ");
+	printf("Destroying queue\n");
+	ac_cqueue_destroy(queue);
+
+	printf("*** %s\n\n", __func__);
+}
+
 static void fs_test(void)
 {
 	const char name1[] = "-bad name";
@@ -223,6 +301,7 @@ static void time_test(void)
 int main(void)
 {
 	btree_test();
+	cqueue_test();
 	fs_test();
 	misc_test();
 	net_test();

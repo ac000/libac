@@ -63,6 +63,16 @@ typedef struct ac_btree_t {
 	void (*free_node)(void *nodep);
 } ac_btree_t;
 
+typedef struct ac_cqueue_t {
+	void **queue;
+	size_t front;
+	size_t rear;
+	size_t count;
+	size_t size;
+
+	void (*free_item)(void *item);
+} ac_cqueue_t;
+
 void *ac_btree_new(int (*compar)(const void *, const void *),
 		   void (*free_node)(void *nodep));
 void ac_btree_foreach(ac_btree_t *tree, void (*action)(const void *nodep,
@@ -72,6 +82,16 @@ void *ac_btree_lookup(ac_btree_t *tree, const void *key);
 void *ac_btree_add(ac_btree_t *tree, const void *key);
 void *ac_btree_remove(ac_btree_t *tree, const void *key);
 void ac_btree_destroy(ac_btree_t *tree);
+
+ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item));
+int ac_cqueue_push(ac_cqueue_t *cqueue, void *item);
+void *ac_cqueue_pop(ac_cqueue_t *cqueue);
+void ac_cqueue_foreach(const ac_cqueue_t *cqueue,
+		       void (*action)(void *item, void *data),
+		       void *user_data);
+bool ac_cqueue_is_empty(const ac_cqueue_t *cqueue);
+size_t ac_cqueue_nr_items(const ac_cqueue_t *cqueue);
+void ac_cqueue_destroy(ac_cqueue_t *cqueue);
 
 bool ac_fs_is_posix_name(const char *name);
 int ac_fs_mkdir_p(const char *path);
