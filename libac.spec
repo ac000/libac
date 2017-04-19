@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.5.0
+Version:	0.6.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -28,8 +28,8 @@ rm -rf $RPM_BUILD_ROOT
 install -Dp -m644 src/include/libac.h $RPM_BUILD_ROOT/%{_includedir}/libac.h
 install -Dp -m0755 src/libac.so.%{version} $RPM_BUILD_ROOT/%{_libdir}/libac.so.%{version}
 cd $RPM_BUILD_ROOT/%{_libdir}
-ln -s libac.so.%{version} libac.so.0.5
-ln -s libac.so.0.5 libac.so
+ln -s libac.so.%{version} libac.so.0.6
+ln -s libac.so.0.6 libac.so
 cd -
 
 %post -p /sbin/ldconfig
@@ -46,6 +46,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Wed Apr 19 2017 Andrew Clayton <andrew@digital-domain.net> - 0.6.0-1
+- Added a simple circular queue implementation
+- Version v0.6.0
 
 * Tue Apr 18 2017 Andrew Clayton <andrew@digital-domain.net> - 0.5.0-1
 - Added a couple of network name lookup functions
