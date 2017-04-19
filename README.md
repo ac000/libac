@@ -137,3 +137,12 @@ This library is licensed under the GNU Lesser General Public License (LGPL)
 version 2.1
 
 See COPYING in the repository root for details.
+
+
+## Contributing
+
+See *CodingStyle*.
+
+Commit messages should be formatted appropriately with a suitable *subject*
+line and properly formatted *mesasge body* describing why the change is
+needed and what the change does.
