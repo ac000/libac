@@ -1,6 +1,20 @@
+1. [Overview](#overview)
+2. [Functions](#functions)
+  * [Binary Tree functions](#binary-tree-functions)
+  * [Circular Queue functions](#circular-queue-functions)
+  * [Filesystem related functions](#filesystem-related-functions)
+  * [Miscellaneous functions](#miscellaneous-functions)
+  * [Network related functions](#network-related-functions)
+  * [String functions](#string-functions)
+  * [Time related functions](#time-related-functions)
+3. [License](#license)
+4. [Contributing](#contributing)
+
 ## Overview
 
 A C library of miscellaneous functions.
+
+## Functions
 
 ### Binary Tree functions
 
