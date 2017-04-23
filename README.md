@@ -7,8 +7,9 @@
   * [Network related functions](#network-related-functions)
   * [String functions](#string-functions)
   * [Time related functions](#time-related-functions)
-3. [License](#license)
-4. [Contributing](#contributing)
+3. [How to use](#how-to-use)
+4. [License](#license)
+5. [Contributing](#contributing)
 
 ## Overview
 
@@ -142,6 +143,18 @@ functions.
 ### ac\_time\_secs\_to\_hms - convert total seconds to broken out hrs, mins & secs
 
     void ac_time_secs_to_hms(long total, int *hours, int *minutes, int *seconds)
+
+
+## How to use
+
+Just
+
+    #include <libac.h>
+
+in your program and link with *-lac* assuming you've built and installed the
+RPM or similar.
+
+See *src/test.c* for examples on using the above.
 
 
 ## License
