@@ -140,7 +140,7 @@ functions.
                               const struct timespec *end,
                               const struct timespec *start)
 
-### ac\_time\_secs\_to\_hms - convert total seconds to broken out hrs, mins & secs
+#### ac\_time\_secs\_to\_hms - convert total seconds to broken out hrs, mins & secs
 
     void ac_time_secs_to_hms(long total, int *hours, int *minutes, int *seconds)
 
