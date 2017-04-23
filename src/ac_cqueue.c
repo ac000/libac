@@ -73,7 +73,7 @@ void ac_cqueue_foreach(const ac_cqueue_t *cqueue,
 	if (cqueue->front < cqueue->rear) {
 		for (i = cqueue->front; i < cqueue->rear; i++)
 			action(cqueue->queue[i], user_data);
-	} else if (cqueue->front >= cqueue->rear) {
+	} else {
 		for (i = cqueue->front; i < cqueue->size; i++)
 			action(cqueue->queue[i], user_data);
 		for (i = 0; i < cqueue->rear; i++)
@@ -98,7 +98,7 @@ void ac_cqueue_destroy(ac_cqueue_t *cqueue)
 	if (cqueue->front < cqueue->rear) {
 		for (i = cqueue->front; i < cqueue->rear; i++)
 			cqueue->free_item(cqueue->queue[i]);
-	} else if (cqueue->front >= cqueue->rear) {
+	} else {
 		for (i = cqueue->front; i < cqueue->size; i++)
 			cqueue->free_item(cqueue->queue[i]);
 		for (i = 0; i < cqueue->rear; i++)
