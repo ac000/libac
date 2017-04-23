@@ -58,6 +58,14 @@ static void set_si_units(bool si)
 	E = (u64)P * K;
 }
 
+/**
+ * ac_misc_ppb - pretty print bytes
+ *
+ * @bytes: The bytes value to pretty print
+ * @si: Whether to use SI units or not, can be either; AC_SI_UNITS_NO or
+ *      AC_SI_UNITS_YES
+ * @ppb: A structure that is filled out with the result
+ */
 void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb)
 {
 	if (si == AC_SI_UNITS_YES)

@@ -10,6 +10,15 @@
 #include <stdio.h>
 #include <string.h>
 
+/**
+ * ac_str_chomp - remove trailing white space from a string
+ *
+ * @string: String to be chomp'd
+ *
+ * Returns:
+ *
+ * A pointer to the chomped string
+ */
 char *ac_str_chomp(char *string)
 {
 	size_t len = strlen(string);
@@ -29,6 +38,19 @@ char *ac_str_chomp(char *string)
 	return string;
 }
 
+/**
+ * ac_str_substr - extract a substring from a string
+ *
+ * @src: The string containing the substring to be extracted
+ * @dest: A buffer to place the substring into
+ * @dest_size: Size of the output buffer
+ * @start: The start position in the string to start extraction
+ * @len: How many bytes to extract
+ *
+ * Returns:
+ *
+ * A pointer to the substring
+ */
 char *ac_str_substr(const char *src, void *dest, size_t dest_size, int start,
 		    int len)
 {

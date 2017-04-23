@@ -16,6 +16,20 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
+/**
+ * ac_net_ns_lookup_by_host - lookup a host by hostname (get its IP(s))
+ *
+ * @hints: An addrinfo structure with criteria for selecting the IP addresses
+ *         to be returned
+ * @node: The host to be looked up
+ * @ac_ns_lookup_cb: A function that is called for each IP returned. Return
+ *                   true from this function to be called again or false to
+ *                   stop
+ *
+ * Returns:
+ *
+ * 0 on success, -1 on failure check errno
+ */
 int ac_net_ns_lookup_by_host(const struct addrinfo *hints, const char *node,
 			     bool (*ac_ns_lookup_cb)(const struct addrinfo *ai,
 						     const char *res))
@@ -56,6 +70,18 @@ int ac_net_ns_lookup_by_host(const struct addrinfo *hints, const char *node,
 	return 0;
 }
 
+/**
+ * ac_net_ns_lookup_by_ip - lookup a host by IP address (get its hostname)
+ *
+ * @hints: An addrinfo structure with criteria for selecting the hostname
+ *         to be returned
+ * @node: The IP address to be looked up
+ * @ac_ns_lookup_cb: A function that is called on the returned hostname
+ *
+ * Returns:
+ *
+ * 0 on success, -1 on failure check errno
+ */
 int ac_net_ns_lookup_by_ip(const struct addrinfo *hints, const char *node,
 			   bool (*ac_ns_lookup_cb)(const struct addrinfo *ai,
 						   const char *res))

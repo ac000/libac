@@ -18,6 +18,16 @@ static void null_free_item(void *data)
 {
 }
 
+/**
+ * ac_cqueue_new - create a new circular queue
+ *
+ * @size: The number of elements the queue can handle
+ * @free_item: A function to free an element of the queue
+ *
+ * Returns:
+ *
+ * A pointer to the newly created circular queue
+ */
 ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item))
 {
 	ac_cqueue_t *cqueue = malloc(sizeof(struct ac_cqueue_t));
@@ -36,6 +46,16 @@ ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item))
 	return cqueue;
 }
 
+/**
+ * ac_cqueue_push - add an item to the queue
+ *
+ * @cqueue: The queue to add the item to
+ * @item: The item to be added
+ *
+ * Returns:
+ *
+ * -1 on failure (queue was full) or 0 on success
+ */
 int ac_cqueue_push(ac_cqueue_t *cqueue, void *item)
 {
 	if (cqueue->count == cqueue->size)
@@ -51,6 +71,15 @@ int ac_cqueue_push(ac_cqueue_t *cqueue, void *item)
 	return 0;
 }
 
+/**
+ * ac_cqueue_pop - get the head element from the queue
+ *
+ * @cqueue: The queue to get the element from
+ *
+ * Returns:
+ *
+ * A pointer to element
+ */
 void *ac_cqueue_pop(ac_cqueue_t *cqueue)
 {
 	if (cqueue->count == 0)
@@ -62,6 +91,13 @@ void *ac_cqueue_pop(ac_cqueue_t *cqueue)
 	return cqueue->queue[cqueue->front++];
 }
 
+/**
+ * ac_cqueue_foreach - iterate over elements in a queue
+ *
+ * @cqeuue: The queue to iterate over
+ * @action: The function to call on each element
+ * @user_data: Optional user data to pass to action. Can be NULL
+ */
 void ac_cqueue_foreach(const ac_cqueue_t *cqueue,
 		       void (*action)(void *item, void *data), void *user_data)
 {
@@ -81,16 +117,39 @@ void ac_cqueue_foreach(const ac_cqueue_t *cqueue,
 	}
 }
 
+/**
+ * ac_cqueue_is_empty - check if a queue is empty
+ *
+ * @cqueue: The queue to check
+ *
+ * Returns:
+ *
+ * true if the queue is empty, false otherwise
+ */
 bool ac_cqueue_is_empty(const ac_cqueue_t *cqueue)
 {
 	return (cqueue->count == 0);
 }
 
+/**
+ * ac_cqueue_nr_items - get the number of elements in the queue
+ *
+ * @cqueue: The queue to operate on
+ *
+ * Returns:
+ *
+ * The number of elements in the queue
+ */
 size_t ac_cqueue_nr_items(const ac_cqueue_t *cqueue)
 {
 	return cqueue->count;
 }
 
+/**
+ * ac_cqueue_destroy - destroy a circular queue freeing all its memory
+ *
+ * @cqueue: The queue to destroy
+ */
 void ac_cqueue_destroy(ac_cqueue_t *cqueue)
 {
 	size_t i;

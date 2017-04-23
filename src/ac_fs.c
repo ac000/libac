@@ -16,6 +16,15 @@
 #include <sys/types.h>
 #include <errno.h>
 
+/**
+ * ac_fs_is_posix_name - checks if a filename follows POSIX guidelines
+ *
+ * @name: The name to check
+ *
+ * Returns:
+ *
+ * true if if follows the guidelines, false otherwise
+ */
 bool ac_fs_is_posix_name(const char *name)
 {
 	if (name[0] == '-')
@@ -42,6 +51,15 @@ bool ac_fs_is_posix_name(const char *name)
 	return true;
 }
 
+/**
+ * ac_fs_mkdir_p - mkdir with parents
+ *
+ * @path: The path to make
+ *
+ * Returns:
+ *
+ * 0 on success, -1 on failure check errno
+ */
 int ac_fs_mkdir_p(const char *path)
 {
 	int ret = 0;
