@@ -22,7 +22,7 @@ extern "C" {
 
 #define LIBAC_MAJOR_VERSION	0
 #define LIBAC_MINOR_VERSION	6
-#define LIBAC_MICRO_VERSION	0
+#define LIBAC_MICRO_VERSION	1
 
 typedef uint64_t u64;
 typedef int64_t  s64;

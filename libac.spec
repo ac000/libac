@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.6.0
+Version:	0.6.1
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -46,6 +46,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Wed Apr 26 2017 Andrew Clayton <andrew@digital-domain.net> - 0.6.1-1
+- Fix a couple of possible segfaults
+- Version v0.6.1
 
 * Wed Apr 19 2017 Andrew Clayton <andrew@digital-domain.net> - 0.6.0-1
 - Added a simple circular queue implementation
