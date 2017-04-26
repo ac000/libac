@@ -73,6 +73,12 @@ typedef struct ac_cqueue_t {
 	void (*free_item)(void *item);
 } ac_cqueue_t;
 
+typedef struct ac_quark_t {
+	ac_btree_t *mapping;
+	int last;
+	void (*free_func)(void *ptr);
+} ac_quark_t;
+
 void *ac_btree_new(int (*compar)(const void *, const void *),
 		   void (*free_node)(void *nodep));
 void ac_btree_foreach(ac_btree_t *tree, void (*action)(const void *nodep,
@@ -105,6 +111,11 @@ int ac_net_ns_lookup_by_host(const struct addrinfo *hints, const char *node,
 int ac_net_ns_lookup_by_ip(const struct addrinfo *hints, const char *node,
 			   bool (*ac_ns_lookup_cb)(const struct addrinfo *ai,
 						   const char *res));
+
+void ac_quark_init(ac_quark_t *quark, void (*free_func)(void *ptr));
+int ac_quark_from_string(ac_quark_t *quark, const char *str);
+const char *ac_quark_to_string(ac_quark_t *quark, int id);
+void ac_quark_destroy(ac_quark_t *quark);
 
 char *ac_str_chomp(char *string);
 char *ac_str_substr(const char *src, void *dest, size_t dest_size, int start,

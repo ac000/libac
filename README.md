@@ -5,6 +5,7 @@
   * [Filesystem related functions](#filesystem-related-functions)
   * [Miscellaneous functions](#miscellaneous-functions)
   * [Network related functions](#network-related-functions)
+  * [Quark (string to integer mapping) functions](#quark-functions)
   * [String functions](#string-functions)
   * [Time related functions](#time-related-functions)
 3. [How to use](#how-to-use)
@@ -118,6 +119,25 @@ functions.
                                bool (*ac_ns_lookup_cb)
                                     (const struct addrinfo *ai,
                                      const char *res))
+
+
+### Quark functions
+
+#### ac\_quark\_init - initialise a new quark
+
+    void ac_quark_init(ac_quark_t *quark, void(*free_func)(void *ptr))
+
+#### ac\_quark\_from\_string - create a new string mapping
+
+    int ac_quark_from_string(ac_quark_t *quark, const char *str)
+
+#### ac\_quark\_to\_string - retrieve the given string
+
+    const char *ac_quark_to_string(ac_quark_t *quark, int id)
+
+#### ac\_quark\_destroy - destroy a quark
+
+    void ac_quark_destroy(ac_quark_t *quark)
 
 
 ### String functions

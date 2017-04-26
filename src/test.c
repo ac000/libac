@@ -250,6 +250,25 @@ static void net_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
+static void quark_test(void)
+{
+	ac_quark_t quark;
+
+	printf("*** %s\n", __func__);
+
+	ac_quark_init(&quark, NULL);
+
+	printf("Hello -> %d\n", ac_quark_from_string(&quark, "Hello"));
+	printf("World -> %d\n", ac_quark_from_string(&quark, "World"));
+	printf("0 -> %s\n", ac_quark_to_string(&quark, 0));
+	printf("1 -> %s\n", ac_quark_to_string(&quark, 1));
+	printf("2 -> %s\n", ac_quark_to_string(&quark, 2));
+
+	ac_quark_destroy(&quark);
+
+	printf("*** %s\n\n", __func__);
+}
+
 static void str_test(void)
 {
 	char str1[] = "Hello World\r\n";
@@ -305,6 +324,7 @@ int main(void)
 	fs_test();
 	misc_test();
 	net_test();
+	quark_test();
 	str_test();
 	time_test();
 
