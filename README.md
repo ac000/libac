@@ -151,6 +151,10 @@ functions.
     char *ac_str_substr(const char *src, void *dest, size_t dest_size,
                         int start, int len)
 
+#### ac\_str\_levenshtein - calculate the Levenshtein distance between two strings
+
+    int ac_str_levenshtein(const char *s, const char *t)
+
 
 ### Time related functions
 

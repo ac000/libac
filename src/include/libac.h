@@ -120,6 +120,7 @@ void ac_quark_destroy(ac_quark_t *quark);
 char *ac_str_chomp(char *string);
 char *ac_str_substr(const char *src, void *dest, size_t dest_size, int start,
 		    int len);
+int ac_str_levenshtein(const char *s, const char *t);
 
 double ac_time_tspec_diff(struct timespec *delta, const struct timespec *end,
 			  const struct timespec *start);
