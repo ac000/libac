@@ -83,7 +83,12 @@ void ac_btree_foreach(ac_btree_t *tree, void (*action)(const void *nodep,
  */
 void *ac_btree_lookup(ac_btree_t *tree, const void *key)
 {
-	return *(void **)tfind(key, &tree->rootp, tree->compar);
+	void *node = tfind(key, &tree->rootp, tree->compar);
+
+	if (!node)
+		return NULL;
+
+	return *(void **)node;
 }
 
 /**
@@ -116,9 +121,15 @@ void *ac_btree_add(ac_btree_t *tree, const void *key)
 void *ac_btree_remove(ac_btree_t *tree, const void *key)
 {
 	void *node = ac_btree_lookup(tree, key);
-	void *pnode = tdelete(key, &tree->rootp, tree->compar);
+	void *pnode;
 
+	if (!node)
+		return NULL;
+
+	pnode = tdelete(key, &tree->rootp, tree->compar);
 	tree->free_node(node);
+	if (!pnode)
+		return NULL;
 
 	return *(void **)pnode;
 }
