@@ -10,52 +10,46 @@
 
 #define _GNU_SOURCE
 
-#include <stdio.h>
-#include <stdbool.h>
-
 #include "include/libac.h"
 
-static u16 K;
-static u32 M;
-static u32 G;
-static u64 T;
-static u64 P;
-static u64 E;
+#define K(si)	((si) ? 1000 : 1024)
+#define M(si)	((si) ? 1000*1000 : 1024*1024)
+#define G(si)	((si) ? 1000*1000*1000 : 1024*1024*1024)
+#define T(si)	((si) ? (u64)1000*1000*1000*1000 : (u64)1024*1024*1024*1024)
+#define P(si)	((si) ? (u64)1000*1000*1000*1000*1000 : \
+			(u64)1024*1024*1024*1024*1024)
+#define E(si)	((si) ? (u64)1000*1000*1000*1000*1000*1000 : \
+			(u64)1024*1024*1024*1024*1024*1024)
 
-static const char *KS;
-static const char *MS;
-static const char *GS;
-static const char *TS;
-static const char *PS;
-static const char *ES;
-
-static void set_si_units(bool si)
+static void ppp_set_prefix(ac_si_units_t si, ac_misc_ppb_t *ppb)
 {
-	if (!si) {
-		K = 1024;
+	const char *pfx;
 
-		KS = "KiB";
-		MS = "MiB";
-		GS = "GiB";
-		TS = "TiB";
-		PS = "PiB";
-		ES = "EiB";
-	} else {
-		K = 1000;
-
-		KS = "KB";
-		MS = "MB";
-		GS = "GB";
-		TS = "TB";
-		PS = "PB";
-		ES = "EB";
+	switch (ppb->factor) {
+	case AC_MISC_PPB_BYTES:
+		pfx = "bytes";
+		break;
+	case AC_MISC_PPB_KBYTES:
+		pfx = (si == AC_SI_UNITS_YES) ? "KB" : "KiB";
+		break;
+	case AC_MISC_PPB_MBYTES:
+		pfx = (si == AC_SI_UNITS_YES) ? "MB" : "MiB";
+		break;
+	case AC_MISC_PPB_GBYTES:
+		pfx = (si == AC_SI_UNITS_YES) ? "GB" : "GiB";
+		break;
+	case AC_MISC_PPB_TBYTES:
+		pfx = (si == AC_SI_UNITS_YES) ? "TB" : "TiB";
+		break;
+	case AC_MISC_PPB_PBYTES:
+		pfx = (si == AC_SI_UNITS_YES) ? "PB" : "PiB";
+		break;
+	case AC_MISC_PPB_EBYTES:
+		pfx = (si == AC_SI_UNITS_YES) ? "EB" : "EiB";
+		break;
 	}
 
-	M = K * K;
-	G = M * K;
-	T = (u64)G * K;
-	P = (u64)T * K;
-	E = (u64)P * K;
+	ppb->prefix = pfx;
 }
 
 /**
@@ -68,38 +62,28 @@ static void set_si_units(bool si)
  */
 void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb)
 {
-	if (si == AC_SI_UNITS_YES)
-		set_si_units(true);
-	else
-		set_si_units(false);
-
-        if (bytes < K) {
+        if (bytes < K(si)) {
 		ppb->factor = AC_MISC_PPB_BYTES;
-		snprintf(ppb->prefix, sizeof(ppb->prefix), "bytes");
 		ppb->value.v_u16 = bytes;
-	} else if (bytes < M) {
+	} else if (bytes < M(si)) {
 		ppb->factor = AC_MISC_PPB_KBYTES;
-		snprintf(ppb->prefix, sizeof(ppb->prefix), "%s", KS);
-		ppb->value.v_float = (float)bytes / K;
-	} else if (bytes < G) {
+		ppb->value.v_float = (float)bytes / K(si);
+	} else if (bytes < G(si)) {
 		ppb->factor = AC_MISC_PPB_MBYTES;
-		snprintf(ppb->prefix, sizeof(ppb->prefix), "%s", MS);
-		ppb->value.v_float = (float)bytes / M;
-	} else if (bytes < T) {
+		ppb->value.v_float = (float)bytes / M(si);
+	} else if (bytes < T(si)) {
 		ppb->factor = AC_MISC_PPB_GBYTES;
-		snprintf(ppb->prefix, sizeof(ppb->prefix), "%s", GS);
-		ppb->value.v_float = (float)bytes / G;
-	} else if (bytes < P) {
+		ppb->value.v_float = (float)bytes / G(si);
+	} else if (bytes < P(si)) {
 		ppb->factor = AC_MISC_PPB_TBYTES;
-		snprintf(ppb->prefix, sizeof(ppb->prefix), "%s", TS);
-		ppb->value.v_float = (float)bytes / T;
-	} else if (bytes < E) {
+		ppb->value.v_float = (float)bytes / T(si);
+	} else if (bytes < E(si)) {
 		ppb->factor = AC_MISC_PPB_PBYTES;
-		snprintf(ppb->prefix, sizeof(ppb->prefix), "%s", PS);
-		ppb->value.v_float = (float)bytes / P;
+		ppb->value.v_float = (float)bytes / P(si);
 	} else {
 		ppb->factor = AC_MISC_PPB_EBYTES;
-		snprintf(ppb->prefix, sizeof(ppb->prefix), "%s", ES);
-		ppb->value.v_float = (float)bytes / E;
+		ppb->value.v_float = (float)bytes / E(si);
 	}
+
+	ppp_set_prefix(si, ppb);
 }

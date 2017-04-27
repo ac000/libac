@@ -50,7 +50,7 @@ typedef enum ac_misc_ppb_factor_t {
 
 typedef struct ac_misc_ppb_t {
 	ac_misc_ppb_factor_t factor;
-	char prefix[6];
+	const char *prefix;
 
 	union {
 		u16 v_u16;
