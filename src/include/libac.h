@@ -51,6 +51,7 @@ typedef enum ac_misc_ppb_factor_t {
 typedef struct ac_misc_ppb_t {
 	ac_misc_ppb_factor_t factor;
 	char prefix[6];
+
 	union {
 		u16 v_u16;
 		float v_float;
@@ -59,6 +60,7 @@ typedef struct ac_misc_ppb_t {
 
 typedef struct ac_btree_t {
 	void *rootp;
+
 	int (*compar)(const void *, const void *);
 	void (*free_node)(void *nodep);
 } ac_btree_t;
@@ -76,6 +78,7 @@ typedef struct ac_cqueue_t {
 typedef struct ac_quark_t {
 	ac_btree_t *mapping;
 	int last;
+
 	void (*free_func)(void *ptr);
 } ac_quark_t;
 
