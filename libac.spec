@@ -1,11 +1,11 @@
 Name:		libac
-Version:	0.7.0
+Version:	0.7.1
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
 Group:		System Environment/Libraries
 License:	LGPLv2.1
-URL:		http://github.com/ac000/libac
+URL:		https://github.com/ac000/libac
 Source0:	libac-%{version}.tar
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
@@ -46,6 +46,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Thu Apr 27 2017 Andrew Clayton <andrew@digital-domain.net> - 0.7.1-1
+- Make ac_misc_ppb() thread safe
+- Version 0.7.1
 
 * Wed Apr 26 2017 Andrew Clayton <andrew@digital-domain.net> - 0.7.0-1
 - Add some quark (string to integer mapping) functions
