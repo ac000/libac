@@ -8,6 +8,7 @@ objects = 	ac_btree.o \
 		ac_misc.o \
 		ac_net.o \
 		ac_quark.o \
+		ac_slist.o \
 		ac_str.o \
 		ac_time.o
 
@@ -36,6 +37,10 @@ ac_net.o: ac_net.c
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
 ac_quark.o: ac_quark.c
+	@echo -e "  CC\t$@"
+	@$(CC) $(CFLAGS) -c -o $@ $<
+
+ac_slist.o: ac_slist.c
 	@echo -e "  CC\t$@"
 	@$(CC) $(CFLAGS) -c -o $@ $<
 

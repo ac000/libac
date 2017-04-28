@@ -6,6 +6,7 @@
   * [Miscellaneous functions](#miscellaneous-functions)
   * [Network related functions](#network-related-functions)
   * [Quark (string to integer mapping) functions](#quark-functions)
+  * [Singly linked list functions](#singly-linked-list-functions)
   * [String functions](#string-functions)
   * [Time related functions](#time-related-functions)
 3. [How to use](#how-to-use)
@@ -138,6 +139,40 @@ functions.
 #### ac\_quark\_destroy - destroy a quark
 
     void ac_quark_destroy(ac_quark_t *quark)
+
+
+### Singly linked list functions
+
+#### ac\_slist\_add - add an item to the end of the list
+
+    void ac_slist_add(ac_slist_t **list, void *data)
+
+#### ac\_slist\_preadd - add an item to the front of the list
+
+    void ac_slist_preadd(ac_slist_t **list, void *data)
+
+#### ac\_slist\_remove - remove an item from the list
+
+    bool ac_slist_remove(ac_slist_t **list, void *data, void (*free_data)
+                                                             (void *data))
+
+#### ac\_slist\_reverse - reverse a list
+
+    void ac_slist_reverse(ac_slist_t **list)
+
+#### ac\_slist\_find - find an item in the list
+
+    ac_slist_t *ac_slist_find(ac_slist_t *list, void *data)
+
+#### ac\_slist\_foreach - execute a function for each item in the list
+
+    void ac_slist_foreach(ac_slist_t *list,
+                          void (*action)(void *item, void *data),
+                          void *user_data)
+
+#### ac\_slist\_destroy - destroy a list, optionally freeing all its items memory
+
+    void ac_slist_destroy(ac_slist_t **list, void (*free_data)(void *data))
 
 
 ### String functions

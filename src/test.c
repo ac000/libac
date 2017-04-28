@@ -269,6 +269,75 @@ static void quark_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
+struct list_data {
+	int val;
+};
+
+static void slist_setval(void *data, void *user_data)
+{
+	struct list_data *ld = data;
+
+	ld->val = -1;
+}
+
+static void slist_print(void *data, void *user_data)
+{
+	printf("val : %d\n", ((struct list_data *)data)->val);
+}
+
+static void slist_test(void)
+{
+	struct list_data *ld;
+	ac_slist_t *mylist = NULL;
+	ac_slist_t *p;
+
+	printf("*** %s\n", __func__);
+
+	printf("Adding items\n");
+	ld = malloc(sizeof(struct list_data));
+	ld->val = 42;
+	ac_slist_add(&mylist, ld);
+
+	ld = malloc(sizeof(struct list_data));
+	ld->val = 52;
+	ac_slist_preadd(&mylist, ld);
+
+	ld = malloc(sizeof(struct list_data));
+	ld->val = 62;
+	ac_slist_preadd(&mylist, ld);
+
+	ld = malloc(sizeof(struct list_data));
+	ld->val = 72;
+	ac_slist_preadd(&mylist, ld);
+
+	printf("Manual list traversal\n");
+	p = mylist;
+	while (p) {
+		printf("val : %d\n", ((struct list_data *)p->data)->val);
+		p = p->next;
+	}
+	printf("\n");
+
+	printf("ac_slist_foreach() - Dump list\n");
+	ac_slist_foreach(mylist, slist_print, NULL);
+	printf("Reverse\n");
+	ac_slist_reverse(&mylist);
+	ac_slist_foreach(mylist, slist_print, NULL);
+	printf("Remove (72)\n");
+	ac_slist_remove(&mylist, ld, free);
+	ac_slist_foreach(mylist, slist_print, NULL);
+	printf("Reverse\n");
+	ac_slist_reverse(&mylist);
+	ac_slist_foreach(mylist, slist_print, NULL);
+	printf("ac_slist_foreach() - set vals to -1\n");
+	ac_slist_foreach(mylist, slist_setval, NULL);
+	ac_slist_foreach(mylist, slist_print, NULL);
+	printf("Destroy slist\n");
+	ac_slist_destroy(&mylist, free);
+
+	printf("*** %s\n\n", __func__);
+}
+
 static void str_test(void)
 {
 	char str1[] = "Hello World\r\n";
@@ -330,6 +399,7 @@ int main(void)
 	misc_test();
 	net_test();
 	quark_test();
+	slist_test();
 	str_test();
 	time_test();
 

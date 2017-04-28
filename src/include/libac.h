@@ -75,6 +75,12 @@ typedef struct ac_cqueue_t {
 	void (*free_item)(void *item);
 } ac_cqueue_t;
 
+typedef struct ac_slist_t {
+	void *data;
+
+	struct ac_slist_t *next;
+} ac_slist_t;
+
 typedef struct ac_quark_t {
 	ac_btree_t *mapping;
 	int last;
@@ -119,6 +125,16 @@ void ac_quark_init(ac_quark_t *quark, void (*free_func)(void *ptr));
 int ac_quark_from_string(ac_quark_t *quark, const char *str);
 const char *ac_quark_to_string(ac_quark_t *quark, int id);
 void ac_quark_destroy(ac_quark_t *quark);
+
+void ac_slist_add(ac_slist_t **list, void *data);
+void ac_slist_preadd(ac_slist_t **list, void *data);
+bool ac_slist_remove(ac_slist_t **list, void *data, void (*free_data)
+							 (void *data));
+void ac_slist_reverse(ac_slist_t **list);
+ac_slist_t *ac_slist_find(ac_slist_t *list, void *data);
+void ac_slist_foreach(ac_slist_t *list, void (*action)(void *item, void *data),
+		      void *user_data);
+void ac_slist_destroy(ac_slist_t **list, void (*free_data)(void *data));
 
 char *ac_str_chomp(char *string);
 char *ac_str_substr(const char *src, void *dest, size_t dest_size, int start,
