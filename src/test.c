@@ -393,6 +393,10 @@ static void time_test(void)
 
 int main(void)
 {
+	printf("**** Testing libac version %d.%d.%d ****\n",
+			LIBAC_MAJOR_VERSION, LIBAC_MINOR_VERSION,
+			LIBAC_MICRO_VERSION);
+
 	btree_test();
 	cqueue_test();
 	fs_test();
