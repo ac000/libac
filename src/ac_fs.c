@@ -12,9 +12,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include <sys/stat.h>
+#include <unistd.h>
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/sendfile.h>
 #include <errno.h>
+
+#include "include/libac.h"
 
 /**
  * ac_fs_is_posix_name - checks if a filename follows POSIX guidelines
@@ -94,4 +99,49 @@ int ac_fs_mkdir_p(const char *path)
 	free(ptr);
 
 	return ret;
+}
+
+#define IO_SIZE	(1024*1024 * 2)
+/**
+ * ac_fs_copy - copy a file
+ *
+ * @from: The source
+ * @to: The destination
+ * @flags: Can be 0 or AC_FS_COPY_OVERWRITE (to overwrite the destination)
+ *
+ * This is implemented using sendfile(2) and should work fine if your using
+ * a 2.4 or >= 2.6.33 kernel.
+ *
+ * Returns:
+ *
+ * 0 on success, -1 otherwise, check errno
+ */
+ssize_t ac_fs_copy(const char *from, const char *to, int flags)
+{
+	int ifd;
+	int ofd;
+	int oflags = O_EXCL;
+	ssize_t bytes_wrote;
+
+	ifd = open(from, O_RDONLY | O_CLOEXEC);
+	if (ifd == -1)
+		return -1;
+
+	if (flags & AC_FS_COPY_OVERWRITE) {
+		oflags &= ~(O_EXCL);
+		oflags |= O_TRUNC;
+	}
+
+	ofd = open(to, O_WRONLY | O_CREAT | O_CLOEXEC | oflags, 0666);
+	if (ofd == -1)
+		return -1;
+
+	do {
+		bytes_wrote = sendfile(ofd, ifd, NULL, IO_SIZE);
+	} while (bytes_wrote > 0);
+
+	close(ifd);
+	close(ofd);
+
+	return bytes_wrote;
 }

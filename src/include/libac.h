@@ -33,6 +33,8 @@ typedef int16_t  s16;
 typedef uint8_t   u8;
 typedef int8_t    s8;
 
+#define AC_FS_COPY_OVERWRITE	0x01
+
 typedef enum ac_si_units_t {
 	AC_SI_UNITS_NO = 0,
 	AC_SI_UNITS_YES
@@ -110,6 +112,7 @@ void ac_cqueue_destroy(ac_cqueue_t *cqueue);
 
 bool ac_fs_is_posix_name(const char *name);
 int ac_fs_mkdir_p(const char *path);
+ssize_t ac_fs_copy(const char *from, const char *to, int flags);
 
 void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
 

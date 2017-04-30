@@ -95,6 +95,10 @@ functions.
 
     int ac_fs_mkdir_p(const char *path)
 
+#### ac\_fs\_copy - copy a file
+
+    ssize_t ac_fs_copy(const char *from, const char *to, int flags)
+
 
 ### Miscellaneous functions
 
