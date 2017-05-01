@@ -35,11 +35,6 @@ typedef int8_t    s8;
 
 #define AC_FS_COPY_OVERWRITE	0x01
 
-typedef enum ac_si_units_t {
-	AC_SI_UNITS_NO = 0,
-	AC_SI_UNITS_YES
-} ac_si_units_t;
-
 typedef enum ac_misc_ppb_factor_t {
 	AC_MISC_PPB_BYTES = 0,
 	AC_MISC_PPB_KBYTES,
@@ -50,15 +45,10 @@ typedef enum ac_misc_ppb_factor_t {
 	AC_MISC_PPB_EBYTES
 } ac_misc_ppb_factor_t;
 
-typedef struct ac_misc_ppb_t {
-	ac_misc_ppb_factor_t factor;
-	const char *prefix;
-
-	union {
-		u16 v_u16;
-		float v_float;
-	} value;
-} ac_misc_ppb_t;
+typedef enum ac_si_units_t {
+	AC_SI_UNITS_NO = 0,
+	AC_SI_UNITS_YES
+} ac_si_units_t;
 
 typedef struct ac_btree_t {
 	void *rootp;
@@ -77,11 +67,15 @@ typedef struct ac_cqueue_t {
 	void (*free_item)(void *item);
 } ac_cqueue_t;
 
-typedef struct ac_slist_t {
-	void *data;
+typedef struct ac_misc_ppb_t {
+	ac_misc_ppb_factor_t factor;
+	const char *prefix;
 
-	struct ac_slist_t *next;
-} ac_slist_t;
+	union {
+		u16 v_u16;
+		float v_float;
+	} value;
+} ac_misc_ppb_t;
 
 typedef struct ac_quark_t {
 	ac_btree_t *mapping;
@@ -89,6 +83,12 @@ typedef struct ac_quark_t {
 
 	void (*free_func)(void *ptr);
 } ac_quark_t;
+
+typedef struct ac_slist_t {
+	void *data;
+
+	struct ac_slist_t *next;
+} ac_slist_t;
 
 void *ac_btree_new(int (*compar)(const void *, const void *),
 		   void (*free_node)(void *nodep));
