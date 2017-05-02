@@ -35,6 +35,11 @@ typedef int8_t    s8;
 
 #define AC_FS_COPY_OVERWRITE	0x01
 
+typedef enum ac_geo_ellipsoid_t {
+	AC_GEO_EREF_WGS84 = 0,
+	AC_GEO_EREF_GRS80
+} ac_geo_ellipsoid_t;
+
 typedef enum ac_misc_ppb_factor_t {
 	AC_MISC_PPB_BYTES = 0,
 	AC_MISC_PPB_KBYTES,
@@ -66,6 +71,14 @@ typedef struct ac_cqueue_t {
 
 	void (*free_item)(void *item);
 } ac_cqueue_t;
+
+typedef struct ac_geo_t {
+	ac_geo_ellipsoid_t ref;
+	double lat;
+	double lon;
+	double alt;
+	double bearing;
+} ac_geo_t;
 
 typedef struct ac_misc_ppb_t {
 	ac_misc_ppb_factor_t factor;
@@ -113,6 +126,10 @@ void ac_cqueue_destroy(ac_cqueue_t *cqueue);
 bool ac_fs_is_posix_name(const char *name);
 int ac_fs_mkdir_p(const char *path);
 ssize_t ac_fs_copy(const char *from, const char *to, int flags);
+
+double ac_geo_haversine(const ac_geo_t *from, const ac_geo_t *to);
+void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
+			    double distance);
 
 void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
 

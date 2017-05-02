@@ -3,6 +3,7 @@
   * [Binary Tree functions](#binary-tree-functions)
   * [Circular Queue functions](#circular-queue-functions)
   * [Filesystem related functions](#filesystem-related-functions)
+  * [Geospatial related functions](#geospatial-related-functions)
   * [Miscellaneous functions](#miscellaneous-functions)
   * [Network related functions](#network-related-functions)
   * [Quark (string to integer mapping) functions](#quark-functions)
@@ -98,6 +99,18 @@ functions.
 #### ac\_fs\_copy - copy a file
 
     ssize_t ac_fs_copy(const char *from, const char *to, int flags)
+
+
+### Geospatial related functions
+
+#### ac\_geo\_haversine - calculate the distance between two points on Earth
+
+    double ac_geo_haversine(const ac_geo_t *from, const ac_geo_t *to)
+
+#### ac\_geo\_vincenty\_direct - given an initial point, bearing and distance calculate the end point
+
+    void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
+                                double distance
 
 
 ### Miscellaneous functions

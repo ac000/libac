@@ -1,10 +1,12 @@
 CC	= gcc
 CFLAGS	= -Wall -std=c99 -g -O2 -fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
 LDFLAGS	= -shared -Wl,-z,now
+LIBS=-lm
 
 objects = 	ac_btree.o \
 		ac_cqueue.o \
 		ac_fs.o \
+		ac_geo.o \
 		ac_misc.o \
 		ac_net.o \
 		ac_quark.o \
@@ -14,7 +16,7 @@ objects = 	ac_btree.o \
 
 libac: $(objects)
 	@echo -e "  LNK\t$@"
-	@$(CC) $(LDFLAGS),-soname,libac.so.0.9 -o libac.so.0.9.0 $(objects)
+	@$(CC) $(LDFLAGS),-soname,libac.so.0.9 -o libac.so.0.9.0 $(objects) $(LIBS)
 
 ac_btree.o: ac_btree.c
 	@echo -e "  CC\t$@"
@@ -25,6 +27,10 @@ ac_cqueue.o: ac_cqueue.c
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
 ac_fs.o: ac_fs.c
+	@echo -e "  CC\t$@"
+	@$(CC) $(CFLAGS) -c -o $@ $<
+
+ac_geo.o: ac_geo.c
 	@echo -e "  CC\t$@"
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
@@ -54,7 +60,7 @@ ac_time.o: ac_time.c
 
 test: test.c $(objects)
 	@echo -e "  CC\t$@"
-	@$(CC) $(CFLAGS) -o $@ $< $(objects)
+	@$(CC) $(CFLAGS) -o $@ $< $(objects) $(LIBS)
 
 clean:
 	rm -f libac.so.* *.o test

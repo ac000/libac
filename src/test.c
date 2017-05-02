@@ -205,6 +205,30 @@ static void fs_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
+static void geo_test(void)
+{
+	ac_geo_t from;
+	ac_geo_t to;
+
+	printf("*** %s\n", __func__);
+
+	memset(&from, 0, sizeof(ac_geo_t));
+	memset(&to, 0, sizeof(ac_geo_t));
+
+	from.ref = AC_GEO_EREF_WGS84;
+	from.lat = 57.138386;
+	from.lon = -4.668295;
+	to.lat = 57.409441;
+	to.lon = -4.334497;
+
+	printf("Distance from -> to : %f\n", ac_geo_haversine(&from, &to));
+	from.bearing = 45.0;
+	ac_geo_vincenty_direct(&from, &to, 40000.0);
+	printf("(%f, %f) -> (%f, %f)\n", from.lat, from.lon, to.lat, to.lon);
+
+	printf("*** %s\n\n", __func__);
+}
+
 static void misc_test(void)
 {
 	ac_misc_ppb_t ppb;
@@ -412,6 +436,7 @@ int main(void)
 	btree_test();
 	cqueue_test();
 	fs_test();
+	geo_test();
 	misc_test();
 	net_test();
 	quark_test();
