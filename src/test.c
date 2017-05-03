@@ -209,6 +209,7 @@ static void geo_test(void)
 {
 	ac_geo_t from;
 	ac_geo_t to;
+	ac_geo_dms_t dms;
 
 	printf("*** %s\n", __func__);
 
@@ -225,6 +226,10 @@ static void geo_test(void)
 	from.bearing = 45.0;
 	ac_geo_vincenty_direct(&from, &to, 40000.0);
 	printf("(%f, %f) -> (%f, %f)\n", from.lat, from.lon, to.lat, to.lon);
+	ac_geo_dd_to_dms(38.8897, &dms);
+	printf("38.8897° -> %d° %d′ %g″\n", dms.degrees, dms.minutes,
+			dms.seconds);
+	printf("38° 53′ 22.92″ -> %g°\n", ac_geo_dms_to_dd(&dms));
 
 	printf("*** %s\n\n", __func__);
 }

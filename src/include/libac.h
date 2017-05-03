@@ -80,6 +80,12 @@ typedef struct ac_geo_t {
 	double bearing;
 } ac_geo_t;
 
+typedef struct ac_geo_dms_t {
+	int degrees;
+	int minutes;
+	double seconds;
+} ac_geo_dms_t;
+
 typedef struct ac_misc_ppb_t {
 	ac_misc_ppb_factor_t factor;
 	const char *prefix;
@@ -127,6 +133,8 @@ bool ac_fs_is_posix_name(const char *name);
 int ac_fs_mkdir_p(const char *path);
 ssize_t ac_fs_copy(const char *from, const char *to, int flags);
 
+void ac_geo_dd_to_dms(double degrees, ac_geo_dms_t *dms);
+double ac_geo_dms_to_dd(const ac_geo_dms_t *dms);
 double ac_geo_haversine(const ac_geo_t *from, const ac_geo_t *to);
 void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
 			    double distance);

@@ -36,6 +36,39 @@ static const struct ellipsoid ellipsoids[] = {
 };
 
 /**
+ * ac_geo_dd_to_dms - convert decimal degrees into degrees, minutes & seconds
+ *
+ * Note: It is up to the user to track if the value is North/South of the
+ *       Equator or East/West of the prime meridian
+ *
+ * @degrees: The decimal degrees to convert
+ * @dms: Filled out with the degrees, minutes & seconds
+ */
+void ac_geo_dd_to_dms(double degrees, ac_geo_dms_t *dms)
+{
+	dms->degrees = abs(trunc(degrees));
+	dms->minutes = trunc(fmod(degrees * 60, 60.0));
+	dms->seconds = fmod(fabs(degrees) * 3600, 60.0);
+}
+
+/**
+ * ac_geo_dms_to_dd - convert degrees, minutes & seconds into decimal degrees
+ *
+ * @dms: The degrees, minutes & seconds to convert
+ *
+ * Note: It is up to the user to track if the value is North/South of the
+ *       Equator or East/West of the prime meridian
+ *
+ * Returns:
+ *
+ * A double containing the converted decimal degrees
+ */
+double ac_geo_dms_to_dd(const ac_geo_dms_t *dms)
+{
+	return dms->degrees + (dms->minutes/60.0) + (dms->seconds/3600.0);
+}
+
+/**
  * ac_geo_haversine - calculate the distance between two points on Earth
  *
  * @from: The start latitude and longitude

@@ -103,6 +103,14 @@ functions.
 
 ### Geospatial related functions
 
+#### ac\_geo\_dd\_to\_dms - convert decimal degrees into degrees, minutes & seconds
+
+    void ac_geo_dd_to_dms(double degrees, ac_geo_dms_t *dms)
+
+#### ac\_geo\_dms\_to\_dd - convert degrees, minutes & seconds into decimal degrees
+
+    double ac_geo_dms_to_dd(const ac_geo_dms_t *dms)
+
 #### ac\_geo\_haversine - calculate the distance between two points on Earth
 
     double ac_geo_haversine(const ac_geo_t *from, const ac_geo_t *to)
