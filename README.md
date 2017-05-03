@@ -118,7 +118,7 @@ functions.
 #### ac\_geo\_vincenty\_direct - given an initial point, bearing and distance calculate the end point
 
     void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
-                                double distance
+                                double distance)
 
 
 ### Miscellaneous functions
