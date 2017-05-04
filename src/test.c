@@ -230,6 +230,12 @@ static void geo_test(void)
 	printf("38.8897° -> %d° %d′ %g″\n", dms.degrees, dms.minutes,
 			dms.seconds);
 	printf("38° 53′ 22.92″ -> %g°\n", ac_geo_dms_to_dd(&dms));
+	memset(&from, 0, sizeof(ac_geo_t));
+	from.easting = 216677;
+	from.northing = 771282;
+	from.ref = AC_GEO_EREF_WGS84;
+	ac_geo_bng_to_lat_lon(&from);
+	printf("(216677 E, 771282 N) -> (%f°, %f°)\n", from.lat, from.lon);
 
 	printf("*** %s\n\n", __func__);
 }

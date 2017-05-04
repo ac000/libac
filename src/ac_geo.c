@@ -16,6 +16,7 @@
 #include "include/libac.h"
 
 #define DEG_TO_RAD		(M_PI/180)
+#define RAD_TO_DEG		(180/M_PI)
 
 struct ellipsoid {
 	const char *shape;
@@ -30,6 +31,7 @@ struct ellipsoid {
 static const struct ellipsoid ellipsoids[] = {
 	{ "WGS84", 6378137.0, 6356752.314245, 298.257223563 },
 	{ "GRS80", 6378137.0, 6356752.314140, 298.257222100882711 },
+	{ "AIRY1830", 6377563.396, 6356256.909, 299.3249646 },
 	{ },
 };
 
@@ -226,4 +228,113 @@ void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
 			    cos_sigma * cos_alpha1);
 
 	to->ref = from->ref;
+}
+
+#define LAM0		(-2.0*DEG_TO_RAD)
+#define PHI0		(49.0*DEG_TO_RAD)
+#define E0		400000
+#define N0		(-100000)
+#define F0		0.9996012717
+/**
+ * ac_geo_bng_to_lat_lon - convert British National Grid Eastings & Northings
+ * 			   to latitude & longitude decimal degrees
+ *
+ * @geo - Contains the Eastings & Northings (in meters) and an optional
+ * 	  altitude to be converted. It should also specify the target
+ * 	  ellipsoid to map the converted co-ordinates onto.
+ *
+ * 	  It is then filled out with the latitude & longitude decimal degrees
+ * 	  and the new altitude
+ *
+ * This function is largely based on Python code from Dr Hannah Fry.
+ * http://www.hannahfry.co.uk/blog/2012/02/01/converting-british-national-grid-to-latitude-and-longitude-ii
+ */
+void ac_geo_bng_to_lat_lon(ac_geo_t *geo)
+{
+	const double E = geo->easting;
+	const double N = geo->northing;
+	double a = ellipsoids[AC_GEO_EREF_AIRY1830].a;
+	double b = ellipsoids[AC_GEO_EREF_AIRY1830].b;
+	double e2 = 1 - (b*b) / (a*a);
+	double n = (a-b) / (a+b);
+	double dN = N - N0;
+	double phi = PHI0;
+	double M = 0;
+
+	while (dN-M >= 0.00001) {
+		phi += (dN-M) / (a*F0);
+		double Ma = (1.0 + n + (5.0/4)*pow(n, 2.0) + (5.0/4) *
+			     pow(n, 3.0)) *(phi-PHI0);
+		double Mb = (3.0*n + 3.0*pow(n, 2.0) + (21.0/8)*pow(n, 3.0)) *
+			sin(phi-PHI0) * cos(phi+PHI0);
+		double Mc = ((15.0/8)*pow(n, 2.0) + (15.0/8)*pow(n, 3.0)) *
+			sin(2*(phi-PHI0)) * cos(2*(phi+PHI0));
+		double Md = (35.0/24)*pow(n, 3.0) * sin(3*(phi-PHI0)) *
+			cos(3*(phi+PHI0));
+
+		M = b * F0 * (Ma-Mb + Mc-Md);
+	}
+
+	double nu = a * F0 / sqrt(1-e2*pow(sin(phi), 2.0));
+	double rho = a * F0 * (1.0-e2) * pow((1-e2*pow(sin(phi), 2.0)), -1.5);
+	double eta2 = nu / rho - 1.0;
+
+	double tp = tan(phi);
+	double tp2 = tp*tp;
+	double tp4 = tp2*tp2;
+	double tp6 = tp4*tp2;
+	double sp = 1.0 / cos(phi);
+
+	double VII = tp / (2 * rho*nu);
+	double VIII = tp / (24*rho * pow(nu, 3.0)) *
+		(5+3*tp2+eta2 - 9*tp2*eta2);
+	double IX = tp / (720*rho * pow(nu, 5.0)) * (61 + 90*tp2 + 45*tp4);
+	double X = sp / nu;
+	double XI = sp / (6 * pow(nu, 3.0)) * (nu/rho + 2*tp2);
+	double XII = sp / (120 * pow(nu, 5.0)) * (5 + 28*tp2 + 24*tp4);
+	double XIIA = sp / (5040 * pow(nu, 7.0)) *
+		(61 + 662*tp2 + 1320*tp4 + 720*tp6);
+	double dE = E - E0;
+
+	phi = phi - VII*pow(dE, 2.0) + VIII*pow(dE, 4.0) - IX*pow(dE, 6.0);
+	double lam = LAM0 + X*dE - XI*pow(dE, 3.0) + XII*pow(dE, 5.0) -
+		XIIA*pow(dE, 7.0);
+
+	/* That gives us co-ordinates on the Airy 1830 ellipsoid */
+
+	/* Convert to Cartesian from spherical polar coordinates */
+	double H = geo->alt;
+	double x_1 = (nu/F0 + H)*cos(phi)*cos(lam);
+	double y_1 = (nu/F0 + H)*cos(phi)*sin(lam);
+	double z_1 = ((1-e2)*nu/F0 + H)*sin(phi);
+
+	/* Perform Helmut transform to go between Airy 1830 and geo->ref */
+	double s = -20.4894*pow(10, -6.0);
+	double tx = 446.448, ty = -125.157, tz = 542.060;
+	double rxs = 0.1502, rys = 0.2470, rzs = 0.8421;
+	double rx = rxs*M_PI / (180*3600.0);
+	double ry = rys*M_PI / (180*3600.0);
+	double rz = rzs*M_PI / (180*3600.0);
+	double x_2 = tx + (1+s)*x_1 + (-rz)*y_1 + (ry)*z_1;
+	double y_2 = ty + (rz)*x_1 + (1+s)*y_1 + (-rx)*z_1;
+	double z_2 = tz + (-ry)*x_1 + (rx)*y_1 + (1+s)*z_1;
+
+	/* Back to spherical polar coordinates from Cartesian */
+	a = ellipsoids[geo->ref].a;
+	b = ellipsoids[geo->ref].b;
+	e2 = 1 - (b*b) / (a*a);
+	double p = sqrt(pow(x_2, 2.0) + pow(y_2, 2.0));
+
+	phi = atan2(z_2, p*(1-e2));
+	double phiold = 2 * M_PI;
+	while (abs(phi-phiold) > pow(10, -16.0)) {
+		phiold = phi;
+		nu = a/sqrt(1-e2*pow(sin(phi), 2.0));
+		phi = atan2(z_2+e2*nu*sin(phi), p);
+	}
+	lam = atan2(y_2, x_2);
+
+	geo->alt = p/cos(phi) - nu;
+	geo->lat = phi * RAD_TO_DEG;
+	geo->lon = lam * RAD_TO_DEG;
 }

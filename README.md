@@ -120,6 +120,10 @@ functions.
     void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
                                 double distance)
 
+#### ac\_geo\_bng\_to\_lat\_lon - convert British National grid Eastings & Northings to latitude & longitude decimal degrees
+
+    void ac_geo_bng_to_lat_lon(ac_geo_t *geo)
+
 
 ### Miscellaneous functions
 

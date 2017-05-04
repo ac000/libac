@@ -37,7 +37,8 @@ typedef int8_t    s8;
 
 typedef enum ac_geo_ellipsoid_t {
 	AC_GEO_EREF_WGS84 = 0,
-	AC_GEO_EREF_GRS80
+	AC_GEO_EREF_GRS80,
+	AC_GEO_EREF_AIRY1830
 } ac_geo_ellipsoid_t;
 
 typedef enum ac_misc_ppb_factor_t {
@@ -78,6 +79,8 @@ typedef struct ac_geo_t {
 	double lon;
 	double alt;
 	double bearing;
+	double easting;
+	double northing;
 } ac_geo_t;
 
 typedef struct ac_geo_dms_t {
@@ -138,6 +141,7 @@ double ac_geo_dms_to_dd(const ac_geo_dms_t *dms);
 double ac_geo_haversine(const ac_geo_t *from, const ac_geo_t *to);
 void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
 			    double distance);
+void ac_geo_bng_to_lat_lon(ac_geo_t *geo);
 
 void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
 
