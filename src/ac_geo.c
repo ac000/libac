@@ -15,9 +15,7 @@
 
 #include "include/libac.h"
 
-#define PI			3.1415926535897932384
-/* PI / 180 */
-#define DEG_TO_RAD		0.017453292519943295769236907684886
+#define DEG_TO_RAD		(M_PI/180)
 
 struct ellipsoid {
 	const char *shape;
