@@ -236,6 +236,10 @@ static void geo_test(void)
 	from.ref = AC_GEO_EREF_WGS84;
 	ac_geo_bng_to_lat_lon(&from);
 	printf("(216677 E, 771282 N) -> (%f°, %f°)\n", from.lat, from.lon);
+	from.alt = 0;
+	ac_geo_lat_lon_to_bng(&from);
+	printf("(%f°, %f°) -> (%.0f E, %.0f N)\n", from.lat, from.lon,
+			from.easting, from.northing);
 
 	printf("*** %s\n\n", __func__);
 }

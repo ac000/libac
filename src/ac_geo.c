@@ -338,3 +338,97 @@ void ac_geo_bng_to_lat_lon(ac_geo_t *geo)
 	geo->lat = phi * RAD_TO_DEG;
 	geo->lon = lam * RAD_TO_DEG;
 }
+
+/**
+ * ac_geo_lat_lon_to_bng - convert latitude & longitude decimal degrees to
+ *			   British National Grid Eastings & Northings
+ *
+ * @geo - Contains the latitude & longitude and an optional altitude to be
+ *	  converted. It should also specify the ellipsoid of the source
+ *	  co-ordinates.
+ *
+ * 	  It is then filled out with the Eastings & Northings in meters and
+ * 	  the new altitude
+ *
+ * This function is largely based on Python code from Dr Hannah Fry.
+ * http://www.hannahfry.co.uk/blog/2012/02/01/converting-latitude-and-longitude-to-british-national-grid
+ */
+void ac_geo_lat_lon_to_bng(ac_geo_t *geo)
+{
+	double a = ellipsoids[geo->ref].a;
+	double b = ellipsoids[geo->ref].b;
+	double phi = geo->lat * DEG_TO_RAD;
+	double lam = geo->lon * DEG_TO_RAD;
+	double e2 = 1 - (b*b) / (a*a);
+	double nu = a / sqrt(1-e2*pow(sin(phi), 2.0));
+
+	/* First convert to Cartesian from spherical polar coordinates */
+	double H = geo->alt;
+	double x_1 = (nu+H)*cos(phi)*cos(lam);
+	double y_1 = (nu+H)*cos(phi)*sin(lam);
+	double z_1 = ((1-e2)*nu+H)*sin(phi);
+
+	/* Perform Helmut transform to go between Airy 1830 and geo->ref */
+	double s = 20.4894*pow(10, -6.0);
+	double tx = -446.448, ty = 125.157, tz = -542.060;
+	double rxs = -0.1502, rys = -0.2470, rzs = -0.8421;
+	double rx = rxs*M_PI / (180*3600.0);
+	double ry = rys*M_PI / (180*3600.0);
+	double rz = rzs*M_PI / (180*3600.0);
+	double x_2 = tx + (1+s)*x_1 + (-rz)*y_1 + (ry)*z_1;
+	double y_2 = ty + (rz)*x_1 + (1+s)*y_1 + (-rx)*z_1;
+	double z_2 = tz + (-ry)*x_1 + (rx)*y_1 + (1+s)*z_1;
+
+	/* Back to spherical polar coordinates from Cartesian */
+	a = ellipsoids[AC_GEO_EREF_AIRY1830].a;
+	b = ellipsoids[AC_GEO_EREF_AIRY1830].b;
+	e2 = 1 - (b*b) / (a*a);
+	double p = sqrt(pow(x_2, 2.0) + pow(y_2, 2.0));
+
+	phi = atan2(z_2, p*(1-e2));
+	double phiold = 2 * M_PI;
+	while (abs(phi-phiold) > pow(10, -16.0)) {
+		phiold = phi;
+		nu = a/sqrt(1-e2*pow(sin(phi), 2.0));
+		phi = atan2(z_2+e2*nu*sin(phi), p);
+	}
+	lam = atan2(y_2, x_2);
+	geo->alt = p/cos(phi) - nu;
+
+	double n = (a-b) / (a+b);
+	/* Meridional radius of curvature */
+	double rho = a * F0 * (1-e2) * pow((1-e2*pow(sin(phi), 2.0)), -1.5);
+	double eta2 = nu*F0 / rho-1.0;
+
+	double Ma = (1.0 + n + (5.0/4)*pow(n, 2.0) + (5.0/4) * pow(n, 3.0)) *
+		(phi-PHI0);
+	double Mb = (3.0*n + 3.0*pow(n, 2.0) + (21.0/8)*pow(n, 3.0)) *
+		sin(phi-PHI0) * cos(phi+PHI0);
+	double Mc = ((15.0/8)*pow(n, 2.0) + (15.0/8)*pow(n, 3.0)) *
+		sin(2*(phi-PHI0)) * cos(2*(phi+PHI0));
+	double Md = (35.0/24)*pow(n, 3.0) * sin(3*(phi-PHI0)) *
+		cos(3*(phi+PHI0));
+
+	/* Meridional arc */
+	double M = b * F0 * (Ma-Mb + Mc-Md);
+
+	double tp = tan(phi);
+	double tp2 = tp*tp;
+	double tp4 = tp2*tp2;
+	double cp = cos(phi);
+	double cp3 = cp*cp*cp;
+	double cp5 = cp3*cp*cp;
+
+	double I = M + N0;
+	double II = nu*F0*sin(phi)*cp/2;
+	double III = nu*F0*sin(phi)*cp3*(5-tp2 + 9*eta2)/24;
+	double IIIA = nu*F0*sin(phi)*cp5*(61 - 58*tp2 + tp4)/720;
+	double IV = nu*F0*cp;
+	double V = nu*F0*cp3*(nu/rho - tp2)/6;
+	double VI = nu*F0*cp5*(5 - 18*tp2 + tp4 + 14*eta2 - 58*eta2*tp2)/120;
+
+	geo->northing = I + II*pow(lam-LAM0, 2.0) + III*pow(lam-LAM0, 4.0) +
+		IIIA*pow(lam-LAM0, 6.0);
+	geo->easting = E0 + IV*(lam-LAM0) + V*pow(lam-LAM0, 3) +
+		VI*pow(lam-LAM0, 5);
+}

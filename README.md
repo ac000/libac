@@ -124,6 +124,10 @@ functions.
 
     void ac_geo_bng_to_lat_lon(ac_geo_t *geo)
 
+#### ac\_geo\_lat\_lon\_to\_bng - convert latitude & longitude decimal degrees to British National Grid Eastings & Northings
+
+    void ac_geo_lat_lon_to_bng(ac_geo_t *geo)
+
 
 ### Miscellaneous functions
 

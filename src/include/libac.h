@@ -142,6 +142,7 @@ double ac_geo_haversine(const ac_geo_t *from, const ac_geo_t *to);
 void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
 			    double distance);
 void ac_geo_bng_to_lat_lon(ac_geo_t *geo);
+void ac_geo_lat_lon_to_bng(ac_geo_t *geo);
 
 void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
 
