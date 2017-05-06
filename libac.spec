@@ -1,6 +1,6 @@
 Name:		libac
 Version:	0.10.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Library of miscellaneous utility functions
 
 Group:		System Environment/Libraries
@@ -28,8 +28,7 @@ rm -rf $RPM_BUILD_ROOT
 install -Dp -m644 src/include/libac.h $RPM_BUILD_ROOT/%{_includedir}/libac.h
 install -Dp -m0755 src/libac.so.%{version} $RPM_BUILD_ROOT/%{_libdir}/libac.so.%{version}
 cd $RPM_BUILD_ROOT/%{_libdir}
-ln -s libac.so.%{version} libac.so.0.10
-ln -s libac.so.0.10 libac.so
+ln -s libac.so.0 libac.so
 cd -
 
 %post -p /sbin/ldconfig
@@ -46,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Sat May 6 2017 Andrew Clayton <andrew@digital-domain.net> - 0.10.0-2
+- Change the library soname
 
 * Fri May 5 2017 Andrew Clayton <andrew@digital-domain.net> - 0.10.0-1
 - Add some geospatial functions
