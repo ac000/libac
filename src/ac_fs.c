@@ -120,8 +120,10 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 {
 	int ifd;
 	int ofd;
+	int ret;
 	int oflags = O_EXCL;
-	ssize_t bytes_wrote;
+	ssize_t bytes_wrote = -1;
+	struct stat sb;
 
 	ifd = open(from, O_RDONLY | O_CLOEXEC);
 	if (ifd == -1)
@@ -136,10 +138,22 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 	if (ofd == -1)
 		return -1;
 
+	fstat(ifd, &sb);
+	ret = fallocate(ofd, 0, 0, sb.st_size);
+	if (ret == -1 && errno == EOPNOTSUPP)
+		ret = ftruncate(ofd, sb.st_size);
+	if (ret == -1)
+		/*
+		 * ret may still be -1 from fallocate() or may be -1 from
+		 * ftruncate(), either way, bail out.
+		 */
+		goto cleanup;
+
 	do {
 		bytes_wrote = sendfile(ofd, ifd, NULL, IO_SIZE);
 	} while (bytes_wrote > 0);
 
+cleanup:
 	close(ifd);
 	close(ofd);
 
