@@ -136,7 +136,7 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 
 	ofd = open(to, O_WRONLY | O_CREAT | O_CLOEXEC | oflags, 0666);
 	if (ofd == -1)
-		return -1;
+		goto cleanup;
 
 	fstat(ifd, &sb);
 	ret = fallocate(ofd, 0, 0, sb.st_size);
