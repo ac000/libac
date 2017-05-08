@@ -122,6 +122,7 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 	int ofd;
 	int ret;
 	int oflags = O_EXCL;
+	int window = 0;
 	ssize_t bytes_wrote = -1;
 	struct stat sb;
 
@@ -151,6 +152,27 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 
 	do {
 		bytes_wrote = sendfile(ofd, ifd, NULL, IO_SIZE);
+
+		/*
+		 * Try not to blow the page cache. After each sendfile() we
+		 * write out the data and then make sure the previous lot
+		 * of data got written out and tell the kernel we no longer
+		 * need those pages in memory any more for both the input
+		 * and output files.
+		 */
+		sync_file_range(ofd, window * IO_SIZE, IO_SIZE,
+				SYNC_FILE_RANGE_WRITE);
+		if (window) {
+			sync_file_range(ofd, (window-1) * IO_SIZE, IO_SIZE,
+					SYNC_FILE_RANGE_WAIT_BEFORE |
+					SYNC_FILE_RANGE_WRITE |
+					SYNC_FILE_RANGE_WAIT_AFTER);
+			posix_fadvise(ofd, (window-1) * IO_SIZE, IO_SIZE,
+					POSIX_FADV_DONTNEED);
+			posix_fadvise(ifd, (window-1) * IO_SIZE, IO_SIZE,
+					POSIX_FADV_DONTNEED);
+		}
+		window++;
 	} while (bytes_wrote > 0);
 
 cleanup:
