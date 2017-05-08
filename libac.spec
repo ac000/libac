@@ -1,6 +1,6 @@
 Name:		libac
-Version:	0.10.0
-Release:	2%{?dist}
+Version:	0.10.1
+Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
 Group:		System Environment/Libraries
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Mon May 8 2017 Andrew Clayton <andrew@digital-domain.net> - 0.10.1-1
+- Enhancements to ac_fs_copy()
 
 * Sat May 6 2017 Andrew Clayton <andrew@digital-domain.net> - 0.10.0-2
 - Change the library soname
