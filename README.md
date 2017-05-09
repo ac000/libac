@@ -17,7 +17,9 @@
 
 ## Overview
 
-A C library of miscellaneous functions.
+A C library of miscellaneous functions that has no dependencies other than
+Glibc.
+
 
 ## Functions
 
