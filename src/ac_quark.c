@@ -19,7 +19,7 @@ struct quark_node {
 	char *string;
 };
 
-static void null_free_quark(void *data)
+static void null_free_quark(void *data __attribute__ ((unused)))
 {
 }
 
