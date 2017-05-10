@@ -89,7 +89,7 @@ static int minimum(int a, int b, int c)
  */
 int ac_str_levenshtein(const char *s, const char *t)
 {
-	int i;
+	size_t i;
 	int d;
 	int *v0;
 	int *v1;
@@ -106,7 +106,7 @@ int ac_str_levenshtein(const char *s, const char *t)
 		v0[i] = i;
 
 	for (i = 0; i < slen; i++) {
-		int j;
+		size_t j;
 
 		v1[0] = i + 1;
 
