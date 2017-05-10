@@ -1,5 +1,5 @@
 CC	= gcc
-CFLAGS	= -Wall -std=c99 -g -O2 -fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
+CFLAGS	= -Wall -Wextra -std=c99 -g -O2 -fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
 LDFLAGS	= -shared -Wl,-z,now
 LIBS=-lm
 
@@ -60,7 +60,7 @@ ac_time.o: ac_time.c
 
 test: test.c $(objects)
 	@echo -e "  CC\t$@"
-	@$(CC) $(CFLAGS) -o $@ $< $(objects) $(LIBS)
+	@$(CC) $(CFLAGS) -Wno-unused-parameter -o $@ $< $(objects) $(LIBS)
 
 clean:
 	rm -f libac.so.* *.o test
