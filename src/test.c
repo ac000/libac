@@ -207,14 +207,11 @@ static void fs_test(void)
 
 static void geo_test(void)
 {
-	ac_geo_t from;
-	ac_geo_t to;
+	ac_geo_t from = { 0 };
+	ac_geo_t to = { 0 };
 	ac_geo_dms_t dms;
 
 	printf("*** %s\n", __func__);
-
-	memset(&from, 0, sizeof(ac_geo_t));
-	memset(&to, 0, sizeof(ac_geo_t));
 
 	from.ref = AC_GEO_EREF_WGS84;
 	from.lat = 57.138386;
