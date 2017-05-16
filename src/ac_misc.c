@@ -10,6 +10,11 @@
 
 #define _GNU_SOURCE
 
+#include <stdlib.h>
+#include <string.h>
+#include <crypt.h>
+#include <time.h>
+
 #include "include/libac.h"
 
 #define K(si)	((si) ? 1000 : 1024)
@@ -86,4 +91,41 @@ void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb)
 	}
 
 	ppp_set_prefix(si, ppb);
+}
+
+char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
+			ac_crypt_data_t *data)
+{
+	const char salt_chars[64] =
+		"./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	char salt[21];
+	int i;
+
+	memset(salt, 0, sizeof(salt));
+	switch (hash_type) {
+	case AC_HASH_ALGO_MD5:
+		strcpy(salt, "$1$");
+		break;
+	case AC_HASH_ALGO_SHA256:
+		strcpy(salt, "$5$");
+		break;
+	case AC_HASH_ALGO_SHA512:
+		strcpy(salt, "$6$");
+		break;
+	default:
+		return NULL;
+	}
+
+	for (i = 3; i < 19; i++) {
+		long r;
+		struct timespec tp;
+
+		clock_gettime(CLOCK_REALTIME, &tp);
+		srandom(tp.tv_nsec / 2);
+		r = random() % 64; /* 0 - 63 */
+		salt[i] = salt_chars[r];
+	}
+	salt[i] = '$';
+
+	return crypt_r(pass, salt, data);
 }

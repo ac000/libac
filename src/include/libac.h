@@ -15,6 +15,7 @@
 #include <search.h>
 #include <netdb.h>
 #include <time.h>
+#include <crypt.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,6 +34,8 @@ typedef int16_t  s16;
 typedef uint8_t   u8;
 typedef int8_t    s8;
 
+typedef struct crypt_data ac_crypt_data_t;
+
 #define AC_FS_COPY_OVERWRITE	0x01
 
 typedef enum ac_geo_ellipsoid_t {
@@ -40,6 +43,13 @@ typedef enum ac_geo_ellipsoid_t {
 	AC_GEO_EREF_GRS80,
 	AC_GEO_EREF_AIRY1830
 } ac_geo_ellipsoid_t;
+
+typedef enum ac_hash_algo_t {
+	AC_HASH_ALGO_MD5 = 0,
+	AC_HASH_ALGO_SHA1,
+	AC_HASH_ALGO_SHA256,
+	AC_HASH_ALGO_SHA512
+} ac_hash_algo_t;
 
 typedef enum ac_misc_ppb_factor_t {
 	AC_MISC_PPB_BYTES = 0,
@@ -145,6 +155,8 @@ void ac_geo_bng_to_lat_lon(ac_geo_t *geo);
 void ac_geo_lat_lon_to_bng(ac_geo_t *geo);
 
 void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
+char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
+			ac_crypt_data_t *data);
 
 int ac_net_ns_lookup_by_host(const struct addrinfo *hints, const char *node,
 			     bool (*ac_ns_lookup_cb)(const struct addrinfo *ai,

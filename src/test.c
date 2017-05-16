@@ -246,6 +246,8 @@ static void misc_test(void)
 	ac_misc_ppb_t ppb;
 	int bytes = 14568264;
 	u64 bytes2 = 7375982736;
+	ac_crypt_data_t data = { .initialized = 0 };
+	const char *pass = "asdfghjk";
 
 	printf("*** %s\n", __func__);
 
@@ -263,6 +265,13 @@ static void misc_test(void)
 	else
 		printf("%" PRIu64 " bytes : %.2f %s\n", bytes2,
 				ppb.value.v_float, ppb.prefix);
+
+	printf("%s -> %s\n", pass, ac_misc_passcrypt(pass, AC_HASH_ALGO_MD5,
+				&data));
+	printf("%s -> %s\n", pass, ac_misc_passcrypt(pass, AC_HASH_ALGO_SHA256,
+				&data));
+	printf("%s -> %s\n", pass, ac_misc_passcrypt(pass, AC_HASH_ALGO_SHA512,
+				&data));
 
 	printf("*** %s\n\n", __func__);
 }
