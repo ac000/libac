@@ -1,0 +1,17 @@
+{
+   <dlopen-malloc>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   fun:dlopen@@GLIBC_2.2.5
+}
+
+{
+   <dlopen-calloc>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   ...
+   fun:dlopen@@GLIBC_2.2.5
+}
