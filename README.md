@@ -1,5 +1,13 @@
 1. [Overview](#overview)
-2. [Functions](#functions)
+2. [Types, defines, etc](#types-defines-etc)
+  * [Library version](#library-version)
+  * [Types](#types)
+  * [ac\_geo\_ellipsoid\_t](#acgeoellipsoidt)
+  * [ac\_hash\_algo\_t](#achashalgot)
+  * [ac\_misc\_ppb\_factor\_t](#acmiscppbfactort)
+  * [ac\_si\_units\_t](#acsiunitst)
+  * [misc](#misc)
+3. [Functions](#functions)
   * [Binary Tree functions](#binary-tree-functions)
   * [Circular Queue functions](#circular-queue-functions)
   * [Filesystem related functions](#filesystem-related-functions)
@@ -10,15 +18,69 @@
   * [Singly linked list functions](#singly-linked-list-functions)
   * [String functions](#string-functions)
   * [Time related functions](#time-related-functions)
-3. [Build it](#build-it)
-4. [How to use](#how-to-use)
-5. [License](#license)
-6. [Contributing](#contributing)
+4. [Build it](#build-it)
+5. [How to use](#how-to-use)
+6. [License](#license)
+7. [Contributing](#contributing)
 
 ## Overview
 
 A C library of miscellaneous functions that has no dependencies other than
 Glibc.
+
+
+## Types, defines, etc
+
+### Library version
+
+    #define LIBAC_MAJOR_VERSION
+    #define LIBAC_MINOR_VERSION
+    #define LIBAC_MICRO_VERSION
+
+### Types
+
+    typedef uint64_t u64
+    typedef int64_t  s64
+    typedef uint32_t u32
+    typedef int32_t  s32
+    typedef uint16_t u16
+    typedef int16_t  s16
+    typedef uint8_t   u8
+    typedef int8_t    s8
+
+    typedef struct crypt_data ac_crypt_data_t
+
+### ac\_geo\_ellipsoid\_t
+
+    AC_GEO_EREF_WGS84
+    AC_GEO_EREF_GRS80
+    AC_GEO_EREF_AIRY1830
+
+### ac\_hash\_algo\_t
+
+    AC_HASH_ALGO_MD5
+    AC_HASH_ALGO_SHA1
+    AC_HASH_ALGO_SHA256
+    AC_HASH_ALGO_SHA512
+
+### ac\_misc\_ppb\_factor\_t
+
+    AC_MISC_PPB_BYTES
+    AC_MISC_PPB_KBYTES
+    AC_MISC_PPB_MBYTES
+    AC_MISC_PPB_GBYTES
+    AC_MISC_PPB_TBYTES
+    AC_MISC_PPB_PBYTES
+    AC_MISC_PPB_EBYTES
+
+### ac\_si\_units\_t
+
+    AC_SI_UNITS_NO
+    AC_SI_UNITS_YES
+
+### misc
+
+    #define AC_FS_COPY_OVERWRITE
 
 
 ## Functions
