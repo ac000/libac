@@ -71,6 +71,7 @@ void ac_slist_preadd(ac_slist_t **list, void *data)
  *
  * @list: The list to remove the item from
  * @data: The data to be removed
+ * @free_data: An optional pointer to a function to call to free the item data
  *
  * Returns:
  *
