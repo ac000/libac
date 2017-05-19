@@ -175,8 +175,11 @@ void ac_slist_add(ac_slist_t **list, void *data);
 void ac_slist_preadd(ac_slist_t **list, void *data);
 bool ac_slist_remove(ac_slist_t **list, void *data, void (*free_data)
 							 (void *data));
+bool ac_slist_remove_nth(ac_slist_t **list, int n, void (*free_data)
+							(void *data));
 void ac_slist_reverse(ac_slist_t **list);
 ac_slist_t *ac_slist_find(ac_slist_t *list, void *data);
+void *ac_slist_nth_data(ac_slist_t *list, int n);
 void ac_slist_foreach(ac_slist_t *list, void (*action)(void *item, void *data),
 		      void *user_data);
 void ac_slist_destroy(ac_slist_t **list, void (*free_data)(void *data));

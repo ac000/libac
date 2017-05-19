@@ -386,6 +386,15 @@ static void slist_test(void)
 	printf("Reverse\n");
 	ac_slist_reverse(&mylist);
 	ac_slist_foreach(mylist, slist_print, NULL);
+	ld = ac_slist_nth_data(mylist, 1);
+	if (ld)
+		printf("1 -> %d\n", ld->val);
+	ld = ac_slist_nth_data(mylist, 3);
+	if (!ld)
+		printf("3 -> Not Found\n");
+	printf("Remove 2nd element\n");
+	ac_slist_remove_nth(&mylist, 1, free);
+	ac_slist_foreach(mylist, slist_print, NULL);
 	printf("ac_slist_foreach() - set vals to -1\n");
 	ac_slist_foreach(mylist, slist_setval, NULL);
 	ac_slist_foreach(mylist, slist_print, NULL);

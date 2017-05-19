@@ -101,6 +101,41 @@ bool ac_slist_remove(ac_slist_t **list, void *data, void (*free_data)
 }
 
 /**
+ * ac_slist_remove_nth - remove the nth item from the list
+ *
+ * @list: The list to remove the item from
+ * @n: The position of the item to be removed. Starting at 0
+ * @free_data: An optional pointer to a function to call to free the item data
+ *
+ * Returns:
+ *
+ * true if the item was found and removed, false otherwise
+ */
+bool ac_slist_remove_nth(ac_slist_t **list, int n, void (*free_data)
+							(void *data))
+{
+	ac_slist_t **pp = list;
+	ac_slist_t *p;
+	bool ret = false;
+	int i = 0;
+
+	while ((p = *pp) != NULL) {
+		if (i++ == n) {
+			*pp = p->next;
+
+			if (free_data)
+				free_data(p->data);
+			free(p);
+			ret = true;
+			break;
+		}
+		pp = &p->next;
+	}
+
+	return ret;
+}
+
+/**
  * ac_slist_reverse - reverse a list
  *
  * @list: The list to reverse
@@ -139,6 +174,32 @@ ac_slist_t *ac_slist_find(ac_slist_t *list, void *data)
 	}
 
 	return NULL;
+}
+
+/**
+ * ac_slist_nth_data - retrieve the item's data at position n
+ *
+ * @list: The list to look for the item in
+ * @n: The position in the list, starting at 0, to retrieve
+ *
+ * Returns:
+ *
+ * The item data if it was found, NULL otherwise
+ */
+void *ac_slist_nth_data(ac_slist_t *list, int n)
+{
+	int i;
+
+	if (!list)
+		return NULL;
+
+	for (i = 0; i < n; i++) {
+		list = list->next;
+		if (!list)
+			return NULL;
+	}
+
+	return list->data;
 }
 
 /**

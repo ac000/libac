@@ -259,6 +259,11 @@ functions.
     bool ac_slist_remove(ac_slist_t **list, void *data, void (*free_data)
                                                              (void *data))
 
+#### ac\_slist\_remove\_nth - remove the nth item from the list
+
+    bool ac_slist_remove_nth(ac_slist_t **list, int n, void (*free_data)
+                                                            (void *data))
+
 #### ac\_slist\_reverse - reverse a list
 
     void ac_slist_reverse(ac_slist_t **list)
@@ -266,6 +271,10 @@ functions.
 #### ac\_slist\_find - find an item in the list
 
     ac_slist_t *ac_slist_find(ac_slist_t *list, void *data)
+
+#### ac\_slist\_nth\_data - retrieve the item's data at position n
+
+    void *ac_slist_nth_data(ac_slist_t *list, int n)
 
 #### ac\_slist\_foreach - execute a function for each item in the list
 
