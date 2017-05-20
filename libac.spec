@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.11.0
+Version:	0.12.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Fri May 19 2017 Andrew Clayton <andrew@digital-domain.net> - 0.12.0-1
+- Add a couple more fucntions to ac_slist
+- Add more API details to the README
 
 * Tue May 16 2017 Andrew Clayton <andrew@digital-domain.net> - 0.11.0-1
 - Add a password hasher function, wrapper around crypt_r(3)
