@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.12.0
+Version:	0.13.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Tue May 23 2017 Andrew Clayton <andrew@digital-domain.net> - 0.13.0-1
+- Add some more network related functions; ac_net_inet_pton(),
+  ac_net_inet_ntop() & ac_net_port_from_sa()
 
 * Fri May 19 2017 Andrew Clayton <andrew@digital-domain.net> - 0.12.0-1
 - Add a couple more fucntions to ac_slist
