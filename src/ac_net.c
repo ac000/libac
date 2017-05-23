@@ -11,6 +11,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -44,6 +45,24 @@ u16 ac_net_port_from_sa(const struct sockaddr *sa)
 	default:
 		return 0;
 	}
+}
+
+/**
+ * ac_net_inet_pton - address family agnostic wrapper around inet_pton(3)
+ *
+ * @src - IP address
+ * @dst - A buffer to hold the returned network address structure
+ *
+ * Returns:
+ *
+ * 1 on success, 0 if src does not contain a valid IP adress, -1 otherwise
+ */
+int ac_net_inet_pton(const char *src, void *dst)
+{
+	if (strchr(src, ':'))
+                return inet_pton(AF_INET6, src, dst);
+	else
+		return inet_pton(AF_INET, src, dst);
 }
 
 /**

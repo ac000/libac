@@ -212,6 +212,10 @@ functions.
 
     u16 ac_net_port_from_sa(const struct sockaddr *sa)
 
+#### ac\_net\_inet\_pton - address family agnostic wrapper around inet\_pton(3)
+
+    int ac_net_inet_pton(const char *src, void *dst)
+
 #### ac\_net\_inet\_ntop - address family agnostic wrapper around inet\_ntop(3)
 
     const char *ac_net_inet_ntop(const void *src, char *dst, socklen_t size)

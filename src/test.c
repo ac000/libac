@@ -286,6 +286,7 @@ static bool ns_lookup_cb(const struct addrinfo *ai, const char *res)
 static void net_test(void)
 {
 	int err;
+	int i;
 	struct addrinfo hints;
 	struct addrinfo *res;
 	struct sockaddr_in6 in6 = { .sin6_family = AF_INET6,
@@ -295,6 +296,7 @@ static void net_test(void)
 				   .sin_port = htons(2121),
 				   .sin_addr.s_addr = 0 };
 	char addrp[INET6_ADDRSTRLEN];
+	u8 addrn[sizeof(struct in6_addr)];
 
 	printf("*** %s\n", __func__);
 
@@ -316,9 +318,16 @@ static void net_test(void)
 	printf("Port : %hu\n", ac_net_port_from_sa((struct sockaddr *)&in4));
 
 	getaddrinfo("www.google.com", "443", &hints, &res);
-	printf("www.google.com -> %s\n", ac_net_inet_ntop(
+	printf("www.google.com -> %s -> ", ac_net_inet_ntop(
 				res->ai_addr, addrp, INET6_ADDRSTRLEN));
 	freeaddrinfo(res);
+	ac_net_inet_pton(addrp, addrn);
+	for (i = 0; i < 15; i += 2) {
+		printf("%02x%02x", addrn[i], addrn[i + 1]);
+		if (i < 14)
+			 printf(":");
+	}
+	printf("\n");
 
 	printf("*** %s\n\n", __func__);
 }

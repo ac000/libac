@@ -159,6 +159,7 @@ char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 			ac_crypt_data_t *data);
 
 u16 ac_net_port_from_sa(const struct sockaddr *sa);
+int ac_net_inet_pton(const char *src, void *dst);
 const char *ac_net_inet_ntop(const void *src, char *dst, socklen_t size);
 int ac_net_ns_lookup_by_host(const struct addrinfo *hints, const char *node,
 			     bool (*ac_ns_lookup_cb)(const struct addrinfo *ai,
