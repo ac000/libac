@@ -38,11 +38,12 @@ static const struct ellipsoid ellipsoids[] = {
 /**
  * ac_geo_dd_to_dms - convert decimal degrees into degrees, minutes & seconds
  *
+ * @degrees: The decimal degrees to convert
+ * @dms: Filled out with the degrees, minutes & seconds
+ *
  * Note: It is up to the user to track if the value is North/South of the
  *       Equator or East/West of the prime meridian
  *
- * @degrees: The decimal degrees to convert
- * @dms: Filled out with the degrees, minutes & seconds
  */
 void ac_geo_dd_to_dms(double degrees, ac_geo_dms_t *dms)
 {
