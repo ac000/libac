@@ -47,6 +47,35 @@ u16 ac_net_port_from_sa(const struct sockaddr *sa)
 }
 
 /**
+ * ac_net_inet_ntop - address family agnostic wrapper around inet_ntop(3)
+ *
+ * @src - Structure containing the address to be converted
+ * @dst - A buffer to hold the returned string
+ * @size - The size of the buffer
+ *
+ * Returns:
+ *
+ * A pointer to dst
+ */
+const char *ac_net_inet_ntop(const void *src, char *dst, socklen_t size)
+{
+	const struct sockaddr *sa = (struct sockaddr *)src;
+
+	switch (sa->sa_family) {
+	case AF_INET6:
+                return inet_ntop(sa->sa_family,
+				&((struct sockaddr_in6 *)sa)->sin6_addr, dst,
+				size);
+	case AF_INET:
+		return inet_ntop(sa->sa_family,
+				&((struct sockaddr_in *)sa)->sin_addr, dst,
+				size);
+	default:
+		return NULL;
+	}
+}
+
+/**
  * ac_net_ns_lookup_by_host - lookup a host by hostname (get its IP(s))
  *
  * @hints: An addrinfo structure with criteria for selecting the IP addresses

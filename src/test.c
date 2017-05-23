@@ -287,12 +287,14 @@ static void net_test(void)
 {
 	int err;
 	struct addrinfo hints;
+	struct addrinfo *res;
 	struct sockaddr_in6 in6 = { .sin6_family = AF_INET6,
 				    .sin6_port = htons(1976),
 				    .sin6_flowinfo = 0 };
 	struct sockaddr_in in4 = { .sin_family = AF_INET,
 				   .sin_port = htons(2121),
 				   .sin_addr.s_addr = 0 };
+	char addrp[INET6_ADDRSTRLEN];
 
 	printf("*** %s\n", __func__);
 
@@ -312,6 +314,11 @@ static void net_test(void)
 
 	printf("Port : %hu\n", ac_net_port_from_sa((struct sockaddr *)&in6));
 	printf("Port : %hu\n", ac_net_port_from_sa((struct sockaddr *)&in4));
+
+	getaddrinfo("www.google.com", "443", &hints, &res);
+	printf("www.google.com -> %s\n", ac_net_inet_ntop(
+				res->ai_addr, addrp, INET6_ADDRSTRLEN));
+	freeaddrinfo(res);
 
 	printf("*** %s\n\n", __func__);
 }
