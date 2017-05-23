@@ -16,6 +16,36 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
+#include "include/libac.h"
+
+
+/**
+ * ac_net_port_from_sa - extract the port number from a struct sockaddr
+ *
+ * @sa - The sockaddr structure to get the port number from
+ *
+ * Note: This is the same as the following open coded
+ *
+ *    (sa.sa_family == AF_INET6) ?
+ *     ntohs(*(&((struct sockaddr_in6 *)&sa)->sin6_port)) :
+ *     ntohs(*(&((struct sockaddr_in *)&sa)->sin_port))
+ *
+ * Returns:
+ *
+ * The port number in host byte order or 0 for an unknown address family
+ */
+u16 ac_net_port_from_sa(const struct sockaddr *sa)
+{
+	switch (sa->sa_family) {
+	case AF_INET6:
+		return ntohs(((struct sockaddr_in6 *)sa)->sin6_port);
+	case AF_INET:
+		return ntohs(((struct sockaddr_in *)sa)->sin_port);
+	default:
+		return 0;
+	}
+}
+
 /**
  * ac_net_ns_lookup_by_host - lookup a host by hostname (get its IP(s))
  *

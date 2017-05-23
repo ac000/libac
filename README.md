@@ -208,6 +208,10 @@ functions.
 
 ### Network related functions
 
+#### ac\_net\_port\_from\_sa - extract the port number from a struct sockaddr
+
+    u16 ac_net_port_from_sa(const struct sockaddr *sa)
+
 #### ac\_net\_ns\_lookup\_by\_host - lookup a host by hostname (get its IP(s))
 
     int ac_net_ns_lookup_by_host(const struct addrinfo *hints,
