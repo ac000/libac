@@ -103,24 +103,10 @@ int ac_net_ns_lookup_by_host(const struct addrinfo *hints, const char *node,
 
 	for (resp = res; resp != NULL; resp = resp->ai_next) {
 		bool again;
-		char result[NI_MAXHOST];
-		struct sockaddr_storage *ss =
-			(struct sockaddr_storage *)resp->ai_addr;
+		char addrp[INET6_ADDRSTRLEN];
 
-		switch (ss->ss_family) {
-		case AF_INET:
-			inet_ntop(ss->ss_family,
-				  &((struct sockaddr_in *)ss)->sin_addr,
-				  result, sizeof(result));
-			break;
-		case AF_INET6:
-			inet_ntop(ss->ss_family,
-				  &((struct sockaddr_in6 *)ss)->sin6_addr,
-				  result, sizeof(result));
-			break;
-		}
-
-		again = ac_ns_lookup_cb(resp, result);
+		ac_net_inet_ntop(resp->ai_addr, addrp, sizeof(addrp));
+		again = ac_ns_lookup_cb(resp, addrp);
 		if (!again)
 			break;
 	}
