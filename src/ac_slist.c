@@ -229,7 +229,8 @@ void ac_slist_destroy(ac_slist_t **list, void (*free_data)(void *data))
 	while (*list) {
 		ac_slist_t *p = (*list)->next;
 
-		free_data((*list)->data);
+		if (free_data)
+			free_data((*list)->data);
 		free(*list);
 		*list = p;
 	}
