@@ -126,6 +126,12 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 	ssize_t bytes_wrote = -1;
 	struct stat sb;
 
+	/* Check for unknown flags */
+	if (flags & ~(AC_FS_COPY_OVERWRITE)) {
+		errno = EINVAL;
+		return -1;
+	}
+
 	ifd = open(from, O_RDONLY | O_CLOEXEC);
 	if (ifd == -1)
 		return -1;
