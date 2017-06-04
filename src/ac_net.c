@@ -19,7 +19,6 @@
 
 #include "include/libac.h"
 
-
 /**
  * ac_net_port_from_sa - extract the port number from a struct sockaddr
  *
