@@ -122,6 +122,7 @@ typedef struct ac_slist_t {
 	struct ac_slist_t *next;
 } ac_slist_t;
 
+#pragma GCC visibility push(default)
 void *ac_btree_new(int (*compar)(const void *, const void *),
 		   void (*free_node)(void *nodep));
 void ac_btree_foreach(ac_btree_t *tree, void (*action)(const void *nodep,
@@ -195,6 +196,7 @@ int ac_str_levenshtein(const char *s, const char *t);
 double ac_time_tspec_diff(struct timespec *delta, const struct timespec *end,
 			  const struct timespec *start);
 void ac_time_secs_to_hms(long total, int *hours, int *minutes, int *seconds);
+#pragma GCC visibility pop
 
 #ifdef __cplusplus
 } /* extern "C" */

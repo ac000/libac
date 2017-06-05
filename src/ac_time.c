@@ -11,6 +11,8 @@
 
 #include <time.h>
 
+#include "include/libac.h"
+
 /**
  * ac_time_tspec_diff - subtract two struct timespec's
  *

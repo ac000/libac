@@ -7,9 +7,13 @@
  * See COPYING
  */
 
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "include/libac.h"
 
 /**
  * ac_str_chomp - remove trailing white space from a string
