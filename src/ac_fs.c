@@ -39,7 +39,7 @@ bool ac_fs_is_posix_name(const char *name)
 	 * Check for valid POSIX filename characters as defined by:
          * http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_281
 	 */
-	for ( ; *name != '\0'; name++) {
+	while (*name++) {
 		switch (*name) {
 		case 'A' ... 'Z':
 		case 'a' ... 'z':
