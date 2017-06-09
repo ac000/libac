@@ -1,7 +1,7 @@
 CC	= gcc
 CFLAGS	= -Wall -Wextra -std=c99 -g -O2 -fvisibility=hidden -fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
 LDFLAGS	= -shared -Wl,-z,now
-LIBS=-lm -lcrypt
+LIBS    = -lm -lcrypt
 
 objects = 	ac_btree.o \
 		ac_cqueue.o \
