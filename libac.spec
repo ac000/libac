@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.14.0
+Version:	0.15.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Tue Jun 13 2017 Andrew Clayton <andrew@digital-domain.net> - 0.15.0-1
+- Add some aliases for __attribute__((unused))
 
 * Mon Jun 5 2017 Andrew Clayton <andrew@digital-domain.net> - 0.14.0-1
 - Compile with -fvisibility=hidden
