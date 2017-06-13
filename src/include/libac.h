@@ -34,6 +34,10 @@ typedef int16_t  s16;
 typedef uint8_t   u8;
 typedef int8_t    s8;
 
+#define __unused		__attribute__((unused))
+#define __maybe_unused		__attribute__((unused))
+#define __always_unused		__attribute__((unused))
+
 typedef struct crypt_data ac_crypt_data_t;
 
 #define AC_FS_COPY_OVERWRITE	0x01

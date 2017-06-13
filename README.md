@@ -80,6 +80,12 @@ Glibc.
 
 ### misc
 
+    #define __unused
+    #define __maybe_unused
+    #define __always_unused
+
+These are aliases for \_\_attribute\_\_((unused))
+
     #define AC_FS_COPY_OVERWRITE
 
 
