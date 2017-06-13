@@ -60,7 +60,7 @@ ac_time.o: ac_time.c
 
 test: test.c $(objects)
 	@echo -e "  CC\t$@"
-	@$(CC) $(CFLAGS) -Wno-unused-parameter -o $@ $< $(objects) $(LIBS)
+	@$(CC) $(CFLAGS) -o $@ $< $(objects) $(LIBS)
 
 clean:
 	rm -f libac.so.* *.o test

@@ -36,7 +36,8 @@ static void free_tnode(void *data)
 	free(tn);
 }
 
-static void print_node(const void *data, const VISIT which, const int depth)
+static void print_node(const void *data, const VISIT which __always_unused,
+		       const int depth __always_unused)
 {
 	struct tnode *tn = *(struct tnode **)data;
 
@@ -96,7 +97,7 @@ struct queue_data {
 	int item;
 };
 
-static void print_queue_item(void *item, void *data)
+static void print_queue_item(void *item, void *data __always_unused)
 {
 	struct queue_data *qd = item;
 
@@ -276,7 +277,8 @@ static void misc_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
-static bool ns_lookup_cb(const struct addrinfo *ai, const char *res)
+static bool ns_lookup_cb(const struct addrinfo *ai __always_unused,
+			 const char *res)
 {
 	printf("\t%s\n", res);
 
@@ -355,14 +357,14 @@ struct list_data {
 	int val;
 };
 
-static void slist_setval(void *data, void *user_data)
+static void slist_setval(void *data, void *user_data __always_unused)
 {
 	struct list_data *ld = data;
 
 	ld->val = -1;
 }
 
-static void slist_print(void *data, void *user_data)
+static void slist_print(void *data, void *user_data __always_unused)
 {
 	printf("val : %d\n", ((struct list_data *)data)->val);
 }
