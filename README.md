@@ -264,6 +264,10 @@ functions.
 
 ### Singly linked list functions
 
+#### ac\_slist\_len - return the number of entries in the list
+
+    long ac_slist_len(ac_slist_t *list)
+
 #### ac\_slist\_add - add an item to the end of the list
 
     void ac_slist_add(ac_slist_t **list, void *data)

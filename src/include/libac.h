@@ -179,6 +179,7 @@ int ac_quark_from_string(ac_quark_t *quark, const char *str);
 const char *ac_quark_to_string(ac_quark_t *quark, int id);
 void ac_quark_destroy(ac_quark_t *quark);
 
+long ac_slist_len(ac_slist_t *list);
 void ac_slist_add(ac_slist_t **list, void *data);
 void ac_slist_preadd(ac_slist_t **list, void *data);
 bool ac_slist_remove(ac_slist_t **list, void *data, void (*free_data)

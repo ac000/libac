@@ -394,6 +394,8 @@ static void slist_test(void)
 	ld->val = 72;
 	ac_slist_preadd(&mylist, ld);
 
+	printf("List has %ld items\n", ac_slist_len(mylist));
+
 	printf("Manual list traversal\n");
 	p = mylist;
 	while (p) {

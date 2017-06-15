@@ -21,6 +21,26 @@ static ac_slist_t *slist_last(ac_slist_t *list)
 
 	return list;
 }
+/**
+ * ac_slist_len - return the number of entries in the list
+ *
+ * @list - The list to operate on
+ *
+ * Returns:
+ *
+ * The number of entries in the list, 0 if empty
+ */
+long ac_slist_len(ac_slist_t *list)
+{
+	long len = 0;
+
+	while (list) {
+		len++;
+		list = list->next;
+	}
+
+	return len;
+}
 
 /**
  * ac_slist_add - add an item to the end of the list
