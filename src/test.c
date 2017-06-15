@@ -369,10 +369,52 @@ static void slist_print(void *data, void *user_data __always_unused)
 	printf("val : %d\n", ((struct list_data *)data)->val);
 }
 
+static int slist_cmp(const void *p1, const void *p2)
+{
+	const struct list_data *d1 = *(const struct list_data **)p1;
+	const struct list_data *d2 = *(const struct list_data **)p2;
+
+	if (d1->val < d2->val)
+		return -1;
+	else if (d1->val > d2->val)
+		return 1;
+	else
+		return 0;
+}
+
+static ac_slist_t *sort_list(ac_slist_t *list)
+{
+	ac_slist_t *slist = NULL;
+	struct list_data **array;
+	long i = 0;
+	long j;
+
+	array = malloc(ac_slist_len(list) * sizeof(struct list_data *));
+	while (list) {
+		array[i] = malloc(sizeof(struct list_data));
+		array[i++]->val = ((struct list_data *)list->data)->val;
+		list = list->next;
+	}
+
+	qsort(array, i, sizeof(struct list_data *), slist_cmp);
+
+	for (j = 0; j < i; j++) {
+		struct list_data *ld = array[j];
+		ac_slist_add(&slist, ld);
+	}
+	free(array);
+
+	printf("Sorted list\n");
+	ac_slist_foreach(slist, slist_print, NULL);
+
+	return slist;
+}
+
 static void slist_test(void)
 {
 	struct list_data *ld;
 	ac_slist_t *mylist = NULL;
+	ac_slist_t *slist;
 	ac_slist_t *p;
 
 	printf("*** %s\n", __func__);
@@ -383,15 +425,15 @@ static void slist_test(void)
 	ac_slist_add(&mylist, ld);
 
 	ld = malloc(sizeof(struct list_data));
-	ld->val = 52;
-	ac_slist_preadd(&mylist, ld);
-
-	ld = malloc(sizeof(struct list_data));
 	ld->val = 62;
 	ac_slist_preadd(&mylist, ld);
 
 	ld = malloc(sizeof(struct list_data));
 	ld->val = 72;
+	ac_slist_preadd(&mylist, ld);
+
+	ld = malloc(sizeof(struct list_data));
+	ld->val = 52;
 	ac_slist_preadd(&mylist, ld);
 
 	printf("List has %ld items\n", ac_slist_len(mylist));
@@ -403,6 +445,10 @@ static void slist_test(void)
 		p = p->next;
 	}
 	printf("\n");
+
+	slist = sort_list(mylist);
+	printf("Freeing... back to original list\n\n");
+	ac_slist_destroy(&slist, free);
 
 	printf("ac_slist_foreach() - Dump list\n");
 	ac_slist_foreach(mylist, slist_print, NULL);
