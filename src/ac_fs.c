@@ -70,7 +70,6 @@ int ac_fs_mkdir_p(const char *path)
 	int ret = 0;
 	char *dir;
 	char *ptr;
-	char *saveptr;
 	char mdir[4096] = "";
 
 	if (strlen(path) >= sizeof(mdir)) {
@@ -86,7 +85,7 @@ int ac_fs_mkdir_p(const char *path)
 	for ( ; ; ) {
 		char *token;
 
-		token = strtok_r(dir, "/", &saveptr);
+		token = strsep(&dir, "/");
 		if (token == NULL)
 			break;
 		strcat(mdir, token);
@@ -94,7 +93,6 @@ int ac_fs_mkdir_p(const char *path)
 		if (ret == -1 && errno != EEXIST)
 			break;
 		strcat(mdir, "/");
-		dir = NULL;
 	}
 	free(ptr);
 
