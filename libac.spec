@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.15.0
+Version:	0.16.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Thu Jun 22 2017 Andrew Clayton <andrew@digital-domain.net> - 0.16.0-1
+- Add a function to return the number of entries in an ac_slist_t
+- Build fix's for older versions of glibc & GCC such as with CentOS 6/7
 
 * Tue Jun 13 2017 Andrew Clayton <andrew@digital-domain.net> - 0.15.0-1
 - Add some aliases for __attribute__((unused))
