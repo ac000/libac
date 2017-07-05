@@ -525,11 +525,10 @@ static void time_test(void)
 	int m;
 	int s;
 	struct timespec delta;
-	struct _times {
+	const struct {
 		struct timespec start;
 		struct timespec end;
-	};
-	static const struct _times times[] = {
+	} times[] = {
 		{ { 100, 899972154 }, { 101, 15534107 } },
 		{ { 100, 250000000 }, { 100, 700000000 } },
 		{ { 100, 500000000 }, { 102, 350000000 } },
