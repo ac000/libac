@@ -242,6 +242,14 @@ functions.
                                     (const struct addrinfo *ai,
                                      const char *res))
 
+#### ac\_net\_ipv4\_isin - check if an IPv4 address is within the given network
+
+    bool ac_net_ipv4_isin(const char *network, u8 cidr, const char *addr)
+
+#### ac\_net\_ipv6\_isin - check if an IPv6 address is within the given network
+
+    bool ac_net_ipv6_isin(const char *network, u8 prefixlen, const char *addr)
+
 
 ### Quark functions
 

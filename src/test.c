@@ -302,6 +302,14 @@ static void net_test(void)
 				   .sin_addr.s_addr = 0 };
 	char addrp[INET6_ADDRSTRLEN];
 	u8 addrn[sizeof(struct in6_addr)];
+	const struct {
+		const char *addr;
+		const char *network;
+		const u8 prefixlen;
+	} nets[] = {
+		{ "192.168.1.10", "192.168.2.0", 24 },
+		{ "2001:db8:dead:beef::f00d", "2001:db8:dead:beef::", 64 }
+	};
 
 	printf("*** %s\n", __func__);
 
@@ -333,6 +341,17 @@ static void net_test(void)
 			 printf(":");
 	}
 	printf("\n");
+
+	printf("%s is%sin %s/%hhu\n",
+			nets[0].addr,
+			ac_net_ipv4_isin(nets[0].network, nets[0].prefixlen,
+					 nets[0].addr) ? " " : " NOT ",
+			nets[0].network, nets[0].prefixlen);
+	printf("%s is%sin %s/%hhu\n",
+			nets[1].addr,
+			ac_net_ipv6_isin(nets[1].network, nets[1].prefixlen,
+					 nets[1].addr) ? " " : " NOT ",
+			nets[1].network, nets[1].prefixlen);
 
 	printf("*** %s\n\n", __func__);
 }

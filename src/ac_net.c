@@ -165,3 +165,66 @@ int ac_net_ns_lookup_by_ip(const struct addrinfo *hints, const char *node,
 
 	return 0;
 }
+
+/**
+ * ac_net_ipv4_isin - check if an IPv4 address is within the given network
+ *
+ * @network: The IPv4 network to check against
+ * @cidr: The netmask
+ * @addr: The IPv4 address
+ *
+ * Returns
+ *
+ * true for a match, false otherwise
+ */
+bool ac_net_ipv4_isin(const char *network, u8 cidr, const char *addr)
+{
+	struct in_addr ip_addr;
+	struct in_addr net_addr;
+
+	inet_pton(AF_INET, network, &net_addr);
+	inet_pton(AF_INET, addr, &ip_addr);
+
+	ip_addr.s_addr &= htonl(~0UL << (32 - cidr));
+	if (ip_addr.s_addr == net_addr.s_addr)
+		return true;
+	else
+		return false;
+}
+
+/**
+ * ac_net_ipv6_isin - check if an IPv6 address is within the given network
+ *
+ * @network: The IPv6 network to check against
+ * @prefixlen: The prefixlen
+ * @addr: The IPv6 address
+ *
+ * Returns
+ *
+ * true for a match, false otherwise
+ */
+bool ac_net_ipv6_isin(const char *network, u8 prefixlen, const char *addr)
+{
+	int i;
+	unsigned char netb[sizeof(struct in6_addr)];
+	unsigned char maskb[sizeof(struct in6_addr)];
+	unsigned char addrb[sizeof(struct in6_addr)];
+
+	inet_pton(AF_INET6, network, netb);
+	inet_pton(AF_INET6, addr, addrb);
+
+	/* Create a mask based on prefixlen */
+	for (i = 0; i < 16; i++) {
+		u8 s = (prefixlen > 8) ? 8 : prefixlen;
+
+		prefixlen -= s;
+		maskb[i] = (0xffu << (8 - s));
+	}
+
+	for (i = 0; i < 16; i++) {
+		if ((addrb[i] & maskb[i]) != netb[i])
+			return false;
+	}
+
+	return true;
+}

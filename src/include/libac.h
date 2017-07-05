@@ -169,10 +169,11 @@ const char *ac_net_inet_ntop(const void *src, char *dst, socklen_t size);
 int ac_net_ns_lookup_by_host(const struct addrinfo *hints, const char *node,
 			     bool (*ac_ns_lookup_cb)(const struct addrinfo *ai,
 						     const char *res));
-
 int ac_net_ns_lookup_by_ip(const struct addrinfo *hints, const char *node,
 			   bool (*ac_ns_lookup_cb)(const struct addrinfo *ai,
 						   const char *res));
+bool ac_net_ipv4_isin(const char *network, u8 cidr, const char *addr);
+bool ac_net_ipv6_isin(const char *network, u8 prefixlen, const char *addr);
 
 void ac_quark_init(ac_quark_t *quark, void (*free_func)(void *ptr));
 int ac_quark_from_string(ac_quark_t *quark, const char *str);
