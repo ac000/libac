@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.16.0
+Version:	0.17.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Wed Jul 5 2017 Andrew Clayton <andrew@digital-domain.net> - 0.17.0-1
+- Add a couple of functions to ac_net: ac_net_ipv4_isin & ac_net_ipv6_isin
 
 * Thu Jun 22 2017 Andrew Clayton <andrew@digital-domain.net> - 0.16.0-1
 - Add a function to return the number of entries in an ac_slist_t
