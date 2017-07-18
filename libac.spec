@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.17.0
+Version:	0.18.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Tue Jul 18 2017 Andrew Clayton <andrew@digital-domain.net> - 0.18.0-1
+- Add a string split function.
 
 * Wed Jul 5 2017 Andrew Clayton <andrew@digital-domain.net> - 0.17.0-1
 - Add a couple of functions to ac_net: ac_net_ipv4_isin & ac_net_ipv6_isin
