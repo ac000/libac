@@ -319,6 +319,14 @@ functions.
 
 ### String functions
 
+#### ac\_str\_freev - free a string vector
+
+    void ac_str_freev(char **stringv)
+
+#### ac\_str\_split - split a string up into a NULL terminated vector
+
+    char **ac_str_split(const char *string, int delim)
+
 #### ac\_str\_chomp - remove trailing white space from a string
 
     char *ac_str_chomp(char *string)

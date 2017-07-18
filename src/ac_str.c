@@ -16,6 +16,68 @@
 #include "include/libac.h"
 
 /**
+ * ac_str_freev - free a string vector
+ *
+ * @stringv: The string vector to be free'd
+ */
+void ac_str_freev(char **stringv)
+{
+	char **pp = stringv;
+
+	for (pp = stringv; *stringv != NULL; stringv++)
+		free(*stringv);
+	free(pp);
+}
+
+/**
+ * ac_str_split - split a string up into a NULL terminated vector
+ *
+ * @string: String to be split
+ * @delim: The character to use as the delimiter
+ *
+ * An empty string is returned as an empty vector, i.e vec[0] == NULL,
+ * likewise for a string without any delimiters.
+ *
+ * In either case the returned vector should be free'd by a call to
+ * ac_str_freev
+ *
+ * Returns:
+ *
+ * A NULL terminated vector (array of string pointers)
+ */
+char **ac_str_split(const char *string, int delim)
+{
+	char *strd;
+	char *p;
+	char **fields;
+	char *tok;
+	int i = 1;
+
+	fields = malloc(sizeof(char *));
+	fields[0] = NULL;
+
+	if (strlen(string) == 0 || !strchr(string, delim))
+		return fields;
+
+	strd = strdup(string);
+	p = strd;
+
+	tok = strsep(&strd, (char *)&delim);
+	while (tok) {
+		fields = realloc(fields, sizeof(char *) * i);
+		fields[i - 1] = strdup(tok);
+		tok = strsep(&strd, (char *)&delim);
+		i++;
+	}
+	fields = realloc(fields, sizeof(char *) * i);
+	fields[i - 1] = NULL;
+
+	free(p);
+
+	return fields;
+}
+
+/**
  * ac_str_chomp - remove trailing white space from a string
  *
  * @string: String to be chomp'd

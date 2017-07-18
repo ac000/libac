@@ -194,6 +194,8 @@ void ac_slist_foreach(ac_slist_t *list, void (*action)(void *item, void *data),
 		      void *user_data);
 void ac_slist_destroy(ac_slist_t **list, void (*free_data)(void *data));
 
+void ac_str_freev(char **stringv);
+char **ac_str_split(const char *string, int delim);
 char *ac_str_chomp(char *string);
 char *ac_str_substr(const char *src, void *dest, size_t dest_size, int start,
 		    int len);

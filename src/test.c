@@ -505,9 +505,17 @@ static void str_test(void)
 {
 	char str1[] = "Hello World\r\n";
 	char str2[] = "Hello World\r\n";
+	const char str3[] = "field0,field1,field2";
 	char dst[32];
+	char **fields;
+	char **pp;
 
 	printf("*** %s\n", __func__);
+
+	fields = ac_str_split(str3, ',');
+	for (pp = fields; *pp != NULL; pp++)
+		printf("ac_str_split: %s\n", *pp);
+	ac_str_freev(fields);
 
 	printf("ac_str_chomp  : %s\n", ac_str_chomp(str1));
 	printf("ac_str_substr : %s\n", ac_str_substr(str2, dst, 32, 3, 4));
