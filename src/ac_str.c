@@ -22,7 +22,10 @@
  */
 void ac_str_freev(char **stringv)
 {
-	char **pp = stringv;
+	char **pp;
+
+	if (!stringv)
+		return;
 
 	for (pp = stringv; *stringv != NULL; stringv++)
 		free(*stringv);
