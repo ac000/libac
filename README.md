@@ -88,6 +88,8 @@ These are aliases for \_\_attribute\_\_((unused))
 
     #define AC_FS_COPY_OVERWRITE
 
+    #define AC_STR_SPLIT_STRICT
+
 
 ## Functions
 
@@ -325,7 +327,7 @@ functions.
 
 #### ac\_str\_split - split a string up into a NULL terminated vector
 
-    char **ac_str_split(const char *string, int delim)
+    char **ac_str_split(const char *string, int delim, int flags)
 
 #### ac\_str\_chomp - remove trailing white space from a string
 

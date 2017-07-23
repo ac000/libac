@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #include "include/libac.h"
 
@@ -37,9 +38,10 @@ void ac_str_freev(char **stringv)
  *
  * @string: String to be split
  * @delim: The character to use as the delimiter
+ * @flags: Can be 0 or AC_STR_SPLIT_STRICT (to return an empty vector when
+ *	   there's no delimiters)
  *
  * An empty string is returned as an empty vector, i.e vec[0] == NULL,
- * likewise for a string without any delimiters.
  *
  * In either case the returned vector should be free'd by a call to
  * ac_str_freev
@@ -48,7 +50,7 @@ void ac_str_freev(char **stringv)
  *
  * A NULL terminated vector (array of string pointers)
  */
-char **ac_str_split(const char *string, int delim)
+char **ac_str_split(const char *string, int delim, int flags)
 {
 	char *strd;
 	char *p;
@@ -56,10 +58,17 @@ char **ac_str_split(const char *string, int delim)
 	char *tok;
 	int i = 1;
 
+	/* Check for unknown flags */
+	if (flags & ~(AC_STR_SPLIT_STRICT)) {
+		errno = EINVAL;
+		return NULL;
+	}
+
 	fields = malloc(sizeof(char *));
 	fields[0] = NULL;
 
-	if (strlen(string) == 0 || !strchr(string, delim))
+	if (strlen(string) == 0 ||
+	    (!strchr(string, delim) && (flags & AC_STR_SPLIT_STRICT)))
 		return fields;
 
 	strd = strdup(string);

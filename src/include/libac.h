@@ -42,6 +42,8 @@ typedef struct crypt_data ac_crypt_data_t;
 
 #define AC_FS_COPY_OVERWRITE	0x01
 
+#define AC_STR_SPLIT_STRICT	0x01
+
 typedef enum ac_geo_ellipsoid_t {
 	AC_GEO_EREF_WGS84 = 0,
 	AC_GEO_EREF_GRS80,
@@ -195,7 +197,7 @@ void ac_slist_foreach(ac_slist_t *list, void (*action)(void *item, void *data),
 void ac_slist_destroy(ac_slist_t **list, void (*free_data)(void *data));
 
 void ac_str_freev(char **stringv);
-char **ac_str_split(const char *string, int delim);
+char **ac_str_split(const char *string, int delim, int flags);
 char *ac_str_chomp(char *string);
 char *ac_str_substr(const char *src, void *dest, size_t dest_size, int start,
 		    int len);

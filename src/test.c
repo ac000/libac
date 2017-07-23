@@ -506,15 +506,27 @@ static void str_test(void)
 	char str1[] = "Hello World\r\n";
 	char str2[] = "Hello World\r\n";
 	const char str3[] = "field0,field1,field2";
+	const char str4[] = "field3";
 	char dst[32];
 	char **fields;
 	char **pp;
 
 	printf("*** %s\n", __func__);
 
-	fields = ac_str_split(str3, ',');
+	fields = ac_str_split(str3, ',', 0);
 	for (pp = fields; *pp != NULL; pp++)
-		printf("ac_str_split: %s\n", *pp);
+		printf("ac_str_split (str3): %s\n", *pp);
+	ac_str_freev(fields);
+
+	fields = ac_str_split(str4, ',', 0);
+	for (pp = fields; *pp != NULL; pp++)
+		printf("ac_str_split (str4): %s\n", *pp);
+	ac_str_freev(fields);
+
+	fields = ac_str_split(str4, ',', AC_STR_SPLIT_STRICT);
+	if (!fields[0])
+		printf("ac_str_split (str4): No delimiters found "
+				"(AC_STR_SPLIT_STRICT)\n");
 	ac_str_freev(fields);
 
 	printf("ac_str_chomp  : %s\n", ac_str_chomp(str1));
