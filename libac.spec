@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.19.0
+Version:	0.20.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Fri Aug 11 2017 Andrew Clayton <andrew@digital-domain.net> - 0.20.0-1
+- Added AC_STR_SPLIT_ALWAYS #define
 
 * Sun Jul 23 2017 Andrew Clayton <andrew@digital-domain.net> - 0.19.0-1
 - Enhancement to ac_str_split()
