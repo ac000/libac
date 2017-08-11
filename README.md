@@ -88,6 +88,7 @@ These are aliases for \_\_attribute\_\_((unused))
 
     #define AC_FS_COPY_OVERWRITE
 
+    #define AC_STR_SPLIT_ALWAYS
     #define AC_STR_SPLIT_STRICT
 
 

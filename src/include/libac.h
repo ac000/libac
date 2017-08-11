@@ -42,6 +42,7 @@ typedef struct crypt_data ac_crypt_data_t;
 
 #define AC_FS_COPY_OVERWRITE	0x01
 
+#define AC_STR_SPLIT_ALWAYS	0x00
 #define AC_STR_SPLIT_STRICT	0x01
 
 typedef enum ac_geo_ellipsoid_t {

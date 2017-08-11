@@ -518,7 +518,7 @@ static void str_test(void)
 		printf("ac_str_split (str3): %s\n", *pp);
 	ac_str_freev(fields);
 
-	fields = ac_str_split(str4, ',', 0);
+	fields = ac_str_split(str4, ',', AC_STR_SPLIT_ALWAYS);
 	for (pp = fields; *pp != NULL; pp++)
 		printf("ac_str_split (str4): %s\n", *pp);
 	ac_str_freev(fields);
