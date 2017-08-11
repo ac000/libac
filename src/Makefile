@@ -1,3 +1,5 @@
+VERSION	:= $(subst v,,$(shell git describe --abbrev=0))
+
 CC	= gcc
 CFLAGS  = -Wall -Wextra -std=c99 -g -O2 -fvisibility=hidden -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
 LDFLAGS	= -shared -Wl,-z,now
@@ -40,7 +42,7 @@ objects = 	ac_btree.o \
 
 libac: $(objects)
 	@echo -e "  LNK\t$@"
-	@$(CC) $(LDFLAGS),-soname,libac.so.0 -o libac.so.0.20.0 $(objects) $(LIBS)
+	@$(CC) $(LDFLAGS),-soname,libac.so.0 -o libac.so.${VERSION} $(objects) $(LIBS)
 
 ac_btree.o: ac_btree.c
 	@echo -e "  CC\t$@"
