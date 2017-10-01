@@ -14,7 +14,7 @@
 
 #include "include/libac.h"
 
-static void null_free_node(void *data __attribute__ ((unused)))
+static void null_free_node(void *data __always_unused)
 {
 }
 
