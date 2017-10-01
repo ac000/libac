@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.20.1
+Version:	0.21.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Sun Oct 1 2017 Andrew Clayton <andrew@digital-domain.net> - 0.21.0-1
+- Allow the circular queue to dynamically grow in size
 
 * Fri Aug 11 2017 Andrew Clayton <andrew@digital-domain.net> - 0.20.1-1
 - Brown paper bag release fixing rpm building.
