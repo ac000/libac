@@ -18,6 +18,7 @@ static void null_free_item(void *data __always_unused)
 {
 }
 
+#define AC_CQUEUE_ALLOC_CHUNK_SZ	16
 /**
  * ac_cqueue_new - create a new circular queue
  *
@@ -32,11 +33,18 @@ ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item))
 {
 	ac_cqueue_t *cqueue = malloc(sizeof(struct ac_cqueue_t));
 
-	cqueue->queue = malloc(size * sizeof(void *));
+	if (!size) {
+		cqueue->size = AC_CQUEUE_ALLOC_CHUNK_SZ;
+		cqueue->dyn_size = true;
+	} else {
+		cqueue->size = size;
+		cqueue->dyn_size = false;
+	}
+
+	cqueue->queue = malloc(cqueue->size * sizeof(void *));
 	cqueue->front = 0;
 	cqueue->rear = 0;
 	cqueue->count = 0;
-	cqueue->size = size;
 
 	if (!free_item)
 		cqueue->free_item = null_free_item;
@@ -58,8 +66,22 @@ ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item))
  */
 int ac_cqueue_push(ac_cqueue_t *cqueue, void *item)
 {
-	if (cqueue->count == cqueue->size)
+	if (cqueue->count == cqueue->size && !cqueue->dyn_size)
 		return -1;
+
+	if (cqueue->count == cqueue->size) {
+		void *p = cqueue->queue;
+
+		cqueue->queue = realloc(cqueue->queue, (cqueue->size +
+					AC_CQUEUE_ALLOC_CHUNK_SZ) *
+					sizeof(void *));
+		if (!cqueue->queue) {
+			cqueue->queue = p;
+			return -1;
+		}
+
+		cqueue->size += AC_CQUEUE_ALLOC_CHUNK_SZ;
+	}
 
 	if (cqueue->rear == cqueue->size)
 		cqueue->rear = 0;

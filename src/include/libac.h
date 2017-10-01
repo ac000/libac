@@ -86,6 +86,7 @@ typedef struct ac_cqueue_t {
 	size_t rear;
 	size_t count;
 	size_t size;
+	bool dyn_size;
 
 	void (*free_item)(void *item);
 } ac_cqueue_t;

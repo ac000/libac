@@ -117,6 +117,7 @@ static void cqueue_test(void)
 {
 	ac_cqueue_t *queue = ac_cqueue_new(3, free_queue_item);
 	struct queue_data *qd;
+	int i;
 
 	printf("*** %s\n", __func__);
 
@@ -164,6 +165,18 @@ static void cqueue_test(void)
 
 	printf("The queue is %sempty\n", ac_cqueue_is_empty(queue) ? "" :
 			"not ");
+	printf("Destroying queue\n");
+	ac_cqueue_destroy(queue);
+
+	printf("Creating new dynamically sized queue\n");
+	queue = ac_cqueue_new(0, NULL);
+	printf("Adding 33 numbers to the queue, 1..33\n");
+	for (i = 1; i < 34; i++)
+		ac_cqueue_push(queue, (void *)(long)i);
+	printf("Reading back numbers: ");
+	for (i = 1; i < 34; i++)
+		printf("%d ", (int)(long)ac_cqueue_pop(queue));
+	printf("\n");
 	printf("Destroying queue\n");
 	ac_cqueue_destroy(queue);
 
