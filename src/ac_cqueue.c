@@ -116,7 +116,7 @@ void *ac_cqueue_pop(ac_cqueue_t *cqueue)
 /**
  * ac_cqueue_foreach - iterate over elements in a queue
  *
- * @cqeuue: The queue to iterate over
+ * @cqueue: The queue to iterate over
  * @action: The function to call on each element
  * @user_data: Optional user data to pass to action. Can be NULL
  */
