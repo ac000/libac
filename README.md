@@ -86,6 +86,8 @@ Glibc.
 
 These are aliases for \_\_attribute\_\_((unused))
 
+    #define AC_CQUEUE_OVERWRITE
+
     #define AC_FS_COPY_OVERWRITE
 
     #define AC_STR_SPLIT_ALWAYS

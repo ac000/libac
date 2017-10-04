@@ -11,6 +11,8 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
+#include <errno.h>
 
 #include "include/libac.h"
 
@@ -27,11 +29,21 @@ static void null_free_item(void *data __always_unused)
  *
  * Returns:
  *
- * A pointer to the newly created circular queue
+ * A pointer to the newly created circular queue or NULL if an unknown flag
+ * was specified and sets errno
  */
-ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item))
+ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item),
+			   int flags)
 {
-	ac_cqueue_t *cqueue = malloc(sizeof(struct ac_cqueue_t));
+	ac_cqueue_t *cqueue;
+
+	/* Check for unknown flags */
+	if (flags & ~(AC_CQUEUE_OVERWRITE)) {
+		errno = EINVAL;
+		return NULL;
+	}
+
+	cqueue = malloc(sizeof(struct ac_cqueue_t));
 
 	if (!size) {
 		cqueue->size = AC_CQUEUE_ALLOC_CHUNK_SZ;
@@ -45,6 +57,9 @@ ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item))
 	cqueue->front = 0;
 	cqueue->rear = 0;
 	cqueue->count = 0;
+	cqueue->overwrite = flags & AC_CQUEUE_OVERWRITE ? true : false;
+	if (cqueue->overwrite)
+		memset(cqueue->queue, 0, cqueue->size * sizeof(void *));
 
 	if (!free_item)
 		cqueue->free_item = null_free_item;
@@ -66,10 +81,12 @@ ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item))
  */
 int ac_cqueue_push(ac_cqueue_t *cqueue, void *item)
 {
-	if (cqueue->count == cqueue->size && !cqueue->dyn_size)
+	if (cqueue->count == cqueue->size &&
+	    !cqueue->dyn_size &&
+	    !cqueue->overwrite)
 		return -1;
 
-	if (cqueue->count == cqueue->size) {
+	if (cqueue->count == cqueue->size && cqueue->dyn_size) {
 		void *p = cqueue->queue;
 
 		cqueue->queue = realloc(cqueue->queue, (cqueue->size +
@@ -86,9 +103,23 @@ int ac_cqueue_push(ac_cqueue_t *cqueue, void *item)
 	if (cqueue->rear == cqueue->size)
 		cqueue->rear = 0;
 
+	if (cqueue->overwrite && cqueue->queue[cqueue->rear] != NULL)
+		cqueue->free_item(cqueue->queue[cqueue->rear]);
+
 	cqueue->queue[cqueue->rear] = item;
 	cqueue->rear++;
-	cqueue->count++;
+	if (cqueue->count < cqueue->size)
+		cqueue->count++;
+
+	/*
+	 * Handle wrap around in overwrite mode, making sure front gets
+	 * moved to the oldest entry.
+	 */
+	if (cqueue->overwrite && cqueue->front < cqueue->rear) {
+		cqueue->front = cqueue->rear;
+		if (cqueue->front == cqueue->size)
+			cqueue->front = 0;
+	}
 
 	return 0;
 }
@@ -104,13 +135,21 @@ int ac_cqueue_push(ac_cqueue_t *cqueue, void *item)
  */
 void *ac_cqueue_pop(ac_cqueue_t *cqueue)
 {
+	void *ptr;
+
 	if (cqueue->count == 0)
 		return NULL;
 	else if (cqueue->front == cqueue->size)
 		cqueue->front = 0;
 	cqueue->count--;
 
-	return cqueue->queue[cqueue->front++];
+	ptr = cqueue->queue[cqueue->front];
+	if (cqueue->overwrite)
+		/* We don't want this being free'd behind our back */
+		cqueue->queue[cqueue->front] = NULL;
+	cqueue->front++;
+
+	return ptr;
 }
 
 /**

@@ -40,6 +40,8 @@ typedef int8_t    s8;
 
 typedef struct crypt_data ac_crypt_data_t;
 
+#define AC_CQUEUE_OVERWRITE	0x01
+
 #define AC_FS_COPY_OVERWRITE	0x01
 
 #define AC_STR_SPLIT_ALWAYS	0x00
@@ -87,6 +89,7 @@ typedef struct ac_cqueue_t {
 	size_t count;
 	size_t size;
 	bool dyn_size;
+	bool overwrite;
 
 	void (*free_item)(void *item);
 } ac_cqueue_t;
@@ -141,7 +144,8 @@ void *ac_btree_add(ac_btree_t *tree, const void *key);
 void *ac_btree_remove(ac_btree_t *tree, const void *key);
 void ac_btree_destroy(ac_btree_t *tree);
 
-ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item));
+ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item),
+			   int flags);
 int ac_cqueue_push(ac_cqueue_t *cqueue, void *item);
 void *ac_cqueue_pop(ac_cqueue_t *cqueue);
 void ac_cqueue_foreach(const ac_cqueue_t *cqueue,
