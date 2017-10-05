@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.22.0
+Version:	0.22.1
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Thu Oct 5 2017 Andrew Clayton <andrew@digital-domain.net> - 0.22.1-1
+- Include inttypes.h in libac.h
 
 * Wed Oct 4 2017 Andrew Clayton <andrew@digital-domain.net> - 0.22.0-1
 - Allow the circular queue to overwrite when full
