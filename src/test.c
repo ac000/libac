@@ -11,7 +11,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <inttypes.h>
 #include <string.h>
 #include <search.h>
 #include <netdb.h>

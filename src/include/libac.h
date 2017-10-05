@@ -10,7 +10,7 @@
 #ifndef _LIBAC_H_
 #define _LIBAC_H_
 
-#include <stdint.h>
+#include <inttypes.h>
 #include <stdbool.h>
 #include <search.h>
 #include <netdb.h>
