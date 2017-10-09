@@ -22,7 +22,7 @@
  *
  * Returns:
  *
- * The time difference as a double
+ * The time difference in seconds as a double
  */
 double ac_time_tspec_diff(struct timespec *delta, const struct timespec *end,
 			  const struct timespec *start)
