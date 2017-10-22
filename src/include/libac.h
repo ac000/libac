@@ -40,6 +40,9 @@ typedef int8_t    s8;
 
 typedef struct crypt_data ac_crypt_data_t;
 
+#define AC_BYTE_NIBBLE_HIGH(byte) (((byte) >> 4) & 0x0f)
+#define AC_BYTE_NIBBLE_LOW(byte)  ((byte) & 0x0f)
+
 #define AC_CQUEUE_OVERWRITE	0x01
 
 #define AC_FS_COPY_OVERWRITE	0x01

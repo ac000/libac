@@ -78,6 +78,11 @@ Glibc.
     AC_SI_UNITS_NO
     AC_SI_UNITS_YES
 
+### Macros
+
+    AC_BYTE_NIBBLE_HIGH(byte)
+    AC_BYTE_NIBBLE_LOW(byte)
+
 ### misc
 
     #define __unused
