@@ -91,6 +91,40 @@ static void btree_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
+static void byte_test(void)
+{
+	u8 byte = 0;
+
+	printf("*** %s\n", __func__);
+
+	printf("Bit 5 of byte is %sset\n", AC_BYTE_BIT_TST(byte, 4) ? "" :
+			"not ");
+	printf("Setting bit 5 of byte\n");
+	AC_BYTE_BIT_SET(byte, 4);
+	printf("Bit 5 of byte is %sset\n", AC_BYTE_BIT_TST(byte, 4) ? "" :
+			"not ");
+	printf("Flipping bit 5 of byte\n");
+	AC_BYTE_BIT_FLP(byte, 4);
+	printf("Bit 5 of byte is %sset\n", AC_BYTE_BIT_TST(byte, 4) ? "" :
+			"not ");
+	printf("Flipping bit 5 of byte\n");
+	AC_BYTE_BIT_FLP(byte, 4);
+	printf("Bit 5 of byte is %sset\n", AC_BYTE_BIT_TST(byte, 4) ? "" :
+			"not ");
+	printf("Clearing bit 5 of byte\n");
+	AC_BYTE_BIT_CLR(byte, 4);
+	printf("Bit 5 of byte is %sset\n", AC_BYTE_BIT_TST(byte, 4) ? "" :
+			"not ");
+
+	byte = 0x24;
+	printf("Lower nibble of byte(0x24) : %hhu\n",
+			AC_BYTE_NIBBLE_LOW(byte));
+	printf("Upper nibble of byte(0x24) : %hhu\n",
+                        AC_BYTE_NIBBLE_HIGH(byte));
+
+	printf("*** %s\n\n", __func__);
+}
+
 struct queue_data {
 	char *name;
 	int item;
@@ -625,6 +659,7 @@ int main(void)
 			LIBAC_MICRO_VERSION);
 
 	btree_test();
+	byte_test();
 	cqueue_test();
 	fs_test();
 	geo_test();

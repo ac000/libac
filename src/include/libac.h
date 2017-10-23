@@ -40,6 +40,11 @@ typedef int8_t    s8;
 
 typedef struct crypt_data ac_crypt_data_t;
 
+#define AC_BYTE_BIT_SET(byte, bit)	((byte) |= (1 << (bit)))
+#define AC_BYTE_BIT_CLR(byte, bit)	((byte) &= ~(1 << (bit)))
+#define AC_BYTE_BIT_FLP(byte, bit)	((byte) ^= (1 << (bit)))
+#define AC_BYTE_BIT_TST(byte, bit)	((byte) & (1 << (bit)))
+
 #define AC_BYTE_NIBBLE_HIGH(byte) (((byte) >> 4) & 0x0f)
 #define AC_BYTE_NIBBLE_LOW(byte)  ((byte) & 0x0f)
 

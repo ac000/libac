@@ -80,6 +80,10 @@ Glibc.
 
 ### Macros
 
+    AC_BYTE_BIT_SET(byte, bit)
+    AC_BYTE_BIT_CLR(byte, bit)
+    AC_BYTE_BIT_FLP(byte, bit)
+    AC_BYTE_BIT_TST(byte, bit)
     AC_BYTE_NIBBLE_HIGH(byte)
     AC_BYTE_NIBBLE_LOW(byte)
 
