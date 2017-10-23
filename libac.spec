@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.23.0
+Version:	0.24.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Mon Oct 23 2017 Andrew Clayton <andrew@digital-domain.net> - 0.24.0-1
+- Addition of some bit manipulation macros
 
 * Mon Oct 23 2017 Andrew Clayton <andrew@digital-domain.net> - 0.23.0-1
 - Makefile improvements
