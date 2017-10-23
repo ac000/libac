@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.22.1
+Version:	0.23.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Mon Oct 23 2017 Andrew Clayton <andrew@digital-domain.net> - 0.23.0-1
+- Makefile improvements
+- Addition of a couple of byte related macros
 
 * Thu Oct 5 2017 Andrew Clayton <andrew@digital-domain.net> - 0.22.1-1
 - Include inttypes.h in libac.h
