@@ -93,6 +93,17 @@ void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb)
 	ppp_set_prefix(si, ppb);
 }
 
+/**
+ * ac_misc_passcrypt - wrapper around crypt_r(3)
+ *
+ * @pass: The password to crypt
+ * @hash_type: The type of hash to pass to crypt_r(3)
+ * @data: Used to store the crypted password, should not be free'd
+ *
+ * Returns:
+ *
+ * A poniter to the crypted password contained in @data
+ */
 char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 			ac_crypt_data_t *data)
 {
