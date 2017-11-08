@@ -403,6 +403,11 @@ RPM or similar.
 See *src/test.c* for examples on using the above.
 
 
+## Thread safety
+
+libac is intended to be thread-safe.
+
+
 ## License
 
 This library is licensed under the GNU Lesser General Public License (LGPL)
