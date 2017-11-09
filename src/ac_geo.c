@@ -240,7 +240,7 @@ void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
  * ac_geo_bng_to_lat_lon - convert British National Grid Eastings & Northings
  * 			   to latitude & longitude decimal degrees
  *
- * @geo - Contains the Eastings & Northings (in meters) and an optional
+ * @geo:  Contains the Eastings & Northings (in meters) and an optional
  * 	  altitude to be converted. It should also specify the target
  * 	  ellipsoid to map the converted co-ordinates onto.
  *
@@ -344,7 +344,7 @@ void ac_geo_bng_to_lat_lon(ac_geo_t *geo)
  * ac_geo_lat_lon_to_bng - convert latitude & longitude decimal degrees to
  *			   British National Grid Eastings & Northings
  *
- * @geo - Contains the latitude & longitude and an optional altitude to be
+ * @geo:  Contains the latitude & longitude and an optional altitude to be
  *	  converted. It should also specify the ellipsoid of the source
  *	  co-ordinates.
  *
