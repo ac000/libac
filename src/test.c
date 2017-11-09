@@ -556,7 +556,7 @@ static void slist_test(void)
 	printf("Reverse\n");
 	ac_slist_reverse(&mylist);
 	ac_slist_foreach(mylist, slist_print, NULL);
-	printf("Remove (72)\n");
+	printf("Remove (52)\n");
 	ac_slist_remove(&mylist, ld, free);
 	ac_slist_foreach(mylist, slist_print, NULL);
 	printf("Reverse\n");
