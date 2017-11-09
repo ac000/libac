@@ -318,7 +318,7 @@ functions.
 
 #### ac\_slist\_find - find an item in the list
 
-    ac_slist_t *ac_slist_find(ac_slist_t *list, void *data)
+    ac_slist_t *ac_slist_find(ac_slist_t *list, const void *data)
 
 #### ac\_slist\_find\_custom - find an item in the list with the given data
 

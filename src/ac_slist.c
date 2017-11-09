@@ -195,7 +195,7 @@ void ac_slist_reverse(ac_slist_t **list)
  *
  * The list entry if found, NULL otherwise
  */
-ac_slist_t *ac_slist_find(ac_slist_t *list, void *data)
+ac_slist_t *ac_slist_find(ac_slist_t *list, const void *data)
 {
 	while (list) {
 		if (list->data == data)
