@@ -472,8 +472,8 @@ static void slist_print(void *data, void *user_data __always_unused)
 
 static int slist_cmp(const void *p1, const void *p2)
 {
-	const struct list_data *d1 = *(const struct list_data **)p1;
-	const struct list_data *d2 = *(const struct list_data **)p2;
+	const struct list_data *d1 = (const struct list_data *)p1;
+	const struct list_data *d2 = (const struct list_data *)p2;
 
 	if (d1->val < d2->val)
 		return -1;
@@ -481,6 +481,11 @@ static int slist_cmp(const void *p1, const void *p2)
 		return 1;
 	else
 		return 0;
+}
+
+static int slist_qcmp(const void *p1, const void *p2)
+{
+	return slist_cmp(*(const void **)p1, *(const void **)p2);
 }
 
 static ac_slist_t *sort_list(ac_slist_t *list)
@@ -497,7 +502,7 @@ static ac_slist_t *sort_list(ac_slist_t *list)
 		list = list->next;
 	}
 
-	qsort(array, i, sizeof(struct list_data *), slist_cmp);
+	qsort(array, i, sizeof(struct list_data *), slist_qcmp);
 
 	for (j = 0; j < i; j++) {
 		struct list_data *ld = array[j];
@@ -568,6 +573,15 @@ static void slist_test(void)
 	ld = ac_slist_nth_data(mylist, 3);
 	if (!ld)
 		printf("3 -> Not Found\n");
+	printf("Find element data with value 42. ");
+	ld = malloc(sizeof(struct list_data));
+	ld->val = 42;
+	p = ac_slist_find_custom(mylist, ld, slist_cmp);
+	if (p)
+		printf("Found.\n");
+	else
+		printf("Not Found.\n");
+	free(ld);
 	printf("Remove 2nd element\n");
 	ac_slist_remove_nth(&mylist, 1, free);
 	ac_slist_foreach(mylist, slist_print, NULL);

@@ -206,6 +206,8 @@ bool ac_slist_remove_nth(ac_slist_t **list, int n, void (*free_data)
 							(void *data));
 void ac_slist_reverse(ac_slist_t **list);
 ac_slist_t *ac_slist_find(ac_slist_t *list, void *data);
+ac_slist_t *ac_slist_find_custom(ac_slist_t *list, const void *data,
+				 int (*compar)(const void *a, const void *b));
 void *ac_slist_nth_data(ac_slist_t *list, int n);
 void ac_slist_foreach(ac_slist_t *list, void (*action)(void *item, void *data),
 		      void *user_data);

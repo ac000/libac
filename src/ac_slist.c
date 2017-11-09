@@ -207,6 +207,32 @@ ac_slist_t *ac_slist_find(ac_slist_t *list, void *data)
 }
 
 /**
+ * ac_slist_find_custom - find an item in the list with the given data
+ *
+ * @list: The list to look for the item in
+ * @data: The data to find
+ * @compar: A comparison function (should return 0 when item found)
+ *
+ * Returns:
+ *
+ * The list entry if found, NULL otherwise
+ */
+ac_slist_t *ac_slist_find_custom(ac_slist_t *list, const void *data,
+				 int (*compar)(const void *a, const void *b))
+{
+	bool again;
+
+	while (list) {
+		again = compar(list->data, data);
+		if (!again)
+			return list;
+		list = list->next;
+	}
+
+	return NULL;
+}
+
+/**
  * ac_slist_nth_data - retrieve the item's data at position n
  *
  * @list: The list to look for the item in

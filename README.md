@@ -320,6 +320,12 @@ functions.
 
     ac_slist_t *ac_slist_find(ac_slist_t *list, void *data)
 
+#### ac\_slist\_find\_custom - find an item in the list with the given data
+
+    ac_slist_t *ac_slist_find_custom(ac_slist_t *list, const void *data,
+                                     int (*compar)(const void *a,
+                                                   const void *b))
+
 #### ac\_slist\_nth\_data - retrieve the item's data at position n
 
     void *ac_slist_nth_data(ac_slist_t *list, int n)
