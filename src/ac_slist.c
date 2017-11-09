@@ -24,7 +24,7 @@ static ac_slist_t *slist_last(ac_slist_t *list)
 /**
  * ac_slist_len - return the number of entries in the list
  *
- * @list - The list to operate on
+ * @list: The list to operate on
  *
  * Returns:
  *
@@ -241,7 +241,7 @@ void ac_slist_foreach(ac_slist_t *list, void (*action)(void *item, void *data),
 /**
  * ac_slist_destroy - destroy a list, optionally freeing all its items memory
  *
- * @list@ The list to destroy
+ * @list: The list to destroy
  * @free_data: Function to free an items memory, can be NULL
  */
 void ac_slist_destroy(ac_slist_t **list, void (*free_data)(void *data))
