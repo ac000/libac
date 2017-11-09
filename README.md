@@ -286,6 +286,10 @@ functions.
 
 ### Singly linked list functions
 
+#### ac\_slist\_last - find the last item in the list
+
+    ac_slist_t *ac_slist_last(ac_slist_t *list)
+
 #### ac\_slist\_len - return the number of entries in the list
 
     long ac_slist_len(ac_slist_t *list)

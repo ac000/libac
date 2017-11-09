@@ -14,13 +14,23 @@
 
 #include "include/libac.h"
 
-static ac_slist_t *slist_last(ac_slist_t *list)
+/**
+ * ac_slist_last - Find the last item in the list
+ *
+ * @list: The list to operate on
+ *
+ * Returns:
+ *
+ * A pointer to the last item in the list
+ */
+ac_slist_t *ac_slist_last(ac_slist_t *list)
 {
 	while (list->next)
 		list = list->next;
 
 	return list;
 }
+
 /**
  * ac_slist_len - return the number of entries in the list
  *
@@ -56,7 +66,7 @@ void ac_slist_add(ac_slist_t **list, void *data)
 	new->next = NULL;
 
 	if (*list) {
-		ac_slist_t *last = slist_last(*list);
+		ac_slist_t *last = ac_slist_last(*list);
 
 		last->next = new;
 	} else {
