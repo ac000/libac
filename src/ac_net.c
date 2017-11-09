@@ -22,7 +22,7 @@
 /**
  * ac_net_port_from_sa - extract the port number from a struct sockaddr
  *
- * @sa - The sockaddr structure to get the port number from
+ * @sa: The sockaddr structure to get the port number from
  *
  * Note: This is the same as the following open coded
  *
@@ -173,7 +173,7 @@ int ac_net_ns_lookup_by_ip(const struct addrinfo *hints, const char *node,
  * @cidr: The netmask
  * @addr: The IPv4 address
  *
- * Returns
+ * Returns:
  *
  * true for a match, false otherwise
  */
@@ -199,7 +199,7 @@ bool ac_net_ipv4_isin(const char *network, u8 cidr, const char *addr)
  * @prefixlen: The prefixlen
  * @addr: The IPv6 address
  *
- * Returns
+ * Returns:
  *
  * true for a match, false otherwise
  */
