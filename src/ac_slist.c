@@ -166,6 +166,44 @@ bool ac_slist_remove_nth(ac_slist_t **list, int n, void (*free_data)
 }
 
 /**
+ * ac_slist_remove_custom - remove an item from the list with the given data
+ *
+ * @list: The list to remove the item from
+ * @data: The data to be removed
+ * @compar: A comparison function (should return 0 when item found)
+ * @free_data: An optional pointer to a function to call to free the item data
+ *
+ * Returns:
+ *
+ * true if the item was found and removed, false otherwise
+ */
+bool ac_slist_remove_custom(ac_slist_t **list, void *data,
+			    int (*compar)(const void *a, const void *b),
+			    void (*free_data)(void *data))
+{
+	ac_slist_t **pp = list;
+	ac_slist_t *p;
+	bool again;
+	bool ret = false;
+
+	while ((p = *pp) != NULL) {
+		again = compar(p->data, data);
+		if (!again) {
+			*pp = p->next;
+
+			if (free_data)
+				free_data(p->data);
+			free(p);
+			ret = true;
+			break;
+		}
+		pp = &p->next;
+	}
+
+	return ret;
+}
+
+/**
  * ac_slist_reverse - reverse a list
  *
  * @list: The list to reverse

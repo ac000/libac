@@ -204,6 +204,9 @@ bool ac_slist_remove(ac_slist_t **list, void *data, void (*free_data)
 							 (void *data));
 bool ac_slist_remove_nth(ac_slist_t **list, int n, void (*free_data)
 							(void *data));
+bool ac_slist_remove_custom(ac_slist_t **list, void *data,
+			    int (*compar)(const void *a, const void *b),
+			    void (*free_data)(void *data));
 void ac_slist_reverse(ac_slist_t **list);
 ac_slist_t *ac_slist_find(ac_slist_t *list, const void *data);
 ac_slist_t *ac_slist_find_custom(ac_slist_t *list, const void *data,

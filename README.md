@@ -312,6 +312,12 @@ functions.
     bool ac_slist_remove_nth(ac_slist_t **list, int n, void (*free_data)
                                                             (void *data))
 
+#### ac\_slist\_remove\_custom - remove an item from the list with the given data
+
+    bool ac_slist_remove_custom(ac_slist_t **list, void *data,
+                                int (*compar)(const void *a, const void *b),
+                                void (*free_data)(void *data))
+
 #### ac\_slist\_reverse - reverse a list
 
     void ac_slist_reverse(ac_slist_t **list)

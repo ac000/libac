@@ -535,6 +535,10 @@ static void slist_test(void)
 	ac_slist_preadd(&mylist, ld);
 
 	ld = malloc(sizeof(struct list_data));
+	ld->val = 32;
+	ac_slist_preadd(&mylist, ld);
+
+	ld = malloc(sizeof(struct list_data));
 	ld->val = 72;
 	ac_slist_preadd(&mylist, ld);
 
@@ -584,6 +588,11 @@ static void slist_test(void)
 	free(ld);
 	printf("Remove 2nd element\n");
 	ac_slist_remove_nth(&mylist, 1, free);
+	printf("Remove element with value of 62\n");
+	ld = malloc(sizeof(struct list_data));
+	ld->val = 62;
+	ac_slist_remove_custom(&mylist, ld, slist_cmp, free);
+	free(ld);
 	ac_slist_foreach(mylist, slist_print, NULL);
 	printf("ac_slist_foreach() - set vals to -1\n");
 	ac_slist_foreach(mylist, slist_setval, NULL);
