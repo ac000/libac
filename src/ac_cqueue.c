@@ -57,7 +57,7 @@ ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item),
 	cqueue->front = 0;
 	cqueue->rear = 0;
 	cqueue->count = 0;
-	cqueue->overwrite = flags & AC_CQUEUE_OVERWRITE ? true : false;
+	cqueue->overwrite = (flags & AC_CQUEUE_OVERWRITE) ? true : false;
 	if (cqueue->overwrite)
 		memset(cqueue->queue, 0, cqueue->size * sizeof(void *));
 
