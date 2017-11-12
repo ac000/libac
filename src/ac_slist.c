@@ -183,11 +183,11 @@ bool ac_slist_remove_custom(ac_slist_t **list, void *data,
 {
 	ac_slist_t **pp = list;
 	ac_slist_t *p;
-	bool again;
 	bool ret = false;
 
 	while ((p = *pp) != NULL) {
-		again = compar(p->data, data);
+		bool again = compar(p->data, data);
+
 		if (!again) {
 			*pp = p->next;
 
@@ -258,10 +258,9 @@ ac_slist_t *ac_slist_find(ac_slist_t *list, const void *data)
 ac_slist_t *ac_slist_find_custom(ac_slist_t *list, const void *data,
 				 int (*compar)(const void *a, const void *b))
 {
-	bool again;
-
 	while (list) {
-		again = compar(list->data, data);
+		bool again = compar(list->data, data);
+
 		if (!again)
 			return list;
 		list = list->next;
