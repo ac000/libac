@@ -12,6 +12,7 @@
   * [Circular Queue functions](#circular-queue-functions)
   * [Filesystem related functions](#filesystem-related-functions)
   * [Geospatial related functions](#geospatial-related-functions)
+  * [Hash Table functions](#hash-table-functions)
   * [Miscellaneous functions](#miscellaneous-functions)
   * [Network related functions](#network-related-functions)
   * [Quark (string to integer mapping) functions](#quark-functions)
@@ -86,6 +87,9 @@ Glibc.
     AC_BYTE_BIT_TST(byte, bit)
     AC_BYTE_NIBBLE_HIGH(byte)
     AC_BYTE_NIBBLE_LOW(byte)
+
+    AC_LONG_TO_PTR(x)
+    AC_PTR_TO_LONG(p)
 
 ### misc
 
@@ -214,6 +218,38 @@ functions.
     void ac_geo_lat_lon_to_bng(ac_geo_t *geo)
 
 
+### Hash Table functions
+
+#### ac\_htable\_new - create a new hash table
+
+    ac_htable_t *ac_htable_new(u32 (*hash_func)(const void *key),
+                               int (*key_cmp)(const void *a, const void *b),
+                               void (*free_key_func)(void *key),
+                               void (*free_data_func)(void *data))
+
+#### ac\_htable\_insert - inserts a new entry into a hash table
+
+    void ac_htable_insert(ac_htable_t *htable, void *key, void *data)
+
+#### ac\_htable\_remove - remove an entry from a hash table
+
+    bool ac_htable_remove(ac_htable_t *htable, void *key)
+
+#### ac\_htable\_lookup - lookup an entry in a hash table
+
+    void *ac_htable_lookup(const ac_htable_t *htable, const void *key)
+
+#### ac\_htable\_foreach - iterate over each entry in a hash table
+
+    void ac_htable_foreach(ac_htable_t *htable,
+                           void (*action)(void *key, void *value,
+                                          void *user_data), void *user_data)
+
+#### ac\_htable\_destroy - destroy the given hash table
+
+    void ac_htable_destroy(ac_htable_t *htable)
+
+
 ### Miscellaneous functions
 
 #### ac\_misc\_ppb - pretty print bytes
@@ -224,6 +260,30 @@ functions.
 
     char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
                             ac_crypt_data_t *data)
+
+#### ac\_hash\_func\_str - create a hash value for a given string
+
+    u32 ac_hash_func_str(const void *key)
+
+#### ac\_hash\_func\_u32 - create a hash value for a given u32
+
+    u32 ac_hash_func_u32(const void *key)
+
+#### ac\_hash\_func\_ptr - create a hash for a given pointer
+
+    u32 ac_hash_func_ptr(const void *key)
+
+#### ac\_cmp\_ptr - compare two pointers
+
+    int ac_cmp_ptr(const void *a, const void *b}
+
+#### ac\_cmp\_str - compare two strings
+
+    int ac_cmp_str(const void *a, const void *b)
+
+#### ac\_cmp\_u32 - compare two u32's
+
+    int ac_cmp_u32(const void *a, const void *b)
 
 
 ### Network related functions

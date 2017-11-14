@@ -140,3 +140,127 @@ char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 
 	return crypt_r(pass, salt, data);
 }
+
+#define GOLDEN_MUL	0x61C88647	/* From the Linux kernel */
+/**
+ * ac_hash_func_str - create a hash value for a given string
+ *
+ * @key: The string/key to hash
+ *
+ * This is the Jenkins One At A Time Hash function
+ *
+ * This function is suitable for use in ac_htable_new()
+ *
+ * Returns:
+ *
+ * A u32 hash value
+ */
+u32 ac_hash_func_str(const void *key)
+{
+	size_t i = 0;
+	u32 hash = 0;
+	const char *k = key;
+	size_t len = strlen(k);
+
+	while (i != len) {
+		hash += k[i++];
+		hash += hash << 10;
+		hash ^= hash >> 6;
+	}
+	hash += hash << 3;
+	hash ^= hash >> 11;
+	hash += hash << 15;
+
+	return hash;
+}
+
+/**
+ * ac_hash_func_u32 - create a hash value for a given u32
+ *
+ * @key: The u32/key to hash
+ *
+ * This function is suitable for use in ac_htable_new()
+ *
+ * Returns:
+ *
+ * A u32 hash value
+ */
+u32 ac_hash_func_u32(const void *key)
+{
+	const u32 k = *(const u32 *)key;
+
+	return k * GOLDEN_MUL;
+}
+
+/**
+ * ac_hash_func_ptr - create a hash for a given pointer
+ *
+ * @key: The pointer/key to hash
+ *
+ * This function is suitable for use in ac_htable_new()
+ *
+ * Returns:
+ *
+ * A u32 hash value
+ */
+u32 ac_hash_func_ptr(const void *key)
+{
+	return (const long)key * GOLDEN_MUL;
+}
+
+/**
+ * ac_cmp_ptr - compare two pointers
+ *
+ * @a: The first pointer to compare
+ * @b: The second pointer to compare
+ *
+ * This function is suitable for use in ac_htable_new()
+ *
+ * Returns:
+ *
+ * An int, 0 if the pointers match, non-zero if they don't
+ */
+int ac_cmp_ptr(const void *a, const void *b)
+{
+	return !(a == b);
+}
+
+/**
+ * ac_cmp_str - compare two strings
+ *
+ * @a: The first string to compare
+ * @b: The second string to compare
+ *
+ * This function is suitable for use in ac_htable_new()
+ *
+ * Returns:
+ *
+ * An int, 0 if the strings match, non-zero if they don't
+ */
+int ac_cmp_str(const void *a, const void *b)
+{
+	const char *s1 = a;
+	const char *s2 = b;
+
+	return strcmp(s1, s2);
+}
+
+/**
+ * ac_cmp_u32 - compare two u32's
+ *
+ * @a: The first u32 to compare
+ * @b: The second u32 to compare
+ *
+ * This function is suitable for use in ac_htable_new()
+ *
+ * Returns:
+ *
+ * An int, 0 if the u32's match, non-zero if they don't
+ */
+int ac_cmp_u32(const void *a, const void *b)
+{
+	const u32 v1 = *(const u32 *)a;
+	const u32 v2 = *(const u32 *)b;
+
+	return !(v1 == v2);
+}

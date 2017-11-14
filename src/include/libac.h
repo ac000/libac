@@ -55,6 +55,9 @@ typedef struct crypt_data ac_crypt_data_t;
 #define AC_STR_SPLIT_ALWAYS	0x00
 #define AC_STR_SPLIT_STRICT	0x01
 
+#define AC_LONG_TO_PTR(x)	((void *)(long)x)
+#define AC_PTR_TO_LONG(p)	((long)p)
+
 typedef enum ac_geo_ellipsoid_t {
 	AC_GEO_EREF_WGS84 = 0,
 	AC_GEO_EREF_GRS80,
@@ -118,6 +121,16 @@ typedef struct ac_geo_dms_t {
 	double seconds;
 } ac_geo_dms_t;
 
+typedef struct ac_htable_t {
+	struct ac_slist_t **buckets;
+	unsigned long count;
+
+	u32 (*hash_func)(const void *key);
+	int (*key_cmp)(const void *a, const void *b);
+	void (*free_key_func)(void *ptr);
+	void (*free_data_func)(void *ptr);
+} ac_htable_t;
+
 typedef struct ac_misc_ppb_t {
 	ac_misc_ppb_factor_t factor;
 	const char *prefix;
@@ -175,9 +188,27 @@ void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
 void ac_geo_bng_to_lat_lon(ac_geo_t *geo);
 void ac_geo_lat_lon_to_bng(ac_geo_t *geo);
 
+ac_htable_t *ac_htable_new(u32 (*hash_func)(const void *key),
+			   int (*key_cmp)(const void *a, const void *b),
+			   void (*free_key_func)(void *key),
+			   void (*free_data_func)(void *data));
+void ac_htable_insert(ac_htable_t *htable, void *key, void *data);
+bool ac_htable_remove(ac_htable_t *htable, void *key);
+void *ac_htable_lookup(const ac_htable_t *htable, const void *key);
+void ac_htable_foreach(ac_htable_t *htable,
+		       void (*action)(void *key, void *value, void *user_data),
+		       void *user_data);
+void ac_htable_destroy(ac_htable_t *htable);
+
 void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
 char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 			ac_crypt_data_t *data);
+u32 ac_hash_func_ptr(const void *key);
+u32 ac_hash_func_str(const void *key);
+u32 ac_hash_func_u32(const void *key);
+int ac_cmp_ptr(const void *a, const void *b);
+int ac_cmp_str(const void *a, const void *b);
+int ac_cmp_u32(const void *a, const void *b);
 
 u16 ac_net_port_from_sa(const struct sockaddr *sa);
 int ac_net_inet_pton(const char *src, void *dst);

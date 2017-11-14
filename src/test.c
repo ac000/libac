@@ -324,6 +324,63 @@ static void geo_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
+static void htable_print_entry(void *key, void *data,
+			       void *user_data __always_unused)
+{
+	printf("%s -> %s\n", (char *)key, (char *)data);
+}
+
+static void htable_test(void)
+{
+	ac_htable_t *htable;
+	char *data;
+
+	printf("*** %s\n", __func__);
+
+	printf("New hash table with static string keys/data\n");
+	htable = ac_htable_new(ac_hash_func_str, ac_cmp_str, NULL, NULL);
+	ac_htable_insert(htable, "::1", "localhost");
+	ac_htable_insert(htable, "fe80::/10", "link-local");
+	printf("There are %lu item(s) in the hash table\n", htable->count);
+	data = ac_htable_lookup(htable, "::1");
+	printf("lookup: ::1 -> %s\n", data);
+	printf("Removing an item\n");
+	ac_htable_remove(htable, "::1");
+	printf("There are %lu item(s) in the hash table\n", htable->count);
+	printf("Destoying hash table\n");
+	ac_htable_destroy(htable);
+
+	printf("New hash table with dynamically allocated string keys/data\n");
+	htable = ac_htable_new(ac_hash_func_str, ac_cmp_str, free, free);
+	ac_htable_insert(htable, strdup("::1"), strdup("localhost"));
+	ac_htable_insert(htable, strdup("fe80::/10"), strdup("link-loca"));
+	printf("There are %lu item(s) in the hash table\n", htable->count);
+	data = ac_htable_lookup(htable, "fe80::/10");
+	printf("lookup: fe80::/10 -> %s\n", data);
+	printf("Re-inserting previous entry\n");
+	ac_htable_insert(htable, strdup("fe80::/10"), strdup("link-local"));
+	printf("There are %lu item(s) in the hash table\n", htable->count);
+	printf("All entries :-\n");
+	ac_htable_foreach(htable, htable_print_entry, NULL);
+	printf("Removing an item\n");
+	ac_htable_remove(htable, "fe80::/10");
+	printf("There are %lu item(s) in the hash table\n", htable->count);
+	printf("Destoying hash table\n");
+	ac_htable_destroy(htable);
+
+	printf("New hash table with static int keys/dynamic data\n");
+	htable = ac_htable_new(ac_hash_func_ptr, ac_cmp_ptr, NULL, free);
+	ac_htable_insert(htable, AC_LONG_TO_PTR(1), strdup("one"));
+	ac_htable_insert(htable, AC_LONG_TO_PTR(2), strdup("two"));
+	printf("There are %lu item(s) in the hash table\n", htable->count);
+	data = ac_htable_lookup(htable, AC_LONG_TO_PTR(2));
+	printf("lookup: 2 -> %s\n", data);
+	printf("Destoying hash table\n");
+	ac_htable_destroy(htable);
+
+	printf("*** %s\n\n", __func__);
+}
+
 static void misc_test(void)
 {
 	ac_misc_ppb_t ppb;
@@ -686,6 +743,7 @@ int main(void)
 	cqueue_test();
 	fs_test();
 	geo_test();
+	htable_test();
 	misc_test();
 	net_test();
 	quark_test();
