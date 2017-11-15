@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.25.0
+Version:	0.26.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Fri Nov 15 2017 Andrew Clayton <andrew@digital-domain.net> - 0.26.0-1
+- Add some  hash table functions
 
 * Thu Nov 9 2017 Andrew Clayton <andrew@digital-domain.net> - 0.25.0-1
 - Add a couple of functions; ac_slist_last & ac_slist_find_custom
