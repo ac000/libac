@@ -1,10 +1,9 @@
+/* SPDX-License-Identifier: LGPL-2.1 */
+
 /*
  * libac.h - Miscellaneous functions
  *
  * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
- *
- * Licensed under the GNU Lesser General Public License (LGPL) version 2.1
- * See COPYING
  */
 
 #ifndef _LIBAC_H_

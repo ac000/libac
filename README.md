@@ -489,7 +489,7 @@ libac is intended to be thread-safe.
 This library is licensed under the GNU Lesser General Public License (LGPL)
 version 2.1
 
-See COPYING in the repository root for details.
+See *LGPL-2.1* in the repository root for details.
 
 
 ## Contributing

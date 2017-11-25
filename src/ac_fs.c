@@ -1,10 +1,9 @@
+/* SPDX-License-Identifier: LGPL-2.1 */
+
 /*
  * ac_fs.c - Filesystem related utility functions.
  *
  * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
- *
- * Licensed under the GNU Lesser General Public License (LGPL) version 2.1
- * See COPYING
  */
 
 #define _GNU_SOURCE		/* strtok_r(3) & strdup(3) */
