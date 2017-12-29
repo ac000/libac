@@ -443,7 +443,10 @@ static void net_test(void)
 		const u8 prefixlen;
 	} nets[] = {
 		{ "192.168.1.10", "192.168.2.0", 24 },
-		{ "2001:db8:dead:beef::f00d", "2001:db8:dead:beef::", 64 }
+		{ "2001:db8:dead:beef::f00d", "2001:db8:dead:beef::", 64 },
+		{ "10.0.0.1", "10.0.0.1", 32 },
+		{ "2001:db8::dead:beef:cafe", "2001:db8::dead:beef:cafe", 128 },
+		{ NULL, NULL, 0 }
 	};
 
 	printf("*** %s\n", __func__);
@@ -477,16 +480,21 @@ static void net_test(void)
 	}
 	printf("\n");
 
-	printf("%s is%sin %s/%hhu\n",
-			nets[0].addr,
-			ac_net_ipv4_isin(nets[0].network, nets[0].prefixlen,
-					 nets[0].addr) ? " " : " NOT ",
-			nets[0].network, nets[0].prefixlen);
-	printf("%s is%sin %s/%hhu\n",
-			nets[1].addr,
-			ac_net_ipv6_isin(nets[1].network, nets[1].prefixlen,
-					 nets[1].addr) ? " " : " NOT ",
-			nets[1].network, nets[1].prefixlen);
+	i = -1;
+	while (nets[++i].addr) {
+		bool isin;
+
+		if (strchr(nets[i].addr, ':'))
+			isin = ac_net_ipv6_isin(nets[i].network,
+					nets[i].prefixlen, nets[i].addr);
+		else
+			isin = ac_net_ipv4_isin(nets[i].network,
+					nets[i].prefixlen, nets[i].addr);
+
+		printf("%s is%sin %s/%hhu\n",
+				nets[i].addr, (isin) ? " " : " NOT ",
+				nets[i].network, nets[i].prefixlen);
+	}
 
 	printf("*** %s\n\n", __func__);
 }
