@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.27.0
+Version:	0.27.1
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -46,11 +46,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 
-* Mon Jan 19 2018 Andrew Clayton <andrew@digital-domain.net> - 0.27.0-1
+* Tue Feb 20 2018 Andrew Clayton <andrew@digital-domain.net> - 0.27.1-1
+- Remove a limit on the size of what can be added to JSON
+
+* Mon Feb 19 2018 Andrew Clayton <andrew@digital-domain.net> - 0.27.0-1
 - Add some JSON writing functions
 
 * Fri Nov 15 2017 Andrew Clayton <andrew@digital-domain.net> - 0.26.0-1
-- Add some  hash table functions
+- Add some hash table functions
 
 * Thu Nov 9 2017 Andrew Clayton <andrew@digital-domain.net> - 0.25.0-1
 - Add a couple of functions; ac_slist_last & ac_slist_find_custom
