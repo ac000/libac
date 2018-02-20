@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.26.0
+Version:	0.27.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Mon Jan 19 2018 Andrew Clayton <andrew@digital-domain.net> - 0.27.0-1
+- Add some JSON writing functions
 
 * Fri Nov 15 2017 Andrew Clayton <andrew@digital-domain.net> - 0.26.0-1
 - Add some  hash table functions
