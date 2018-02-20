@@ -280,7 +280,7 @@ functions.
 #### ac\_json\_add\_str\_or\_null - adds a string or a null value to the JSON
 
     void ac_json_add_str_or_null(ac_jsonw_t *json, const char *name,
-				 const char *value)
+                                 const char *value)
 
 #### ac\_json\_add\_array - adds an array to the JSON
 
