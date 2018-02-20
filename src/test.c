@@ -3,7 +3,7 @@
 /*
  * test.c - Test harness for libac
  *
- * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2018	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE			/* strdup(3), struct addrinfo */
@@ -380,6 +380,35 @@ static void htable_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
+static void json_test(void)
+{
+	ac_jsonw_t *json;
+
+	printf("*** %s\n", __func__);
+
+	json = ac_jsonw_init();
+
+	ac_json_add_str(json, "domain", "example.com");
+	ac_json_add_bool(json, "active", false);
+	ac_json_add_null(json, "owner");
+	ac_json_add_array(json, "aliases");
+	ac_json_end_array(json);
+	ac_json_add_object(json, "network");
+	ac_json_add_array(json, "ips");
+	ac_json_add_str(json, NULL, "2001:db8::1");
+	ac_json_add_str(json, NULL, "172.16.1.1");
+	ac_json_end_array(json);
+	ac_json_add_object(json, "dns");
+	ac_json_end_object(json);
+	ac_json_end_object(json);
+	ac_json_end(json);
+
+	printf("%s\n", ac_json_get(json));
+	ac_json_free(json);
+
+	printf("*** %s\n\n", __func__);
+}
+
 static void misc_test(void)
 {
 	ac_misc_ppb_t ppb;
@@ -751,6 +780,7 @@ int main(void)
 	fs_test();
 	geo_test();
 	htable_test();
+	json_test();
 	misc_test();
 	net_test();
 	quark_test();

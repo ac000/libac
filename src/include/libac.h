@@ -3,7 +3,7 @@
 /*
  * libac.h - Miscellaneous functions
  *
- * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2018	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #ifndef _LIBAC_H_
@@ -130,6 +130,17 @@ typedef struct ac_htable_t {
 	void (*free_data_func)(void *ptr);
 } ac_htable_t;
 
+typedef struct ac_jsonw_t {
+	char *str;
+	size_t len;
+	size_t allocated;
+	u8 depth;
+	bool skip_tabs;
+
+	char buf[1024];
+	int buflen;
+} ac_jsonw_t;
+
 typedef struct ac_misc_ppb_t {
 	ac_misc_ppb_factor_t factor;
 	const char *prefix;
@@ -198,6 +209,23 @@ void ac_htable_foreach(ac_htable_t *htable,
 		       void (*action)(void *key, void *value, void *user_data),
 		       void *user_data);
 void ac_htable_destroy(ac_htable_t *htable);
+
+ac_jsonw_t *ac_jsonw_init(void);
+void ac_json_add_str(ac_jsonw_t *json, const char *name, const char *value);
+void ac_json_add_int(ac_jsonw_t *json, const char *name, s64 value);
+void ac_json_add_float(ac_jsonw_t *json, const char *name, double value);
+void ac_json_add_bool(ac_jsonw_t *json, const char *name, bool value);
+void ac_json_add_null(ac_jsonw_t *json, const char *name);
+void ac_json_add_str_or_null(ac_jsonw_t *json, const char *name,
+			     const char *value);
+void ac_json_add_array(ac_jsonw_t *json, const char *name);
+void ac_json_end_array(ac_jsonw_t *json);
+void ac_json_add_object(ac_jsonw_t *json, const char *name);
+void ac_json_end_object(ac_jsonw_t *json);
+void ac_json_end(ac_jsonw_t *json);
+void ac_json_free(ac_jsonw_t *json);
+size_t ac_json_len(const ac_jsonw_t *json);
+const char *ac_json_get(const ac_jsonw_t *json);
 
 void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
 char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
