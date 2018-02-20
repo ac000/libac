@@ -136,9 +136,6 @@ typedef struct ac_jsonw_t {
 	size_t allocated;
 	u8 depth;
 	bool skip_tabs;
-
-	char buf[1024];
-	int buflen;
 } ac_jsonw_t;
 
 typedef struct ac_misc_ppb_t {

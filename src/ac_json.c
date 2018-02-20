@@ -17,32 +17,37 @@
 
 #include "include/libac.h"
 
+static const size_t ALLOC_SZ = 4096;
+
 static void json_vsnprintf(ac_jsonw_t *json, const char *fmt, ...)
 {
 	va_list ap;
 	int i = 0;
+	int len;
 
-	json->buflen = 0;
-	if (json->skip_tabs)
+	if (json->skip_tabs) {
 		i = json->depth;
+	} else if (json->len + json->depth >= json->allocated) {
+		json->str = realloc(json->str, json->allocated + ALLOC_SZ);
+		json->allocated += ALLOC_SZ;
+	}
 	for ( ; i < json->depth; i++)
-		json->buflen += snprintf(json->buf + json->buflen,
-					 sizeof(json->buf) - json->buflen,
-					 "\t");
+		json->len += snprintf(json->str + json->len,
+				      json->allocated - json->len, "\t");
 
+again:
 	va_start(ap, fmt);
-	json->buflen += vsnprintf(json->buf + json->buflen,
-				  sizeof(json->buf) - json->buflen, fmt, ap);
+	len = vsnprintf(json->str + json->len, json->allocated - json->len,
+			fmt, ap);
 	va_end(ap);
 
-	if (json->len + json->buflen >= json->allocated) {
-		json->str = realloc(json->str, json->allocated + 4096);
-		json->allocated += 4096;
+	if (json->len + len >= json->allocated) {
+		json->str = realloc(json->str, json->allocated + ALLOC_SZ);
+		json->allocated += ALLOC_SZ;
+		goto again;
 	}
 
-	/* We *know* it's going to fit */
-	strcat(json->str, json->buf);
-	json->len += json->buflen;
+	json->len += len;
 }
 
 /**
@@ -56,8 +61,8 @@ ac_jsonw_t *ac_jsonw_init(void)
 {
 	ac_jsonw_t *json = malloc(sizeof(ac_jsonw_t));
 
-	json->str = malloc(4096);
-	json->allocated = 4096;
+	json->str = malloc(ALLOC_SZ);
+	json->allocated = ALLOC_SZ;
 	json->depth = 1;
 	json->skip_tabs = false;
 
