@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.27.1
+Version:	0.28.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Tue Mar 27 2018 Andrew Clayton <andrew@digital-domain.net> - 0.28.0-1
+- Add ac_time_nsleep()
 
 * Tue Feb 20 2018 Andrew Clayton <andrew@digital-domain.net> - 0.27.1-1
 - Remove a limit on the size of what can be added to JSON
