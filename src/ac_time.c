@@ -6,9 +6,10 @@
  * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
  */
 
-#define _GNU_SOURCE		/* struct timespec */
+#define _GNU_SOURCE		/* struct timespec, nanosleep(2) */
 
 #include <time.h>
+#include <errno.h>
 
 #include "include/libac.h"
 
@@ -51,4 +52,41 @@ void ac_time_secs_to_hms(long total, int *hours, int *minutes, int *seconds)
 	total /= 60;
 	*minutes = total % 60;
 	*hours = total / 60;
+}
+
+/**
+ *
+ * ac_time_nsleep - wrapper around nanosleep(2) to sleep through interrupts
+ *
+ * @nsecs - Number of nanoseconds to sleep for
+ *
+ * Returns:
+ *
+ * 0 On success or -1 on failure
+ */
+int ac_time_nsleep(u64 nsecs)
+{
+	struct timespec req;
+	struct timespec rem;
+	int err;
+
+	if (nsecs < AC_TIME_NS_SEC) {
+		req.tv_sec = 0;
+		req.tv_nsec = nsecs;
+	} else {
+		req.tv_sec = nsecs / AC_TIME_NS_SEC;
+		req.tv_nsec = nsecs % AC_TIME_NS_SEC;
+	}
+
+do_sleep:
+	err = nanosleep(&req, &rem);
+	if (err && errno == EINTR) {
+		req.tv_sec = rem.tv_sec;
+		req.tv_nsec = rem.tv_nsec;
+		goto do_sleep;
+	} else if (err) {
+		return -1;
+	}
+
+	return 0;
 }

@@ -765,6 +765,9 @@ static void time_test(void)
 	ac_time_secs_to_hms(3675, &h, &m, &s);
 	printf("%lds = %dh %dm %ds\n", 3675L, h, m, s);
 
+	printf("Sleeping for 125ms...\n");
+	ac_time_nsleep(125 * AC_TIME_NS_MSEC);
+
 	printf("*** %s\n\n", __func__);
 }
 

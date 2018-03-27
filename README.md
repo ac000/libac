@@ -107,6 +107,10 @@ These are aliases for \_\_attribute\_\_((unused))
     #define AC_STR_SPLIT_ALWAYS
     #define AC_STR_SPLIT_STRICT
 
+    #define AC_TIME_NS_SEC
+    #define AC_TIME_NS_MSEC
+    #define AC_TIME_NS_USEC
+
 
 ## Functions
 
@@ -507,6 +511,10 @@ functions.
 #### ac\_time\_secs\_to\_hms - convert total seconds to broken out hrs, mins & secs
 
     void ac_time_secs_to_hms(long total, int *hours, int *minutes, int *seconds)
+
+#### ac\_time\_nsleep - wrapper around nanosleep(2) thats sleeps through interrupts
+
+    int ac_time_nsleep(u64 nsecs)
 
 
 ## Build it

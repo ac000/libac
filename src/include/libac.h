@@ -54,6 +54,13 @@ typedef struct crypt_data ac_crypt_data_t;
 #define AC_STR_SPLIT_ALWAYS	0x00
 #define AC_STR_SPLIT_STRICT	0x01
 
+/*
+ * Define a second, milliseond and microsecond in terms of nanoseconds.
+ */
+#define AC_TIME_NS_SEC		1000000000L
+#define AC_TIME_NS_MSEC		   1000000
+#define AC_TIME_NS_USEC		      1000
+
 #define AC_LONG_TO_PTR(x)	((void *)(long)x)
 #define AC_PTR_TO_LONG(p)	((long)p)
 
@@ -281,6 +288,7 @@ int ac_str_levenshtein(const char *s, const char *t);
 double ac_time_tspec_diff(struct timespec *delta, const struct timespec *end,
 			  const struct timespec *start);
 void ac_time_secs_to_hms(long total, int *hours, int *minutes, int *seconds);
+int ac_time_nsleep(u64 period);
 #pragma GCC visibility pop
 
 #ifdef __cplusplus
