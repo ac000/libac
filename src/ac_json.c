@@ -241,7 +241,11 @@ void ac_json_end_array(ac_jsonw_t *json)
  */
 void ac_json_add_object(ac_jsonw_t *json, const char *name)
 {
-	json_vsnprintf(json, "\"%s\": {\n", name);
+	if (name)
+		json_vsnprintf(json, "\"%s\": {\n", name);
+	else
+		json_vsnprintf(json, "{\n");
+
 	json->depth++;
 }
 

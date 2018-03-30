@@ -403,6 +403,23 @@ static void json_test(void)
 	ac_json_end_object(json);
 	ac_json_end(json);
 
+	printf("%s\n\n", ac_json_get(json));
+	ac_json_free(json);
+
+	json = ac_jsonw_init();
+
+	ac_json_add_array(json, "object_array");
+	ac_json_add_object(json, NULL);
+	ac_json_add_str(json, "item1", "Hello");
+	ac_json_add_str(json, "item2", "World");
+	ac_json_end_object(json);
+	ac_json_add_object(json, NULL);
+	ac_json_add_str(json, "item1", "qwerty");
+	ac_json_add_str(json, "item2", "azerty");
+	ac_json_end_object(json);
+	ac_json_end_array(json);
+	ac_json_end(json);
+
 	printf("%s\n", ac_json_get(json));
 	ac_json_free(json);
 
