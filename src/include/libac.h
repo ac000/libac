@@ -55,7 +55,7 @@ typedef struct crypt_data ac_crypt_data_t;
 #define AC_STR_SPLIT_STRICT	0x01
 
 /*
- * Define a second, milliseond and microsecond in terms of nanoseconds.
+ * Define a second, millisecond and microsecond in terms of nanoseconds.
  */
 #define AC_TIME_NS_SEC		1000000000L
 #define AC_TIME_NS_MSEC		   1000000
