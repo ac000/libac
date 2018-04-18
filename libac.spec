@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.28.1
+Version:	0.28.2
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Wed Apr 18 2018 Andrew Clayton <andrew@digital-domain.net> - 0.28.2-1
+- Minor changes
 
 * Fri Mar 30 2018 Andrew Clayton <andrew@digital-domain.net> - 0.28.1-1
 - Fix ac_json_add_object() to allow nameless objects
