@@ -29,7 +29,7 @@ double ac_time_tspec_diff(struct timespec *delta, const struct timespec *end,
 {
 	if (end->tv_nsec < start->tv_nsec) {
 		delta->tv_nsec =
-			AC_TIME_NS_SEC - (start->tv_nsec -  end->tv_nsec);
+			AC_TIME_NS_SEC - (start->tv_nsec - end->tv_nsec);
 		delta->tv_sec = end->tv_sec - start->tv_sec - 1;
 	} else {
 		delta->tv_nsec = end->tv_nsec - start->tv_nsec;
