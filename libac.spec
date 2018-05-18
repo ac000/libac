@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.28.2
+Version:	0.28.3
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Fri May 18 2018 Andrew Clayton <andrew@digital-domain.net> - 0.28.3-1
+- Allow to change the JSON indentation character/string
 
 * Wed Apr 18 2018 Andrew Clayton <andrew@digital-domain.net> - 0.28.2-1
 - Minor changes
