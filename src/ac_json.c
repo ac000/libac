@@ -18,6 +18,7 @@
 #include "include/libac.h"
 
 static const size_t ALLOC_SZ = 4096;
+static const char *JSON_INDENT = "\t";
 
 static void json_vsnprintf(ac_jsonw_t *json, const char *fmt, ...)
 {
@@ -33,7 +34,9 @@ static void json_vsnprintf(ac_jsonw_t *json, const char *fmt, ...)
 	}
 	for ( ; i < json->depth; i++)
 		json->len += snprintf(json->str + json->len,
-				      json->allocated - json->len, "\t");
+				      json->allocated - json->len, "%s",
+				      !json->indenter ? JSON_INDENT :
+							json->indenter);
 
 again:
 	va_start(ap, fmt);
@@ -65,11 +68,23 @@ ac_jsonw_t *ac_jsonw_init(void)
 	json->allocated = ALLOC_SZ;
 	json->depth = 1;
 	json->skip_tabs = false;
+	json->indenter = NULL;
 
 	strcpy(json->str, "{\n");
 	json->len = 2;
 
 	return json;
+}
+
+/**
+ * ac_jsonw_set_indenter - set the indentation character/string
+ *
+ * @json: The ac_jsonw_t to operate on
+ * @indenter: The indentation character/string to use; defaults to '\t'
+ */
+void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter)
+{
+	json->indenter = strdup(indenter);
 }
 
 /**
@@ -281,6 +296,7 @@ void ac_json_free(ac_jsonw_t *json)
 		return;
 
 	free(json->str);
+	free(json->indenter);
 	free(json);
 }
 

@@ -143,6 +143,7 @@ typedef struct ac_jsonw_t {
 	size_t allocated;
 	u8 depth;
 	bool skip_tabs;
+	char *indenter;
 } ac_jsonw_t;
 
 typedef struct ac_misc_ppb_t {
@@ -215,6 +216,7 @@ void ac_htable_foreach(ac_htable_t *htable,
 void ac_htable_destroy(ac_htable_t *htable);
 
 ac_jsonw_t *ac_jsonw_init(void);
+void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter);
 void ac_json_add_str(ac_jsonw_t *json, const char *name, const char *value);
 void ac_json_add_int(ac_jsonw_t *json, const char *name, s64 value);
 void ac_json_add_float(ac_jsonw_t *json, const char *name, double value);

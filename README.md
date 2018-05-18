@@ -261,6 +261,10 @@ functions.
 
     ac_jsonw_t *ac_jsonw_init(void)
 
+#### ac\_jsonw\_set\_indenter - set the indentation character/string
+
+    void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter)
+
 #### ac\_json\_add\_str - adds a string to the JSON
 
     void ac_json_add_str(ac_jsonw_t *json, const char *name, const char *value)
