@@ -3,7 +3,7 @@
 /*
  * ac_time.c - Time related functions
  *
- * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2018	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE		/* struct timespec, nanosleep(2) */
