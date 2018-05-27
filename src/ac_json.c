@@ -25,32 +25,34 @@ static void json_vsnprintf(ac_jsonw_t *json, const char *fmt, ...)
 	va_list ap;
 	int i = 0;
 	int len;
+	char *buf;
+	const char *indenter = !json->indenter ? JSON_INDENT : json->indenter;
 
 	if (json->skip_tabs) {
 		i = json->depth;
-	} else if (json->len + json->depth >= json->allocated) {
+	} else if (json->len + (json->depth * strlen(indenter)) >=
+		   json->allocated) {
 		json->str = realloc(json->str, json->allocated + ALLOC_SZ);
 		json->allocated += ALLOC_SZ;
 	}
 	for ( ; i < json->depth; i++)
 		json->len += snprintf(json->str + json->len,
 				      json->allocated - json->len, "%s",
-				      !json->indenter ? JSON_INDENT :
-							json->indenter);
+				      indenter);
 
-again:
 	va_start(ap, fmt);
-	len = vsnprintf(json->str + json->len, json->allocated - json->len,
-			fmt, ap);
+	len = vasprintf(&buf, fmt, ap);
 	va_end(ap);
 
-	if (json->len + len >= json->allocated) {
+	while (json->len + len >= json->allocated) {
 		json->str = realloc(json->str, json->allocated + ALLOC_SZ);
 		json->allocated += ALLOC_SZ;
-		goto again;
 	}
 
+	memcpy(json->str + json->len, buf, len + 1);
 	json->len += len;
+
+	free(buf);
 }
 
 /**
