@@ -20,7 +20,7 @@
 static const size_t ALLOC_SZ = 4096;
 static const char *JSON_INDENT = "\t";
 
-static void json_vsnprintf(ac_jsonw_t *json, const char *fmt, ...)
+static void json_build_str(ac_jsonw_t *json, const char *fmt, ...)
 {
 	va_list ap;
 	int i = 0;
@@ -102,9 +102,9 @@ void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter)
 void ac_json_add_str(ac_jsonw_t *json, const char *name, const char *value)
 {
 	if (name)
-		json_vsnprintf(json, "\"%s\": \"%s\",\n", name, value);
+		json_build_str(json, "\"%s\": \"%s\",\n", name, value);
 	else
-		json_vsnprintf(json, "\"%s\",\n", value);
+		json_build_str(json, "\"%s\",\n", value);
 }
 
 /**
@@ -122,9 +122,9 @@ void ac_json_add_str(ac_jsonw_t *json, const char *name, const char *value)
 void ac_json_add_int(ac_jsonw_t *json, const char *name, s64 value)
 {
 	if (name)
-		json_vsnprintf(json, "\"%s\": %" PRId64 ",\n", name, value);
+		json_build_str(json, "\"%s\": %" PRId64 ",\n", name, value);
 	else
-		json_vsnprintf(json, "%" PRId64 ",\n", value);
+		json_build_str(json, "%" PRId64 ",\n", value);
 }
 
 /**
@@ -140,9 +140,9 @@ void ac_json_add_int(ac_jsonw_t *json, const char *name, s64 value)
 void ac_json_add_float(ac_jsonw_t *json, const char *name, double value)
 {
 	if (name)
-		json_vsnprintf(json, "\"%s\": %g,\n", name, value);
+		json_build_str(json, "\"%s\": %g,\n", name, value);
 	else
-		json_vsnprintf(json, "%g,\n", value);
+		json_build_str(json, "%g,\n", value);
 }
 
 /**
@@ -160,10 +160,10 @@ void ac_json_add_float(ac_jsonw_t *json, const char *name, double value)
 void ac_json_add_bool(ac_jsonw_t *json, const char *name, bool value)
 {
 	if (name)
-		json_vsnprintf(json, "\"%s\": %s,\n", name,
+		json_build_str(json, "\"%s\": %s,\n", name,
 			       value ? "true" : "false");
 	else
-		json_vsnprintf(json, "%s,\n", value ? "true" : "false");
+		json_build_str(json, "%s,\n", value ? "true" : "false");
 }
 
 /**
@@ -178,9 +178,9 @@ void ac_json_add_bool(ac_jsonw_t *json, const char *name, bool value)
 void ac_json_add_null(ac_jsonw_t *json, const char *name)
 {
 	if (name)
-		json_vsnprintf(json, "\"%s\": null,\n", name);
+		json_build_str(json, "\"%s\": null,\n", name);
 	else
-		json_vsnprintf(json, "null,\n");
+		json_build_str(json, "null,\n");
 }
 
 /**
@@ -212,7 +212,7 @@ void ac_json_add_str_or_null(ac_jsonw_t *json, const char *name,
  */
 void ac_json_add_array(ac_jsonw_t *json, const char *name)
 {
-	json_vsnprintf(json, "\"%s\": [\n", name);
+	json_build_str(json, "\"%s\": [\n", name);
 	json->depth++;
 }
 
@@ -232,11 +232,11 @@ static void __json_end(ac_jsonw_t *json, const char *closer)
 	json->depth--;
 
 	json->skip_tabs = true;
-	json_vsnprintf(json, "%s", empty ? "" : "\n");
+	json_build_str(json, "%s", empty ? "" : "\n");
 	if (!empty)
 		json->skip_tabs = false;
 
-	json_vsnprintf(json, "%s%s", closer, (json->depth > 0) ? ",\n" : "");
+	json_build_str(json, "%s%s", closer, (json->depth > 0) ? ",\n" : "");
 	json->skip_tabs = false;
 }
 
@@ -259,9 +259,9 @@ void ac_json_end_array(ac_jsonw_t *json)
 void ac_json_add_object(ac_jsonw_t *json, const char *name)
 {
 	if (name)
-		json_vsnprintf(json, "\"%s\": {\n", name);
+		json_build_str(json, "\"%s\": {\n", name);
 	else
-		json_vsnprintf(json, "{\n");
+		json_build_str(json, "{\n");
 
 	json->depth++;
 }
