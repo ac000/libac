@@ -89,6 +89,55 @@ void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter)
 	json->indenter = strdup(indenter);
 }
 
+static inline void add_escaped_char(char *string, const char *escaped,
+				    size_t *offset, int len)
+{
+	memcpy(string + *offset, escaped, len);
+	*offset += len;
+}
+
+static char *make_escaped_string(const char *str)
+{
+	char *estring;
+	char *ptr = (char *)str;
+	size_t offset = 0;
+
+	/* strlen(str) * 6 for worst case scenario; all \uXXXX */
+	estring = malloc((strlen(str) * 6) + 1);
+
+	while (*ptr) {
+		if (*ptr < 0x20 &&
+		    (*ptr != '\b' && *ptr != '\f' && *ptr != '\t' &&
+		     *ptr != '\n' && *ptr != '\r')) {
+			snprintf(estring + offset, 7, "\\u%04x", *ptr);
+			offset += 6;
+			goto next_ptr;
+		}
+
+		if (*ptr == '"')
+			add_escaped_char(estring, "\\\"", &offset, 2);
+		else if (*ptr == '\\')
+			add_escaped_char(estring, "\\\\", &offset, 2);
+		else if (*ptr == '\b')
+			add_escaped_char(estring, "\\b", &offset, 2);
+		else if (*ptr == '\f')
+			add_escaped_char(estring, "\\f", &offset, 2);
+		else if (*ptr == '\n')
+			add_escaped_char(estring, "\\n", &offset, 2);
+		else if (*ptr == '\r')
+			add_escaped_char(estring, "\\r", &offset, 2);
+		else if (*ptr == '\t')
+			add_escaped_char(estring, "\\t", &offset, 2);
+		else
+			add_escaped_char(estring, ptr, &offset, 1);
+next_ptr:
+		ptr++;
+	}
+	estring[offset] = '\0';
+
+	return estring;
+}
+
 /**
  * ac_json_add_str - adds a string to the JSON
  *
@@ -101,10 +150,15 @@ void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter)
  */
 void ac_json_add_str(ac_jsonw_t *json, const char *name, const char *value)
 {
+	char *escaped_string = make_escaped_string(value);
+
 	if (name)
-		json_build_str(json, "\"%s\": \"%s\",\n", name, value);
+		json_build_str(json, "\"%s\": \"%s\",\n", name,
+			       escaped_string);
 	else
-		json_build_str(json, "\"%s\",\n", value);
+		json_build_str(json, "\"%s\",\n", escaped_string);
+
+	free(escaped_string);
 }
 
 /**
