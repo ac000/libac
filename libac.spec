@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.28.4
+Version:	0.28.5
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Fri Jul 13 2018 Andrew Clayton <andrew@digital-domain.net> - 0.28.5-1
+- Escape strings in JSON output
 
 * Sun May 27 2018 Andrew Clayton <andrew@digital-domain.net> - 0.28.4-1
 - Fix a potential crash in ac_json
