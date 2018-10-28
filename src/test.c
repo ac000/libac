@@ -774,7 +774,7 @@ static void time_test(void)
 
 	printf("*** %s\n", __func__);
 
-	for (i = 0; times[i].start.tv_nsec != 0; i++) {
+	for (i = 0; times[i].start.tv_sec != 0; i++) {
 		double et;
 
 		et = ac_time_tspec_diff(&delta, &times[i].end, &times[i].start);
