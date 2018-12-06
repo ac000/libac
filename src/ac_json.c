@@ -89,8 +89,14 @@ void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter)
 	json->indenter = strdup(indenter);
 }
 
-static inline void add_escaped_char(char *string, const char *escaped,
-				    size_t *offset, int len)
+static inline void add_char(char *string, unsigned char c, size_t *offset)
+{
+	memset(string + *offset, c, 1);
+	(*offset)++;
+}
+
+static inline void add_escaped_str(char *string, const char *escaped,
+				   size_t *offset, int len)
 {
 	memcpy(string + *offset, escaped, len);
 	*offset += len;
@@ -99,39 +105,37 @@ static inline void add_escaped_char(char *string, const char *escaped,
 static char *make_escaped_string(const char *str)
 {
 	char *estring;
-	char *ptr = (char *)str;
+	unsigned char c;
 	size_t offset = 0;
 
 	/* strlen(str) * 6 for worst case scenario; all \uXXXX */
 	estring = malloc((strlen(str) * 6) + 1);
 
-	while (*ptr) {
-		if (*ptr < 0x20 &&
-		    (*ptr != '\b' && *ptr != '\f' && *ptr != '\t' &&
-		     *ptr != '\n' && *ptr != '\r')) {
-			snprintf(estring + offset, 7, "\\u%04x", *ptr);
+	while ((c = *str++) != '\0') {
+		if (c < 0x20 &&
+		    (c != '\b' && c != '\f' && c != '\t' && c != '\n' &&
+		     c != '\r')) {
+			snprintf(estring + offset, 7, "\\u%04x", c);
 			offset += 6;
-			goto next_ptr;
+			continue;
 		}
 
-		if (*ptr == '"')
-			add_escaped_char(estring, "\\\"", &offset, 2);
-		else if (*ptr == '\\')
-			add_escaped_char(estring, "\\\\", &offset, 2);
-		else if (*ptr == '\b')
-			add_escaped_char(estring, "\\b", &offset, 2);
-		else if (*ptr == '\f')
-			add_escaped_char(estring, "\\f", &offset, 2);
-		else if (*ptr == '\n')
-			add_escaped_char(estring, "\\n", &offset, 2);
-		else if (*ptr == '\r')
-			add_escaped_char(estring, "\\r", &offset, 2);
-		else if (*ptr == '\t')
-			add_escaped_char(estring, "\\t", &offset, 2);
+		if (c == '"')
+			add_escaped_str(estring, "\\\"", &offset, 2);
+		else if (c == '\\')
+			add_escaped_str(estring, "\\\\", &offset, 2);
+		else if (c == '\b')
+			add_escaped_str(estring, "\\b", &offset, 2);
+		else if (c == '\f')
+			add_escaped_str(estring, "\\f", &offset, 2);
+		else if (c == '\n')
+			add_escaped_str(estring, "\\n", &offset, 2);
+		else if (c == '\r')
+			add_escaped_str(estring, "\\r", &offset, 2);
+		else if (c == '\t')
+			add_escaped_str(estring, "\\t", &offset, 2);
 		else
-			add_escaped_char(estring, ptr, &offset, 1);
-next_ptr:
-		ptr++;
+			add_char(estring, c, &offset);
 	}
 	estring[offset] = '\0';
 
