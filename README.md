@@ -403,6 +403,11 @@ functions.
 
     bool ac_net_ipv6_isin(const char *network, u8 prefixlen, const char *addr)
 
+#### ac\_net\_ipv6\_isin\_sa - check if an IPv4 address is within the given network
+
+    bool ac_net_ipv6_isin_sa(const char *network, u8 prefixlen,
+                             const struct sockaddr *sa)
+
 
 ### Quark functions
 

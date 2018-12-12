@@ -257,6 +257,8 @@ int ac_net_ns_lookup_by_ip(const struct addrinfo *hints, const char *node,
 						   const char *res));
 bool ac_net_ipv4_isin(const char *network, u8 cidr, const char *addr);
 bool ac_net_ipv6_isin(const char *network, u8 prefixlen, const char *addr);
+bool ac_net_ipv6_isin_sa(const char *network, u8 prefixlen,
+			 const struct sockaddr *sa);
 
 void ac_quark_init(ac_quark_t *quark, void (*free_func)(void *ptr));
 int ac_quark_from_string(ac_quark_t *quark, const char *str);

@@ -227,3 +227,44 @@ bool ac_net_ipv6_isin(const char *network, u8 prefixlen, const char *addr)
 
 	return true;
 }
+
+/**
+ * ac_net_ipv6_isin_sa - check if an IPv6 address is within the given network
+ *
+ * @network: The IPv6 network to check against
+ * @prefixlen: The prefixlen
+ * @sa: A struct sockaddr containing the IPv6 address to check
+ *
+ * Note: This is like ac_net_ipv6_isin except that the IPv6 address to be
+ * checked is in a struct sockaddr_in6 passed into this function cast as
+ * a struct sockaddr * such as that you might get back from accept(2)
+ *
+ * Returns:
+ *
+ * true for a match, false otherwise
+ */
+bool ac_net_ipv6_isin_sa(const char *network, u8 prefixlen,
+			 const struct sockaddr *sa)
+{
+	u8 i;
+	u8 net[sizeof(struct in6_addr)];
+	u8 mask[sizeof(struct in6_addr)];
+	const u8 *addr = (u8 *)&((struct sockaddr_in6 *)sa)->sin6_addr;
+
+	inet_pton(AF_INET6, network, net);
+
+	/* Create a mask based on prefixlen */
+	for (i = 0; i < 16; i++) {
+		u8 s = (prefixlen > 8) ? 8 : prefixlen;
+
+		prefixlen -= s;
+		mask[i] = (0xffu << (8 - s));
+	}
+
+	for (i = 0; i < 16; i++) {
+		if ((addr[i] & mask[i]) != net[i])
+			return false;
+	}
+
+	return true;
+}

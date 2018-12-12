@@ -479,6 +479,7 @@ static void net_test(void)
 {
 	int err;
 	int i;
+	bool isin;
 	struct addrinfo hints;
 	struct addrinfo *res;
 	struct sockaddr_in6 in6 = { .sin6_family = AF_INET6,
@@ -495,9 +496,10 @@ static void net_test(void)
 		const u8 prefixlen;
 	} nets[] = {
 		{ "192.168.1.10", "192.168.2.0", 24 },
-		{ "2001:db8:dead:beef::f00d", "2001:db8:dead:beef::", 64 },
 		{ "10.0.0.1", "10.0.0.1", 32 },
+		{ "2001:db8:dead:beef::f00d", "2001:db8:dead:beef::", 64 },
 		{ "2001:db8::dead:beef:cafe", "2001:db8::dead:beef:cafe", 128 },
+		{ "2001:8db::bad:f00", "2001:db8:dead:beef::", 64 },
 		{ NULL, NULL, 0 }
 	};
 
@@ -534,8 +536,6 @@ static void net_test(void)
 
 	i = -1;
 	while (nets[++i].addr) {
-		bool isin;
-
 		if (strchr(nets[i].addr, ':'))
 			isin = ac_net_ipv6_isin(nets[i].network,
 					nets[i].prefixlen, nets[i].addr);
@@ -546,6 +546,22 @@ static void net_test(void)
 		printf("%s is%sin %s/%hhu\n",
 				nets[i].addr, (isin) ? " " : " NOT ",
 				nets[i].network, nets[i].prefixlen);
+	}
+
+	printf("ac_net_ipv6_isin_sa\n");
+	i = -1;
+	while (nets[++i].addr) {
+		if (!strchr(nets[i].addr, ':'))
+			continue;
+
+		ac_net_inet_pton(nets[i].addr, &in6.sin6_addr);
+		isin = ac_net_ipv6_isin_sa(nets[i].network,
+					   nets[i].prefixlen,
+					   (struct sockaddr *)&in6);
+
+		printf("%s is%sin %s/%hhu\n",
+		       nets[i].addr, (isin) ? " " : " NOT ",
+		       nets[i].network, nets[i].prefixlen);
 	}
 
 	printf("*** %s\n\n", __func__);
