@@ -435,6 +435,7 @@ static void misc_test(void)
 	u64 bytes2 = 7375982736;
 	ac_crypt_data_t data = { .initialized = 0 };
 	const char *pass = "asdfghjk";
+	char uuid[AC_UUID4_LEN + 1];
 
 	printf("*** %s\n", __func__);
 
@@ -459,6 +460,9 @@ static void misc_test(void)
 				&data));
 	printf("%s -> %s\n", pass, ac_misc_passcrypt(pass, AC_HASH_ALGO_SHA512,
 				&data));
+
+	printf("UUID 1 -> %s\n", ac_misc_gen_uuid4(uuid));
+	printf("UUID 2 -> %s\n", ac_misc_gen_uuid4(uuid));
 
 	printf("*** %s\n\n", __func__);
 }

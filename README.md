@@ -104,6 +104,8 @@ These are aliases for \_\_attribute\_\_((unused))
 
     #define AC_FS_COPY_OVERWRITE
 
+    #define AC_UUID4_LEN	36
+
     #define AC_STR_SPLIT_ALWAYS
     #define AC_STR_SPLIT_STRICT
 
@@ -333,6 +335,10 @@ functions.
 
     char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
                             ac_crypt_data_t *data)
+
+#### ac\_misc\_gen\_uuid4 - generate a type 4 UUID
+
+    const char *ac_misc_gen_uuid4(char *dst)
 
 #### ac\_hash\_func\_str - create a hash value for a given string
 

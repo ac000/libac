@@ -8,6 +8,7 @@
 
 #define _GNU_SOURCE
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <crypt.h>
@@ -137,6 +138,39 @@ char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 	salt[i] = '$';
 
 	return crypt_r(pass, salt, data);
+}
+
+/**
+ * ac_misc_gen_uuid4 - generate a type 4 UUID
+ *
+ * @dst: A buffer of size AC_UUID4_LEN + 1 to store the UUID
+ *
+ * Returns:
+ *
+ * A nul terminated type 4 UUID (taken from /proc/sys/kernel/random/uuid)
+ *
+ * or
+ *
+ * NULL on failure, check errno
+ */
+const char *ac_misc_gen_uuid4(char *dst)
+{
+	FILE *fp;
+	size_t bytes_read;
+
+	fp = fopen("/proc/sys/kernel/random/uuid", "r");
+	if (!fp)
+		return NULL;
+
+	bytes_read = fread(dst, 1, AC_UUID4_LEN, fp);
+	if (bytes_read < AC_UUID4_LEN) {
+		fclose(fp);
+		return NULL;
+	}
+	fclose(fp);
+	dst[AC_UUID4_LEN] = '\0';
+
+	return dst;
 }
 
 #define GOLDEN_MUL	0x61C88647	/* From the Linux kernel */

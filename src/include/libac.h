@@ -64,6 +64,8 @@ typedef struct crypt_data ac_crypt_data_t;
 #define AC_LONG_TO_PTR(x)	((void *)(long)x)
 #define AC_PTR_TO_LONG(p)	((long)p)
 
+#define AC_UUID4_LEN		36
+
 typedef enum ac_geo_ellipsoid_t {
 	AC_GEO_EREF_WGS84 = 0,
 	AC_GEO_EREF_GRS80,
@@ -236,6 +238,7 @@ const char *ac_json_get(const ac_jsonw_t *json);
 void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
 char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 			ac_crypt_data_t *data);
+const char *ac_misc_gen_uuid4(char *dst);
 u32 ac_hash_func_ptr(const void *key);
 u32 ac_hash_func_str(const void *key);
 u32 ac_hash_func_u32(const void *key);
