@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.28.5
+Version:	0.28.6
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Wed Dec 12 2018 Andrew Clayton <andrew@digital-domain.net> - 0.28.6-1
+- Add ac_misc_gen_uuid4()
+- Add ac_net_ipv6_isin_sa()
 
 * Fri Jul 13 2018 Andrew Clayton <andrew@digital-domain.net> - 0.28.5-1
 - Escape strings in JSON output
