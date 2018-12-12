@@ -191,6 +191,31 @@ bool ac_net_ipv4_isin(const char *network, u8 cidr, const char *addr)
 		return false;
 }
 
+static inline bool __ipv6_isin(const char *network, u8 prefixlen,
+			       const u8 *addr)
+{
+	u8 i;
+	u8 mask[sizeof(struct in6_addr)];
+	u8 net[sizeof(struct in6_addr)];
+
+	inet_pton(AF_INET6, network, net);
+
+	/* Create a mask based on prefixlen */
+	for (i = 0; i < 16; i++) {
+		u8 s = (prefixlen > 8) ? 8 : prefixlen;
+
+		prefixlen -= s;
+		mask[i] = (0xffu << (8 - s));
+	}
+
+	for (i = 0; i < 16; i++) {
+		if ((addr[i] & mask[i]) != net[i])
+			return false;
+	}
+
+	return true;
+}
+
 /**
  * ac_net_ipv6_isin - check if an IPv6 address is within the given network
  *
@@ -204,28 +229,11 @@ bool ac_net_ipv4_isin(const char *network, u8 cidr, const char *addr)
  */
 bool ac_net_ipv6_isin(const char *network, u8 prefixlen, const char *addr)
 {
-	int i;
-	unsigned char netb[sizeof(struct in6_addr)];
-	unsigned char maskb[sizeof(struct in6_addr)];
-	unsigned char addrb[sizeof(struct in6_addr)];
+	u8 addr6[sizeof(struct in6_addr)];
 
-	inet_pton(AF_INET6, network, netb);
-	inet_pton(AF_INET6, addr, addrb);
+	inet_pton(AF_INET6, addr, addr6);
 
-	/* Create a mask based on prefixlen */
-	for (i = 0; i < 16; i++) {
-		u8 s = (prefixlen > 8) ? 8 : prefixlen;
-
-		prefixlen -= s;
-		maskb[i] = (0xffu << (8 - s));
-	}
-
-	for (i = 0; i < 16; i++) {
-		if ((addrb[i] & maskb[i]) != netb[i])
-			return false;
-	}
-
-	return true;
+	return __ipv6_isin(network, prefixlen, addr6);
 }
 
 /**
@@ -246,25 +254,7 @@ bool ac_net_ipv6_isin(const char *network, u8 prefixlen, const char *addr)
 bool ac_net_ipv6_isin_sa(const char *network, u8 prefixlen,
 			 const struct sockaddr *sa)
 {
-	u8 i;
-	u8 net[sizeof(struct in6_addr)];
-	u8 mask[sizeof(struct in6_addr)];
 	const u8 *addr = (u8 *)&((struct sockaddr_in6 *)sa)->sin6_addr;
 
-	inet_pton(AF_INET6, network, net);
-
-	/* Create a mask based on prefixlen */
-	for (i = 0; i < 16; i++) {
-		u8 s = (prefixlen > 8) ? 8 : prefixlen;
-
-		prefixlen -= s;
-		mask[i] = (0xffu << (8 - s));
-	}
-
-	for (i = 0; i < 16; i++) {
-		if ((addr[i] & mask[i]) != net[i])
-			return false;
-	}
-
-	return true;
+	return __ipv6_isin(network, prefixlen, addr);
 }
