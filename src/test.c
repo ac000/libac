@@ -548,6 +548,22 @@ static void net_test(void)
 				nets[i].network, nets[i].prefixlen);
 	}
 
+	printf("ac_net_ipv4_isin_sa\n");
+	i = -1;
+	while (nets[++i].addr) {
+		if (strchr(nets[i].addr, ':'))
+			continue;
+
+		ac_net_inet_pton(nets[i].addr, &in4.sin_addr);
+		isin = ac_net_ipv4_isin_sa(nets[i].network,
+					   nets[i].prefixlen,
+					   (struct sockaddr *)&in4);
+
+		printf("%s is%sin %s/%hhu\n",
+		       nets[i].addr, (isin) ? " " : " NOT ",
+		       nets[i].network, nets[i].prefixlen);
+	}
+
 	printf("ac_net_ipv6_isin_sa\n");
 	i = -1;
 	while (nets[++i].addr) {

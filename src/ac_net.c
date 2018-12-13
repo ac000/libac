@@ -165,6 +165,21 @@ int ac_net_ns_lookup_by_ip(const struct addrinfo *hints, const char *node,
 	return 0;
 }
 
+static inline bool __ipv4_isin(const char *network, u8 cidr,
+			       const struct in_addr *addr)
+{
+	struct in_addr ip_addr;
+	struct in_addr net_addr;
+
+	inet_pton(AF_INET, network, &net_addr);
+
+	ip_addr.s_addr = addr->s_addr & htonl(~0UL << (32 - cidr));
+	if (ip_addr.s_addr == net_addr.s_addr)
+		return true;
+	else
+		return false;
+}
+
 /**
  * ac_net_ipv4_isin - check if an IPv4 address is within the given network
  *
@@ -179,16 +194,33 @@ int ac_net_ns_lookup_by_ip(const struct addrinfo *hints, const char *node,
 bool ac_net_ipv4_isin(const char *network, u8 cidr, const char *addr)
 {
 	struct in_addr ip_addr;
-	struct in_addr net_addr;
 
-	inet_pton(AF_INET, network, &net_addr);
 	inet_pton(AF_INET, addr, &ip_addr);
 
-	ip_addr.s_addr &= htonl(~0UL << (32 - cidr));
-	if (ip_addr.s_addr == net_addr.s_addr)
-		return true;
-	else
-		return false;
+	return __ipv4_isin(network, cidr, &ip_addr);
+}
+
+/**
+ * ac_net_ipv4_isin_sa - check if an IPv4 address is within the given network
+ *
+ * @network: The IPv4 network to check against
+ * @cidr: The netmask
+ * @sa: A struct sockaddr containing the IPv4 address to check
+ *
+ * Note: This is like ac_net_ipv4_isin except that the IPv4 address to be
+ * checked is in a struct sockaddr_in passed into this function cast as
+ * a struct sockaddr * such as that you might get back from accept(2)
+ *
+ * Returns:
+ *
+ * true for a match, false otherwise
+ */
+bool ac_net_ipv4_isin_sa(const char *network, u8 cidr,
+			 const struct sockaddr *sa)
+{
+	struct in_addr *ip_addr = &((struct sockaddr_in *)sa)->sin_addr;
+
+	return __ipv4_isin(network, cidr, ip_addr);
 }
 
 static inline bool __ipv6_isin(const char *network, u8 prefixlen,

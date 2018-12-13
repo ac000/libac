@@ -256,6 +256,8 @@ int ac_net_ns_lookup_by_ip(const struct addrinfo *hints, const char *node,
 			   bool (*ac_ns_lookup_cb)(const struct addrinfo *ai,
 						   const char *res));
 bool ac_net_ipv4_isin(const char *network, u8 cidr, const char *addr);
+bool ac_net_ipv4_isin_sa(const char *network, u8 prefixlen,
+			 const struct sockaddr *sa);
 bool ac_net_ipv6_isin(const char *network, u8 prefixlen, const char *addr);
 bool ac_net_ipv6_isin_sa(const char *network, u8 prefixlen,
 			 const struct sockaddr *sa);

@@ -399,6 +399,11 @@ functions.
 
     bool ac_net_ipv4_isin(const char *network, u8 cidr, const char *addr)
 
+#### ac\_net\_ipv4\_isin\_sa - check if an IPv4 address is within the given network
+
+    bool ac_net_ipv4_isin_sa(const char *network, u8 cidr,
+                             const struct sockaddr *sa)
+
 #### ac\_net\_ipv6\_isin - check if an IPv6 address is within the given network
 
     bool ac_net_ipv6_isin(const char *network, u8 prefixlen, const char *addr)
