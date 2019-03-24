@@ -102,6 +102,8 @@ double ac_geo_haversine(const ac_geo_t *from, const ac_geo_t *to)
 		ellipsoids[from->ref].a;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeclaration-after-statement"
 /**
  * ac_geo_vincenty_direct - given an initial point, bearing and distance
  * 			    calculate the end point
@@ -228,12 +230,15 @@ void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
 
 	to->ref = from->ref;
 }
+#pragma GCC diagnostic pop
 
 #define LAM0		(-2.0*DEG_TO_RAD)
 #define PHI0		(49.0*DEG_TO_RAD)
 #define E0		400000
 #define N0		(-100000)
 #define F0		0.9996012717
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeclaration-after-statement"
 /**
  * ac_geo_bng_to_lat_lon - convert British National Grid Eastings & Northings
  * 			   to latitude & longitude decimal degrees
@@ -337,7 +342,10 @@ void ac_geo_bng_to_lat_lon(ac_geo_t *geo)
 	geo->lat = phi * RAD_TO_DEG;
 	geo->lon = lam * RAD_TO_DEG;
 }
+#pragma GCC diagnostic pop
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeclaration-after-statement"
 /**
  * ac_geo_lat_lon_to_bng - convert latitude & longitude decimal degrees to
  *			   British National Grid Eastings & Northings
@@ -431,3 +439,4 @@ void ac_geo_lat_lon_to_bng(ac_geo_t *geo)
 	geo->easting = E0 + IV*(lam-LAM0) + V*pow(lam-LAM0, 3) +
 		VI*pow(lam-LAM0, 5);
 }
+#pragma GCC diagnostic pop

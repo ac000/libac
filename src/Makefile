@@ -1,8 +1,8 @@
 VERSION	= 0.28.6
 
 CC	= gcc
-CFLAGS  = -Wall -Wextra -std=c99 -g -O2 -fvisibility=hidden -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
-LDFLAGS	= -shared -Wl,-z,now,--as-needed
+CFLAGS  = -Wall -Wextra -Wdeclaration-after-statement -Wvla -std=c99 -g -O2 -fexceptions -fvisibility=hidden -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
+LDFLAGS	= -fpic -shared -Wl,-z,now,-z,defs,-z,relro,--as-needed
 LIBS    = -lm -lcrypt
 
 GLIBC_MAJOR	:= $(shell ldd --version | grep -Eo '[0-9]+\.[0-9]+' | \
