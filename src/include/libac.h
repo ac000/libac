@@ -64,20 +64,20 @@ typedef struct crypt_data ac_crypt_data_t;
 
 #define AC_UUID4_LEN		36
 
-typedef enum ac_geo_ellipsoid_t {
+typedef enum {
 	AC_GEO_EREF_WGS84 = 0,
 	AC_GEO_EREF_GRS80,
 	AC_GEO_EREF_AIRY1830
 } ac_geo_ellipsoid_t;
 
-typedef enum ac_hash_algo_t {
+typedef enum {
 	AC_HASH_ALGO_MD5 = 0,
 	AC_HASH_ALGO_SHA1,
 	AC_HASH_ALGO_SHA256,
 	AC_HASH_ALGO_SHA512
 } ac_hash_algo_t;
 
-typedef enum ac_misc_ppb_factor_t {
+typedef enum {
 	AC_MISC_PPB_BYTES = 0,
 	AC_MISC_PPB_KBYTES,
 	AC_MISC_PPB_MBYTES,
@@ -87,19 +87,19 @@ typedef enum ac_misc_ppb_factor_t {
 	AC_MISC_PPB_EBYTES
 } ac_misc_ppb_factor_t;
 
-typedef enum ac_si_units_t {
+typedef enum {
 	AC_SI_UNITS_NO = 0,
 	AC_SI_UNITS_YES
 } ac_si_units_t;
 
-typedef struct ac_btree_t {
+typedef struct ac_btree {
 	void *rootp;
 
 	int (*compar)(const void *, const void *);
 	void (*free_node)(void *nodep);
 } ac_btree_t;
 
-typedef struct ac_geo_t {
+typedef struct {
 	ac_geo_ellipsoid_t ref;
 	double lat;
 	double lon;
@@ -109,14 +109,14 @@ typedef struct ac_geo_t {
 	double northing;
 } ac_geo_t;
 
-typedef struct ac_geo_dms_t {
+typedef struct {
 	int degrees;
 	int minutes;
 	double seconds;
 } ac_geo_dms_t;
 
-typedef struct ac_htable_t {
-	struct ac_slist_t **buckets;
+typedef struct {
+	struct ac_slist **buckets;
 	unsigned long count;
 
 	u32 (*hash_func)(const void *key);
@@ -125,7 +125,7 @@ typedef struct ac_htable_t {
 	void (*free_data_func)(void *ptr);
 } ac_htable_t;
 
-typedef struct ac_jsonw_t {
+typedef struct {
 	char *str;
 	size_t len;
 	size_t allocated;
@@ -134,7 +134,7 @@ typedef struct ac_jsonw_t {
 	char *indenter;
 } ac_jsonw_t;
 
-typedef struct ac_misc_ppb_t {
+typedef struct {
 	ac_misc_ppb_factor_t factor;
 	const char *prefix;
 
@@ -144,25 +144,25 @@ typedef struct ac_misc_ppb_t {
 	} value;
 } ac_misc_ppb_t;
 
-typedef struct ac_quark_t {
-	ac_btree_t *mapping;
+typedef struct {
+	struct ac_btree *mapping;
 	int last;
 
 	void (*free_func)(void *ptr);
 } ac_quark_t;
 
-typedef struct ac_queue_t {
-	struct ac_slist_t *queue;
-	struct ac_slist_t *tail;
+typedef struct {
+	struct ac_slist *queue;
+	struct ac_slist *tail;
 	u32 items;
 
 	void (*free_func)(void *item);
 } ac_queue_t;
 
-typedef struct ac_slist_t {
+typedef struct ac_slist {
 	void *data;
 
-	struct ac_slist_t *next;
+	struct ac_slist *next;
 } ac_slist_t;
 
 #pragma GCC visibility push(default)
