@@ -44,7 +44,7 @@ void ac_btree_destroy(ac_btree_t *tree)
 void *ac_btree_new(int (*compar)(const void *, const void *),
 		   void (*free_node)(void *nodep))
 {
-	ac_btree_t *tree = malloc(sizeof(struct ac_btree_t));
+	ac_btree_t *tree = malloc(sizeof(ac_btree_t));
 
 	tree->rootp = NULL;
 	tree->compar = compar;
