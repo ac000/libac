@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.28.6
+Version:	0.29.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Mon Apr 8 2019 Andrew Clayton <andrew@digital-domain.net> - 0.29.0-1
+- New queue implementation
 
 * Wed Dec 12 2018 Andrew Clayton <andrew@digital-domain.net> - 0.28.6-1
 - Add ac_misc_gen_uuid4()
