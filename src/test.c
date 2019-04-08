@@ -124,130 +124,6 @@ static void byte_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
-struct queue_data {
-	char *name;
-	int item;
-};
-
-static void print_queue_item(void *item, void *data __always_unused)
-{
-	struct queue_data *qd = item;
-
-	printf("\titem %d : %s\n", qd->item, qd->name);
-}
-
-static void free_queue_item(void *item)
-{
-	struct queue_data *qd = item;
-
-	printf("Freeing item %d : %s\n", qd->item, qd->name);
-	free(qd->name);
-	free(qd);
-}
-
-static void cqueue_test(void)
-{
-	ac_cqueue_t *queue = ac_cqueue_new(3, free_queue_item, 0);
-	struct queue_data *qd;
-	int i;
-
-	printf("*** %s\n", __func__);
-
-	printf("The queue is %sempty\n", ac_cqueue_is_empty(queue) ? "" :
-			"not ");
-
-	qd = malloc(sizeof(struct queue_data));
-	qd->name = strdup("mercury");
-	qd->item = 0;
-	printf("Pushing item 0 into the queue\n");
-	ac_cqueue_push(queue, qd);
-
-	qd = malloc(sizeof(struct queue_data));
-	qd->name = strdup("venus");
-	qd->item = 1;
-	printf("Pushing item 1 into the queue\n");
-	ac_cqueue_push(queue, qd);
-
-	qd = malloc(sizeof(struct queue_data));
-	qd->name = strdup("earth");
-	qd->item = 2;
-	printf("Pushing item 2 into the queue\n");
-	ac_cqueue_push(queue, qd);
-	printf("There are %zu items in the queue :-\n",
-			ac_cqueue_nr_items(queue));
-	ac_cqueue_foreach(queue, print_queue_item, NULL);
-
-	printf("Popping item 0 from the queue\n");
-	qd = ac_cqueue_pop(queue);
-	free_queue_item(qd);
-	ac_cqueue_foreach(queue, print_queue_item, NULL);
-
-	qd = malloc(sizeof(struct queue_data));
-	qd->name = strdup("mars");
-	qd->item = 3;
-	printf("Pushing item 3 into the queue\n");
-	ac_cqueue_push(queue, qd);
-	ac_cqueue_foreach(queue, print_queue_item, NULL);
-
-	printf("Popping item 1 from the queue\n");
-	qd = ac_cqueue_pop(queue);
-	printf("Pushing item 1 back into the queue\n");
-	ac_cqueue_push(queue, qd);
-	ac_cqueue_foreach(queue, print_queue_item, NULL);
-
-	printf("The queue is %sempty\n", ac_cqueue_is_empty(queue) ? "" :
-			"not ");
-	printf("Destroying queue\n");
-	ac_cqueue_destroy(queue);
-
-	printf("Creating new dynamically sized queue\n");
-	queue = ac_cqueue_new(0, NULL, 0);
-	printf("Adding 33 numbers to the queue, 1..33\n");
-	for (i = 1; i < 34; i++)
-		ac_cqueue_push(queue, (void *)(long)i);
-	printf("Reading back numbers: ");
-	for (i = 1; i < 34; i++)
-		printf("%d ", (int)(long)ac_cqueue_pop(queue));
-	printf("\n");
-	printf("Destroying queue\n");
-	ac_cqueue_destroy(queue);
-
-	printf("Overwrite queue entries in a queue of 2\n");
-	queue = ac_cqueue_new(2, free_queue_item, AC_CQUEUE_OVERWRITE);
-	qd = malloc(sizeof(struct queue_data));
-	qd->name = strdup("mercury");
-	qd->item = 1;
-	printf("Pushing item %d (%s) into the queue\n", qd->item, qd->name);
-	ac_cqueue_push(queue, qd);
-
-	qd = malloc(sizeof(struct queue_data));
-	qd->name = strdup("venus");
-	qd->item = 2;
-	printf("Pushing item %d (%s) into the queue\n", qd->item, qd->name);
-	ac_cqueue_push(queue, qd);
-
-	qd = malloc(sizeof(struct queue_data));
-	qd->name = strdup("earth");
-	qd->item = 3;
-	printf("Pushing item %d (%s) into the queue\n", qd->item, qd->name);
-	ac_cqueue_push(queue, qd);
-
-	qd = ac_cqueue_pop(queue);
-	printf("Popping item 1 from the queue\n");
-	free_queue_item(qd);
-
-	qd = malloc(sizeof(struct queue_data));
-	qd->name = strdup("mars");
-	qd->item = 4;
-	printf("Pushing item %d (%s) into the queue\n", qd->item, qd->name);
-	ac_cqueue_push(queue, qd);
-
-	ac_cqueue_foreach(queue, print_queue_item, NULL);
-	ac_cqueue_destroy(queue);
-
-	printf("*** %s\n\n", __func__);
-}
-
 static void fs_test(void)
 {
 	int ret;
@@ -602,6 +478,82 @@ static void quark_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
+struct queue_data {
+	char *name;
+	int item;
+};
+
+static void print_queue_item(void *item, void *data __always_unused)
+{
+	struct queue_data *qd = item;
+
+	printf("\titem %d : %s\n", qd->item, qd->name);
+}
+
+static void free_queue_item(void *item)
+{
+	struct queue_data *qd = item;
+
+	printf("Freeing item %d : %s\n", qd->item, qd->name);
+	free(qd->name);
+	free(qd);
+}
+
+static void queue_test(void)
+{
+	ac_queue_t *queue = ac_queue_new();
+	struct queue_data *qd;
+
+	printf("*** %s\n", __func__);
+
+	printf("The queue is %sempty\n", ac_queue_nr_items(queue) == 0 ? "" :
+	       "not ");
+
+	qd = malloc(sizeof(struct queue_data));
+	qd->name = strdup("mercury");
+	qd->item = 0;
+	printf("Pushing item 0 into the queue\n");
+	ac_queue_push(queue, qd);
+
+	qd = malloc(sizeof(struct queue_data));
+	qd->name = strdup("venus");
+	qd->item = 1;
+	printf("Pushing item 1 into the queue\n");
+	ac_queue_push(queue, qd);
+
+	qd = malloc(sizeof(struct queue_data));
+	qd->name = strdup("earth");
+	qd->item = 2;
+	printf("Pushing item 2 into the queue\n");
+	ac_queue_push(queue, qd);
+	printf("There are %u items in the queue :-\n",
+	       ac_queue_nr_items(queue));
+	ac_queue_foreach(queue, print_queue_item, NULL);
+
+	printf("Popping item 0 from the queue\n");
+	qd = ac_queue_pop(queue);
+	free_queue_item(qd);
+	ac_queue_foreach(queue, print_queue_item, NULL);
+
+	qd = malloc(sizeof(struct queue_data));
+	qd->name = strdup("mars");
+	qd->item = 3;
+	printf("Pushing item 3 into the queue\n");
+	ac_queue_push(queue, qd);
+	ac_queue_foreach(queue, print_queue_item, NULL);
+
+	printf("Popping item 1 from the queue\n");
+	qd = ac_queue_pop(queue);
+	printf("Pushing item 1 back into the queue\n");
+	ac_queue_push(queue, qd);
+	ac_queue_foreach(queue, print_queue_item, NULL);
+
+	printf("The queue is %sempty\n", ac_queue_nr_items(queue) == 0 ? "" :
+	       "not ");
+	printf("Destroying queue\n");
+	ac_queue_destroy(queue, free_queue_item);
+}
+
 struct list_data {
 	int val;
 };
@@ -834,7 +786,6 @@ int main(void)
 
 	btree_test();
 	byte_test();
-	cqueue_test();
 	fs_test();
 	geo_test();
 	htable_test();
@@ -842,6 +793,7 @@ int main(void)
 	misc_test();
 	net_test();
 	quark_test();
+	queue_test();
 	slist_test();
 	str_test();
 	time_test();

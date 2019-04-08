@@ -47,8 +47,6 @@ typedef struct crypt_data ac_crypt_data_t;
 #define AC_BYTE_NIBBLE_HIGH(byte) (((byte) >> 4) & 0x0f)
 #define AC_BYTE_NIBBLE_LOW(byte)  ((byte) & 0x0f)
 
-#define AC_CQUEUE_OVERWRITE	0x01
-
 #define AC_FS_COPY_OVERWRITE	0x01
 
 #define AC_STR_SPLIT_ALWAYS	0x00
@@ -100,18 +98,6 @@ typedef struct ac_btree_t {
 	int (*compar)(const void *, const void *);
 	void (*free_node)(void *nodep);
 } ac_btree_t;
-
-typedef struct ac_cqueue_t {
-	void **queue;
-	size_t front;
-	size_t rear;
-	size_t count;
-	size_t size;
-	bool dyn_size;
-	bool overwrite;
-
-	void (*free_item)(void *item);
-} ac_cqueue_t;
 
 typedef struct ac_geo_t {
 	ac_geo_ellipsoid_t ref;
@@ -165,6 +151,14 @@ typedef struct ac_quark_t {
 	void (*free_func)(void *ptr);
 } ac_quark_t;
 
+typedef struct ac_queue_t {
+	struct ac_slist_t *queue;
+	struct ac_slist_t *tail;
+	u32 items;
+
+	void (*free_func)(void *item);
+} ac_queue_t;
+
 typedef struct ac_slist_t {
 	void *data;
 
@@ -181,17 +175,6 @@ void *ac_btree_lookup(ac_btree_t *tree, const void *key);
 void *ac_btree_add(ac_btree_t *tree, const void *key);
 void *ac_btree_remove(ac_btree_t *tree, const void *key);
 void ac_btree_destroy(ac_btree_t *tree);
-
-ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item),
-			   int flags);
-int ac_cqueue_push(ac_cqueue_t *cqueue, void *item);
-void *ac_cqueue_pop(ac_cqueue_t *cqueue);
-void ac_cqueue_foreach(const ac_cqueue_t *cqueue,
-		       void (*action)(void *item, void *data),
-		       void *user_data);
-bool ac_cqueue_is_empty(const ac_cqueue_t *cqueue);
-size_t ac_cqueue_nr_items(const ac_cqueue_t *cqueue);
-void ac_cqueue_destroy(ac_cqueue_t *cqueue);
 
 bool ac_fs_is_posix_name(const char *name);
 int ac_fs_mkdir_p(const char *path);
@@ -266,6 +249,14 @@ void ac_quark_init(ac_quark_t *quark, void (*free_func)(void *ptr));
 int ac_quark_from_string(ac_quark_t *quark, const char *str);
 const char *ac_quark_to_string(ac_quark_t *quark, int id);
 void ac_quark_destroy(ac_quark_t *quark);
+
+ac_queue_t *ac_queue_new(void);
+u32 ac_queue_nr_items(const ac_queue_t *queue);
+int ac_queue_push(ac_queue_t *queue, void *item);
+void *ac_queue_pop(ac_queue_t *queue);
+void ac_queue_foreach(const ac_queue_t *queue,
+		      void (*action)(void *item, void *data), void *user_data);
+void ac_queue_destroy(ac_queue_t *queue, void (*free_func)(void *item));
 
 ac_slist_t *ac_slist_last(ac_slist_t *list);
 long ac_slist_len(ac_slist_t *list);

@@ -9,7 +9,6 @@
   * [misc](#misc)
 3. [Functions](#functions)
   * [Binary Tree functions](#binary-tree-functions)
-  * [Circular Queue functions](#circular-queue-functions)
   * [Filesystem related functions](#filesystem-related-functions)
   * [Geospatial related functions](#geospatial-related-functions)
   * [Hash Table functions](#hash-table-functions)
@@ -17,6 +16,7 @@
   * [Miscellaneous functions](#miscellaneous-functions)
   * [Network related functions](#network-related-functions)
   * [Quark (string to integer mapping) functions](#quark-functions)
+  * [Queue functions](#queue-functions)
   * [Singly linked list functions](#singly-linked-list-functions)
   * [String functions](#string-functions)
   * [Time related functions](#time-related-functions)
@@ -100,8 +100,6 @@ Glibc.
 
 These are aliases for \_\_attribute\_\_((unused))
 
-    #define AC_CQUEUE_OVERWRITE
-
     #define AC_FS_COPY_OVERWRITE
 
     #define AC_UUID4_LEN	36
@@ -147,39 +145,6 @@ functions.
 #### ac\_btree\_destroy - destroy a binary tree freeing all memory
 
     void ac_btree_destroy(ac_btree_t *tree)
-
-
-### Circular queue functions
-
-#### ac\_cqueue\_new - create a new circular queue
-
-    ac_cqueue_t *ac_cqueue_new(size_t size, void (*free_item)(void *item))
-
-#### ac\_cqueue\_push - add an item to the queue
-
-    int ac_cqueue_push(ac_cqueue_t *cqueue, void *item)
-
-#### ac\_cqueue\_pop - get the head element from the queue
-
-    void *ac_cqueue_pop(ac_cqueue_t *cqueue)
-
-#### ac\_cqueue\_foreach - iterate over elements in a queue
-
-    void ac_cqueue_foreach(const ac_cqueue_t *cqueue,
-                           void (*action)(void *item, void *data),
-                           void *user_data)
-
-#### ac\_cqueue\_is\_empty - check if a queue is empty
-
-    bool ac_cqueue_is_empty(const ac_cqueue_t *cqueue)
-
-#### ac\_cqueue\_nr\_items - get the number of elements in the queue
-
-    size_t ac_cqueue_nr_items(const ac_cqueue_t *cqueue)
-
-#### ac\_cqueue\_destroy - destroy a circular queue freeing all its memory
-
-    void ac_cqueue_destroy(ac_cqueue_t *cqueue)
 
 
 ### Filesystem related functions
@@ -431,6 +396,35 @@ functions.
 #### ac\_quark\_destroy - destroy a quark
 
     void ac_quark_destroy(ac_quark_t *quark)
+
+
+### Queue functions
+
+#### ac\_queue\_new - create a new queue
+
+    ac_queue_t *ac_queue_new(void)
+
+#### ac\_queue\_push - add an item to the queue
+
+    int ac_queue_push(ac_queue_t *queue, void *item)
+
+#### ac\_queue\_pop - get the head element from the queue
+
+    void *ac_queue_pop(ac_queue_t *queue)
+
+#### ac\_queue\_foreach - iterate over elements in a queue
+
+    void ac_queue_foreach(const ac_queue_t *queue,
+                          void (*action)(void *item, void *data),
+                          void *user_data)
+
+#### ac\_queue\_nr\_items - get the number of elements in the queue
+
+    u32 ac_queue_nr_items(const ac_queue_t *queue)
+
+#### ac\_queue\_destroy - destroy a queue freeing all its memory
+
+    void ac_queue_destroy(ac_queue_t *queue, (*free_func)(void *item))
 
 
 ### Singly linked list functions
