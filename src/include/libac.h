@@ -100,6 +100,13 @@ typedef struct ac_btree {
 } ac_btree_t;
 
 typedef struct {
+	void **buf;
+	u32 head;
+	u32 tail;
+	u32 size;
+} ac_circ_buf_t;
+
+typedef struct {
 	ac_geo_ellipsoid_t ref;
 	double lat;
 	double lon;
@@ -179,6 +186,18 @@ void ac_btree_destroy(ac_btree_t *tree);
 bool ac_fs_is_posix_name(const char *name);
 int ac_fs_mkdir_p(const char *path);
 ssize_t ac_fs_copy(const char *from, const char *to, int flags);
+
+ac_circ_buf_t *ac_circ_buf_new(u32 size);
+u32 ac_circ_buf_count(const ac_circ_buf_t *cbuf);
+int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, void *buf, size_t count);
+int ac_circ_buf_push(ac_circ_buf_t *cbuf, void *buf);
+int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, size_t count);
+void *ac_circ_buf_pop(ac_circ_buf_t *cbuf);
+void ac_circ_buf_foreach(ac_circ_buf_t *cbuf,
+			 void (*action)(void *item, void *data),
+			 void *user_data);
+void ac_circ_buf_reset(ac_circ_buf_t *cbuf);
+void ac_circ_buf_destroy(ac_circ_buf_t *cbuf);
 
 void ac_geo_dd_to_dms(double degrees, ac_geo_dms_t *dms);
 double ac_geo_dms_to_dd(const ac_geo_dms_t *dms);

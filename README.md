@@ -9,6 +9,7 @@
   * [misc](#misc)
 3. [Functions](#functions)
   * [Binary Tree functions](#binary-tree-functions)
+  * [Circular Buffer functions](#circular-buffer-functions)
   * [Filesystem related functions](#filesystem-related-functions)
   * [Geospatial related functions](#geospatial-related-functions)
   * [Hash Table functions](#hash-table-functions)
@@ -145,6 +146,47 @@ functions.
 #### ac\_btree\_destroy - destroy a binary tree freeing all memory
 
     void ac_btree_destroy(ac_btree_t *tree)
+
+
+### Circular Buffer functions
+
+#### ac\_circ\_buf\_new - create a new circular buffer (size must be power of 2)
+
+    ac_circ_buf_t *ac_circ_buf_new(u32 size)
+
+#### ac\_circ\_buf\_count - how many items are in the buffer
+
+    u32 ac_circ_buf_count(const ac_circ_buf_t *cbuf)
+
+#### ac\_circ\_buf\_pushm - push multiple items into the buffer
+
+    int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, void *buf, size_t count)
+
+#### ac\_circ\_buf\_push - push an item into the buffer
+
+    int ac_circ_buf_push(ac_circ_buf_t *cbuf, void *buf)
+
+#### ac\_circ\_buf\_popm - pop multiple items from buffer
+
+    int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, size_t count)
+
+#### ac\_circ\_buf\_pop - pop an item from the buffer
+
+    void *ac_circ_buf_pop(ac_circ_buf_t *cbuf)
+
+#### ac\_circ\_buf\_foreach - iterate over elements in the circular buffer
+
+    void ac_circ_buf_foreach(ac_circ_buf_t *cbuf,
+                             void (*action)(void *item, void *data),
+                             void *user_data)
+
+#### ac\_circ\_buf\_reset - reset the circular buffer to empty
+
+    void ac_circ_buf_reset(ac_circ_buf_t *cbuf)
+
+#### ac\_circ\_buf\_destroy - destroy a circular buffer
+
+    void ac_circ_buf_destroy(ac_circ_buf_t *cbuf)
 
 
 ### Filesystem related functions

@@ -124,6 +124,115 @@ static void byte_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
+static void print_circ_buf_iteml(void *item, void *data __always_unused)
+{
+	printf("\titem %ld\n", (long)item);
+}
+
+static void print_circ_buf_items(void *item, void *data __always_unused)
+{
+	printf("\titem %s\n", (char *)item);
+}
+
+static void circ_buf_test(void)
+{
+	ac_circ_buf_t *cbuf;
+	long buf[3];
+	void **sbuf;
+	int err;
+	int i;
+
+	printf("*** %s\n", __func__);
+
+	cbuf = ac_circ_buf_new(8);
+
+	buf[0] = 42;
+	buf[1] = 99;
+	buf[2] = 24;
+
+	printf("ac_circ_buf_pushm()\n");
+	err = ac_circ_buf_pushm(cbuf, buf, 3);
+	if (err)
+		printf("ac_circ_buf_pushm() failed\n");
+	else
+		ac_circ_buf_foreach(cbuf, print_circ_buf_iteml, NULL);
+
+	memset(buf, 0, sizeof(buf));
+
+	printf("ac_circ_buf_popm()\n");
+	err = ac_circ_buf_popm(cbuf, buf, 3);
+	if (err)
+		printf("ac_circ_buf_popm() failed\n");
+	printf("Got :-\n\t");
+	for (i = 0; i < 3; i++)
+		printf("%ld ", buf[i]);
+	printf("\b\n");
+
+	sbuf = malloc(2 * sizeof(void *));
+	sbuf[0] = strdup("Hello");
+	sbuf[1] = strdup("World");
+	printf("ac_circ_buf_pushm()\n");
+	err = ac_circ_buf_pushm(cbuf, sbuf, 2);
+	if (err)
+		printf("ac_circ_buf_pushm() failed\n");
+	else
+		ac_circ_buf_foreach(cbuf, print_circ_buf_items, NULL);
+
+	printf("ac_circ_buf_popm()\n");
+	err = ac_circ_buf_popm(cbuf, sbuf, 2);
+	if (err)
+		printf("ac_circ_buf_popm() failed\n");
+	printf("Got :-\n\t");
+	for (i = 0; i < 2; i++)
+		printf("%s ", (char *)sbuf[i]);
+	printf("\b\n");
+
+	printf("ac_circ_buf_pushm()\n");
+	err = ac_circ_buf_pushm(cbuf, sbuf, 2);
+	if (err)
+		printf("ac_circ_buf_pushm() failed\n");
+	else
+		ac_circ_buf_foreach(cbuf, print_circ_buf_items, NULL);
+	printf("nr : %u\n", ac_circ_buf_count(cbuf));
+
+	printf("ac_circ_buf_reset()\n");
+	ac_circ_buf_reset(cbuf);
+	printf("nr : %u\n", ac_circ_buf_count(cbuf));
+
+	/* Upto the user to free any allocated items */
+	free(sbuf[0]);
+	free(sbuf[1]);
+	free(sbuf);
+
+	printf("ac_circ_buf_push()\n");
+	for (i = 1; i < 7; i++)
+		ac_circ_buf_push(cbuf, (void *)(long)i);
+	printf("nr : %u\n", ac_circ_buf_count(cbuf));
+	ac_circ_buf_foreach(cbuf, print_circ_buf_iteml, NULL);
+
+	printf("ac_circ_buf_pop()\n");
+	for (i = 0; i < 6; i++)
+		ac_circ_buf_pop(cbuf);
+	printf("nr : %u\n", ac_circ_buf_count(cbuf));
+	ac_circ_buf_foreach(cbuf, print_circ_buf_iteml, NULL);
+
+	printf("ac_circ_buf_push()\n");
+	for (i = 7; i < 14; i++)
+		ac_circ_buf_push(cbuf, (void *)(long)i);
+	printf("nr : %u\n", ac_circ_buf_count(cbuf));
+	ac_circ_buf_foreach(cbuf, print_circ_buf_iteml, NULL);
+
+	printf("ac_circ_buf_pop()\n");
+	for (i = 0; i < 5; i++)
+		ac_circ_buf_pop(cbuf);
+	printf("nr : %u\n", ac_circ_buf_count(cbuf));
+	ac_circ_buf_foreach(cbuf, print_circ_buf_iteml, NULL);
+
+	ac_circ_buf_destroy(cbuf);
+
+	printf("*** %s\n\n", __func__);
+}
+
 static void fs_test(void)
 {
 	int ret;
@@ -786,6 +895,7 @@ int main(void)
 
 	btree_test();
 	byte_test();
+	circ_buf_test();
 	fs_test();
 	geo_test();
 	htable_test();
