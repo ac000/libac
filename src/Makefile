@@ -1,4 +1,4 @@
-VERSION	= 0.29.0
+VERSION	= 1.0.0
 
 CC	= gcc
 CFLAGS  = -Wall -Wextra -Wdeclaration-after-statement -Wvla -std=c99 -g -O2 -fexceptions -fvisibility=hidden -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC

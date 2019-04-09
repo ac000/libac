@@ -1,5 +1,5 @@
 Name:		libac
-Version:	0.29.0
+Version:	1.0.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Tue Apr 9 2019 Andrew Clayton <andrew@digital-domain.net> - 1.0.0-1
+- Add a cirular buffer
+- Time for a 1.0.0 release!
 
 * Mon Apr 8 2019 Andrew Clayton <andrew@digital-domain.net> - 0.29.0-1
 - New queue implementation
