@@ -3,7 +3,7 @@
 /*
  * libac.h - Miscellaneous functions
  *
- * Copyright (c) 2017 - 2018	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2019	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #ifndef _LIBAC_H_
