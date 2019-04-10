@@ -147,7 +147,7 @@ int ac_circ_buf_push(ac_circ_buf_t *cbuf, void *buf)
  * ac_circ_buf_popm - pop multiple items from buffer
  *
  * @cbuf: The circular buffer to work on
- * @count: The numbr of items to pop from the buffer
+ * @count: The number of items to pop from the buffer
  *
  * Returns:
  *
