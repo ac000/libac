@@ -1,5 +1,5 @@
 Name:		libac
-Version:	1.0.0
+Version:	1.0.1
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
@@ -45,6 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Thu Apr 11 2019 Andrew Clayton <andrew@digital-domain.net> - 1.0.1-1
+- Fix the libray so version in the Makefile and rpm spec
+- Some minor cleanups
 
 * Tue Apr 9 2019 Andrew Clayton <andrew@digital-domain.net> - 1.0.0-1
 - Add a cirular buffer

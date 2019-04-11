@@ -1,5 +1,5 @@
 SOVER	= 1
-VERSION	= $(SOVER).0.0
+VERSION	= $(SOVER).0.1
 
 CC	= gcc
 CFLAGS  = -Wall -Wextra -Wdeclaration-after-statement -Wvla -std=c99 -g -O2 -fexceptions -fvisibility=hidden -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
