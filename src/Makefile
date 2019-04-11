@@ -1,4 +1,5 @@
-VERSION	= 1.0.0
+SOVER	= 1
+VERSION	= $(SOVER).0.0
 
 CC	= gcc
 CFLAGS  = -Wall -Wextra -Wdeclaration-after-statement -Wvla -std=c99 -g -O2 -fexceptions -fvisibility=hidden -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
@@ -35,7 +36,7 @@ objects     =	$(filter-out test.o,$(objects_all))
 
 libac: $(objects)
 	@echo -e "  LNK\t$@"
-	@$(CC) $(LDFLAGS),-soname,libac.so.0 -o libac.so.${VERSION} $(objects) $(LIBS)
+	@$(CC) $(LDFLAGS),-soname,libac.so.$(SOVER) -o libac.so.${VERSION} $(objects) $(LIBS)
 
 $(objects): %.o: %.c
 	@echo -e "  CC\t$@"

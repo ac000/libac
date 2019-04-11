@@ -28,7 +28,7 @@ rm -rf $RPM_BUILD_ROOT
 install -Dp -m644 src/include/libac.h $RPM_BUILD_ROOT/%{_includedir}/libac.h
 install -Dp -m0755 src/libac.so.%{version} $RPM_BUILD_ROOT/%{_libdir}/libac.so.%{version}
 cd $RPM_BUILD_ROOT/%{_libdir}
-ln -s libac.so.0 libac.so
+ln -s libac.so.1 libac.so
 cd -
 
 %post -p /sbin/ldconfig
