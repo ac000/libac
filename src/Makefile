@@ -37,6 +37,8 @@ objects     =	$(filter-out test.o,$(objects_all))
 libac: $(objects)
 	@echo -e "  LNK\t$@"
 	@$(CC) $(LDFLAGS),-soname,libac.so.$(SOVER) -o libac.so.${VERSION} $(objects) $(LIBS)
+	@ln -sf libac.so.${VERSION} libac.so.$(SOVER)
+	@ln -sf libac.so.${VERSION} libac.so
 
 $(objects): %.o: %.c
 	@echo -e "  CC\t$@"
@@ -47,4 +49,4 @@ test: test.c $(objects)
 	@$(CC) $(CFLAGS) -o $@ $< $(objects) $(LIBS)
 
 clean:
-	rm -f libac.so.* *.o test
+	rm -f libac.so* *.o test
