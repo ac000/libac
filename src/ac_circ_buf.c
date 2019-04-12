@@ -113,8 +113,12 @@ u32 ac_circ_buf_count(const ac_circ_buf_t *cbuf)
  */
 int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, void *buf, size_t count)
 {
-	if (circ_space_to_end(cbuf) < count)
-		return -1;
+	if (circ_space_to_end(cbuf) < count) {
+		if (circ_count(cbuf) == 0 && count <= cbuf->size)
+			cbuf->head = cbuf->tail = 0;
+		else
+			return -1;
+	}
 
 	memcpy(cbuf->buf + cbuf->head, buf, count * sizeof(void *));
 	cbuf->head = (cbuf->head + count) & (cbuf->size - 1);
