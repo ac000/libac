@@ -1,5 +1,5 @@
 Name:		libac
-Version:	1.0.1
+Version:	1.99.0
 Release:	1%{?dist}
 Summary:	Library of miscellaneous utility functions
 
