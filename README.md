@@ -152,7 +152,7 @@ functions.
 
 #### ac\_circ\_buf\_new - create a new circular buffer (size must be power of 2)
 
-    ac_circ_buf_t *ac_circ_buf_new(u32 size)
+    ac_circ_buf_t *ac_circ_buf_new(u32 size, size_t elem_sz)
 
 #### ac\_circ\_buf\_count - how many items are in the buffer
 

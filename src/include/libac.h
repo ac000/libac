@@ -100,10 +100,18 @@ typedef struct ac_btree {
 } ac_btree_t;
 
 typedef struct {
-	void **buf;
+	union {
+		void *cpy_buf;
+		void **ptr_buf;
+	} buf;
+
 	u32 head;
 	u32 tail;
+
 	u32 size;
+	size_t elem_sz;
+
+	int type;
 } ac_circ_buf_t;
 
 typedef struct {
@@ -187,10 +195,10 @@ bool ac_fs_is_posix_name(const char *name);
 int ac_fs_mkdir_p(const char *path);
 ssize_t ac_fs_copy(const char *from, const char *to, int flags);
 
-ac_circ_buf_t *ac_circ_buf_new(u32 size);
+ac_circ_buf_t *ac_circ_buf_new(u32 size, size_t elem_sz);
 u32 ac_circ_buf_count(const ac_circ_buf_t *cbuf);
-int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, void *buf, size_t count);
-int ac_circ_buf_push(ac_circ_buf_t *cbuf, void *buf);
+int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, const void *buf, size_t count);
+int ac_circ_buf_push(ac_circ_buf_t *cbuf, const void *buf);
 int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, size_t count);
 void *ac_circ_buf_pop(ac_circ_buf_t *cbuf);
 void ac_circ_buf_foreach(ac_circ_buf_t *cbuf,

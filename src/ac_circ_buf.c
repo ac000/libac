@@ -3,6 +3,8 @@
 /*
  * ac_circ_buf.c - A circular buffer of fixed size (power of 2)
  *
+ * This can store either pointers to data or copies of the data.
+ *
  * Based on include/linux/circ_buf.h from
  * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree
  *
@@ -17,30 +19,40 @@
 
 #include "include/libac.h"
 
+/* Buffer type; storing pointers or copying data */
+enum { PTR_BUF = 0, CPY_BUF };
+
 /*
  * How many items are in the buffer
+ *
+ * When storing pointers ->elem_sz will be 1
  */
 static inline u32 circ_count(const ac_circ_buf_t *cbuf)
 {
-	return (cbuf->head - cbuf->tail) & (cbuf->size - 1);
+	return ((cbuf->head - cbuf->tail) / cbuf->elem_sz) & (cbuf->size - 1);
 }
 
 /*
  * How much free space is in the buffer, 0..size-1
+ *
+ * When storing pointers ->elem_sz will be 1
  */
 static inline u32 circ_space(const ac_circ_buf_t *cbuf)
 {
-	return (cbuf->tail - (cbuf->head + 1)) & (cbuf->size - 1);
+	return ((cbuf->tail - (cbuf->head + cbuf->elem_sz)) / cbuf->elem_sz) &
+	       (cbuf->size - 1);
 }
 
 /*
  * How many contiguous items are in the buffer without wrapping
  * around
+ *
+ * When storing pointers ->elem_sz will be 1
  */
 static inline u32 circ_count_to_end(const ac_circ_buf_t *cbuf)
 {
-	int end = cbuf->size - cbuf->tail;
-	int n = (cbuf->head + end) & (cbuf->size - 1);
+	int end = cbuf->size - (cbuf->tail / cbuf->elem_sz);
+	int n = ((cbuf->head / cbuf->elem_sz) + end) & (cbuf->size - 1);
 
 	return n < end ? n : end;
 }
@@ -48,11 +60,13 @@ static inline u32 circ_count_to_end(const ac_circ_buf_t *cbuf)
 /*
  * How much contiguous free space is in the buffer without
  * wrapping around
+ *
+ * When storing pointers ->elem_sz will be 1
  */
 static inline u32 circ_space_to_end(const ac_circ_buf_t *cbuf)
 {
-	int end = cbuf->size - 1 - cbuf->head;
-	int n = (end + cbuf->tail) & (cbuf->size - 1);
+	int end = cbuf->size - 1 - (cbuf->head / cbuf->elem_sz);
+	int n = (end + (cbuf->tail / cbuf->elem_sz)) & (cbuf->size - 1);
 
 	return n <= end ? n : end + 1;
 }
@@ -66,12 +80,15 @@ static bool is_pow2(u32 val)
  * ac_circ_buf_new - create a new circular buffer
  *
  * @size: The required size of the buffer, must be a power of two
+ * @elem_sz: The size of the individual elements being placed into
+ *           the buffer. Set to 0 for the storing of pointers rather
+ *           than copying the data.
  *
  * Returns:
  *
  * A pointer to a newly allocated buffer or NULL on failure
  */
-ac_circ_buf_t *ac_circ_buf_new(u32 size)
+ac_circ_buf_t *ac_circ_buf_new(u32 size, size_t elem_sz)
 {
 	ac_circ_buf_t *cbuf;
 
@@ -81,7 +98,16 @@ ac_circ_buf_t *ac_circ_buf_new(u32 size)
 	cbuf = malloc(sizeof(ac_circ_buf_t));
 	cbuf->head = cbuf->tail = 0;
 	cbuf->size = size;
-	cbuf->buf = malloc(size * sizeof(void *));
+
+	if (elem_sz == 0) {
+		cbuf->elem_sz = 1;
+		cbuf->type = PTR_BUF;
+		cbuf->buf.ptr_buf = malloc(size * sizeof(void *));
+	} else {
+		cbuf->elem_sz = elem_sz;
+		cbuf->type = CPY_BUF;
+		cbuf->buf.cpy_buf = malloc(size * elem_sz);
+	}
 
 	return cbuf;
 }
@@ -105,13 +131,13 @@ u32 ac_circ_buf_count(const ac_circ_buf_t *cbuf)
  *
  * @cbuf: The circular buffer to work on
  * @buf: The item(s) to push into the buffer
- * @count: The number of items contained in @data
+ * @count: The number of items contained in @buf
  *
  * Returns:
  *
  * 0 on success or -1 if there was no room (contiguous space)
  */
-int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, void *buf, size_t count)
+int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, const void *buf, size_t count)
 {
 	if (circ_space_to_end(cbuf) < count) {
 		if (circ_count(cbuf) == 0 && count <= cbuf->size)
@@ -120,8 +146,15 @@ int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, void *buf, size_t count)
 			return -1;
 	}
 
-	memcpy(cbuf->buf + cbuf->head, buf, count * sizeof(void *));
-	cbuf->head = (cbuf->head + count) & (cbuf->size - 1);
+	if (cbuf->type == PTR_BUF)
+		memcpy(cbuf->buf.ptr_buf + cbuf->head, buf,
+		       count * sizeof(void *));
+	else
+		memcpy(cbuf->buf.cpy_buf + cbuf->head, buf,
+		       count * cbuf->elem_sz);
+
+	cbuf->head = (cbuf->head + (count * cbuf->elem_sz)) &
+		     ((cbuf->size - 1) * cbuf->elem_sz);
 
 	return 0;
 }
@@ -136,13 +169,18 @@ int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, void *buf, size_t count)
  *
  * 0 on success or -1 if the buffer is full
  */
-int ac_circ_buf_push(ac_circ_buf_t *cbuf, void *buf)
+int ac_circ_buf_push(ac_circ_buf_t *cbuf, const void *buf)
 {
 	if (circ_space(cbuf) == 0)
 		return -1;
 
-	cbuf->buf[cbuf->head] = buf;
-	cbuf->head = (cbuf->head + 1) & (cbuf->size - 1);
+	if (cbuf->type == PTR_BUF)
+		cbuf->buf.ptr_buf[cbuf->head] = (void *)buf;
+	else
+		memcpy(cbuf->buf.cpy_buf + cbuf->head, buf, cbuf->elem_sz);
+
+	cbuf->head = (cbuf->head + cbuf->elem_sz) &
+		     ((cbuf->size - 1) * cbuf->elem_sz);
 
 	return 0;
 }
@@ -163,8 +201,15 @@ int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, size_t count)
 	if (circ_count_to_end(cbuf) < count)
 		return -1;
 
-	memcpy(buf, cbuf->buf + cbuf->tail, count * sizeof(void *));
-	cbuf->tail = (cbuf->tail + count) & (cbuf->size - 1);
+	if (cbuf->type == PTR_BUF)
+		memcpy(buf, cbuf->buf.ptr_buf + cbuf->tail,
+		       count * sizeof(void *));
+	else
+		memcpy(buf, cbuf->buf.cpy_buf + cbuf->tail,
+		       count * cbuf->elem_sz);
+
+	cbuf->tail = (cbuf->tail + (count * cbuf->elem_sz)) &
+		     ((cbuf->size - 1) * cbuf->elem_sz);
 
 	return 0;
 }
@@ -185,8 +230,13 @@ void *ac_circ_buf_pop(ac_circ_buf_t *cbuf)
 	if (circ_count(cbuf) == 0)
 		return NULL;
 
-	item = cbuf->buf[cbuf->tail];
-	cbuf->tail = (cbuf->tail + 1) & (cbuf->size - 1);
+	if (cbuf->type == PTR_BUF)
+		item = cbuf->buf.ptr_buf[cbuf->tail];
+	else
+		item = cbuf->buf.cpy_buf + cbuf->tail;
+
+	cbuf->tail = (cbuf->tail + cbuf->elem_sz) &
+		     ((cbuf->size - 1) * cbuf->elem_sz);
 
 	return item;
 }
@@ -211,8 +261,13 @@ void ac_circ_buf_foreach(ac_circ_buf_t *cbuf,
 	for (i = 0; i < count; i++) {
 		u32 k;
 
-		k = (cbuf->tail + i) & (cbuf->size - 1);
-		action(cbuf->buf[k], user_data);
+		k = (cbuf->tail + (i * cbuf->elem_sz)) &
+		    ((cbuf->size - 1) * cbuf->elem_sz);
+
+		if (cbuf->type == PTR_BUF)
+			action(cbuf->buf.ptr_buf[k], user_data);
+		else
+			action(cbuf->buf.cpy_buf + k, user_data);
 	}
 }
 
@@ -233,6 +288,9 @@ void ac_circ_buf_reset(ac_circ_buf_t *cbuf)
  */
 void ac_circ_buf_destroy(ac_circ_buf_t *cbuf)
 {
-	free(cbuf->buf);
+	if (cbuf->type == PTR_BUF)
+		free(cbuf->buf.ptr_buf);
+	else
+		free(cbuf->buf.cpy_buf);
 	free(cbuf);
 }

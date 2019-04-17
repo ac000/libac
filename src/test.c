@@ -134,17 +134,23 @@ static void print_circ_buf_items(void *item, void *data __always_unused)
 	printf("\titem %s\n", (char *)item);
 }
 
+static void print_circ_buf_itemi(void *item, void *data __always_unused)
+{
+	printf("\titem %d\n", *(int *)item);
+}
+
 static void circ_buf_test(void)
 {
 	ac_circ_buf_t *cbuf;
 	long buf[3];
 	void **sbuf;
+	int n[7] = { 1025, 23768, 3, 4, 5, 65539, -1 };
 	int err;
 	int i;
 
 	printf("*** %s\n", __func__);
 
-	cbuf = ac_circ_buf_new(8);
+	cbuf = ac_circ_buf_new(8, 0);
 
 	buf[0] = 42;
 	buf[1] = 99;
@@ -227,6 +233,33 @@ static void circ_buf_test(void)
 		ac_circ_buf_pop(cbuf);
 	printf("nr : %u\n", ac_circ_buf_count(cbuf));
 	ac_circ_buf_foreach(cbuf, print_circ_buf_iteml, NULL);
+
+	ac_circ_buf_destroy(cbuf);
+
+	printf("ac_circ_buf_new() [data copy]\n");
+	cbuf = ac_circ_buf_new(8, sizeof(int));
+
+	printf("ac_circ_buf_push()\n");
+	for (i = 0; i < 3; i++)
+		ac_circ_buf_push(cbuf, n + i);
+	printf("nr : %u\n", ac_circ_buf_count(cbuf));
+
+	printf("ac_circ_buf_pushm()\n");
+	ac_circ_buf_pushm(cbuf, n + i, 4);
+	printf("nr : %u\n", ac_circ_buf_count(cbuf));
+	ac_circ_buf_foreach(cbuf, print_circ_buf_itemi, NULL);
+
+	printf("ac_circ_buf_pop()\n");
+	printf(" -> %d\n", *(int *)ac_circ_buf_pop(cbuf));
+	printf("nr : %u\n", ac_circ_buf_count(cbuf));
+	printf("ac_circ_buf_popm()\n");
+	memset(n, 0, sizeof(n));
+	ac_circ_buf_popm(cbuf, n, 6);
+	printf(" -> ");
+	for (i = 0; i < 6; i++)
+		printf("%d ", n[i]);
+	printf("\b\n");
+	printf("nr : %u\n", ac_circ_buf_count(cbuf));
 
 	ac_circ_buf_destroy(cbuf);
 
