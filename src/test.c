@@ -451,6 +451,8 @@ static void misc_test(void)
 	ac_misc_ppb_t ppb;
 	int bytes = 14568264;
 	u64 bytes2 = 7375982736;
+	u64 luhn_ok = 1111222233334444;
+	u64 luhn_bad = 1111222233334445;
 	ac_crypt_data_t data = { .initialized = 0 };
 	const char *pass = "asdfghjk";
 	char uuid[AC_UUID4_LEN + 1];
@@ -481,6 +483,11 @@ static void misc_test(void)
 
 	printf("UUID 1 -> %s\n", ac_misc_gen_uuid4(uuid));
 	printf("UUID 2 -> %s\n", ac_misc_gen_uuid4(uuid));
+
+	printf("[%lu] luhn check [%s]\n", luhn_ok,
+	       ac_misc_luhn_check(luhn_ok) ? "PASS" : "FAIL");
+	printf("[%lu] luhn check [%s]\n", luhn_bad,
+	       ac_misc_luhn_check(luhn_bad) ? "PASS" : "FAIL");
 
 	printf("*** %s\n\n", __func__);
 }

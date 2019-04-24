@@ -3,13 +3,14 @@
 /*
  * ac_misc.c - Miscellaneous functions
  *
- * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2019	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <crypt.h>
 #include <time.h>
@@ -171,6 +172,43 @@ const char *ac_misc_gen_uuid4(char *dst)
 	dst[AC_UUID4_LEN] = '\0';
 
 	return dst;
+}
+
+/**
+ * ac_misc_luhn_check - perform the Luhn Check on a number
+ *
+ * @num: The number to perform the luhn check on
+ *
+ * This would normally be used for checking the validity of
+ * credit card numbers etc.
+ *
+ * Returns:
+ *
+ * true for pass, false otherwise
+ */
+bool ac_misc_luhn_check(u64 num)
+{
+	u32 sum = 0;
+	bool alt = false;
+
+	/* Need at least two digits */
+	if (num < 10)
+		return false;
+
+	do {
+		u8 digit = num % 10;
+
+		if (alt) {
+			digit *= 2;
+			if (digit > 9)
+				digit = (digit % 10) + 1;
+		}
+		alt = !alt;
+
+		sum += digit;
+	} while ((num /= 10) > 0);
+
+	return !(sum % 10);
 }
 
 #define GOLDEN_MUL	0x61C88647	/* From the Linux kernel */

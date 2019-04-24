@@ -249,6 +249,7 @@ void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
 char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 			ac_crypt_data_t *data);
 const char *ac_misc_gen_uuid4(char *dst);
+bool ac_misc_luhn_check(u64 num);
 u32 ac_hash_func_ptr(const void *key);
 u32 ac_hash_func_str(const void *key);
 u32 ac_hash_func_u32(const void *key);

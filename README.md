@@ -347,6 +347,10 @@ functions.
 
     const char *ac_misc_gen_uuid4(char *dst)
 
+#### ac\_misc\_luhn\_check - perform the Luhn Check on a number
+
+    bool ac_misc_luhn_check(u64 num)
+
 #### ac\_hash\_func\_str - create a hash value for a given string
 
     u32 ac_hash_func_str(const void *key)
