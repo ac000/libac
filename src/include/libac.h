@@ -88,6 +88,10 @@ typedef enum {
 } ac_misc_ppb_factor_t;
 
 typedef enum {
+	AC_MISC_SHUFFLE_FISHER_YATES = 0
+} ac_misc_shuffle_t;
+
+typedef enum {
 	AC_SI_UNITS_NO = 0,
 	AC_SI_UNITS_YES
 } ac_si_units_t;
@@ -249,6 +253,8 @@ void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
 char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 			ac_crypt_data_t *data);
 const char *ac_misc_gen_uuid4(char *dst);
+int ac_misc_shuffle(void *base, size_t nmemb, size_t size,
+		    ac_misc_shuffle_t algo);
 bool ac_misc_luhn_check(u64 num);
 u32 ac_hash_func_ptr(const void *key);
 u32 ac_hash_func_str(const void *key);

@@ -14,6 +14,7 @@
 #include <string.h>
 #include <crypt.h>
 #include <time.h>
+#include <errno.h>
 
 #include "include/libac.h"
 
@@ -209,6 +210,53 @@ bool ac_misc_luhn_check(u64 num)
 	} while ((num /= 10) > 0);
 
 	return !(sum % 10);
+}
+
+static void shuffle_fisher_yates(void *base, size_t nmemb, size_t size)
+{
+	struct timespec tp;
+	void *tmp = malloc(size);
+
+	clock_gettime(CLOCK_REALTIME, &tp);
+	srandom(tp.tv_nsec);
+
+	while (nmemb) {
+		int rnd = random() % nmemb;
+
+		memcpy(tmp, base + rnd * size, size);
+		memcpy(base + rnd * size, base + (nmemb - 1) * size, size);
+		memcpy(base + (nmemb - 1) * size, tmp, size);
+
+		--nmemb;
+	}
+	free(tmp);
+}
+
+/**
+ * ac_misc_shuffle - shuffle a list of elements
+ *
+ * @base: The array to shuffle
+ * @nmemb: The number of elements in the array
+ * @size: The size of each element
+ * @algo: The shuffle algorithm to use
+ *
+ * Returns:
+ *
+ * 0 on success, -1 if an unknown algorithm was specified
+ */
+int ac_misc_shuffle(void *base, size_t nmemb, size_t size,
+		    ac_misc_shuffle_t algo)
+{
+	switch (algo) {
+	case AC_MISC_SHUFFLE_FISHER_YATES:
+		shuffle_fisher_yates(base, nmemb, size);
+		break;
+	default:
+		errno = EINVAL;
+		return -1;
+	}
+
+	return 0;
 }
 
 #define GOLDEN_MUL	0x61C88647	/* From the Linux kernel */

@@ -76,6 +76,10 @@ Glibc.
     AC_MISC_PPB_PBYTES
     AC_MISC_PPB_EBYTES
 
+### ac\_misc\_shuffle\_t
+
+    AC_MISC_SHUFFLE_FISHER_YATES
+
 ### ac\_si\_units\_t
 
     AC_SI_UNITS_NO
@@ -350,6 +354,11 @@ functions.
 #### ac\_misc\_luhn\_check - perform the Luhn Check on a number
 
     bool ac_misc_luhn_check(u64 num)
+
+#### ac\_misc\_shuffle - shuffle a list of elements
+
+    int ac_misc_shuffle(void *base, size_t nmemb, size_t size,
+                        ac_misc_shuffle_t algo)
 
 #### ac\_hash\_func\_str - create a hash value for a given string
 
