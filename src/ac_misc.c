@@ -27,6 +27,8 @@
 #define E(si)	((si) ? (u64)1000*1000*1000*1000*1000*1000 : \
 			(u64)1024*1024*1024*1024*1024*1024)
 
+#define PRNG_BUFSZ	32
+
 static void ppp_set_prefix(ac_si_units_t si, ac_misc_ppb_t *ppb)
 {
 	const char *pfx;
@@ -111,6 +113,9 @@ char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 	const char salt_chars[64] =
 		"./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	char salt[21];
+	char *statebuf;
+	struct random_data rndbuf = { 0 };
+	struct timespec tp;
 	int i;
 
 	memset(salt, 0, sizeof(salt));
@@ -128,16 +133,19 @@ char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 		return NULL;
 	}
 
-	for (i = 3; i < 19; i++) {
-		long r;
-		struct timespec tp;
+	statebuf = calloc(1, PRNG_BUFSZ);
+	clock_gettime(CLOCK_REALTIME, &tp);
+	initstate_r(tp.tv_nsec / 3, statebuf, PRNG_BUFSZ, &rndbuf);
 
-		clock_gettime(CLOCK_REALTIME, &tp);
-		srandom(tp.tv_nsec / 2);
-		r = random() % 64; /* 0 - 63 */
+	for (i = 3; i < 19; i++) {
+		int r;
+
+		random_r(&rndbuf, &r);
+		r %= 64; /* 0 - 63 */
 		salt[i] = salt_chars[r];
 	}
 	salt[i] = '$';
+	free(statebuf);
 
 	return crypt_r(pass, salt, data);
 }
@@ -214,14 +222,20 @@ bool ac_misc_luhn_check(u64 num)
 
 static void shuffle_fisher_yates(void *base, size_t nmemb, size_t size)
 {
+	char *statebuf;
+	struct random_data rndbuf = { 0 };
 	struct timespec tp;
 	void *tmp = malloc(size);
 
+	statebuf = calloc(1, PRNG_BUFSZ);
 	clock_gettime(CLOCK_REALTIME, &tp);
-	srandom(tp.tv_nsec);
+	initstate_r(tp.tv_nsec / 3, statebuf, PRNG_BUFSZ, &rndbuf);
 
 	while (nmemb) {
-		int rnd = random() % nmemb;
+		int rnd;
+
+		random_r(&rndbuf, &rnd);
+		rnd %= nmemb;
 
 		memcpy(tmp, base + rnd * size, size);
 		memcpy(base + rnd * size, base + (nmemb - 1) * size, size);
@@ -230,6 +244,7 @@ static void shuffle_fisher_yates(void *base, size_t nmemb, size_t size)
 		--nmemb;
 	}
 	free(tmp);
+	free(statebuf);
 }
 
 /**
