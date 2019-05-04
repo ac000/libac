@@ -3,7 +3,7 @@
 /*
  * ac_geo.c - Geospatial related functions
  *
- * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2019	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -45,7 +45,7 @@ static const struct ellipsoid ellipsoids[] = {
  */
 void ac_geo_dd_to_dms(double degrees, ac_geo_dms_t *dms)
 {
-	dms->degrees = abs(trunc(degrees));
+	dms->degrees = fabs(trunc(degrees));
 	dms->minutes = trunc(fmod(degrees * 60, 60.0));
 	dms->seconds = fmod(fabs(degrees) * 3600, 60.0);
 }
@@ -179,7 +179,7 @@ void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
 		sigma = s_over_ba + delta_sigma;
 
 		/* break after converging to tolerance */
-		if (abs(sigma - prev_sigma) < 0.0000000000001)
+		if (fabs(sigma - prev_sigma) < 0.0000000000001)
 			break;
 
 		prev_sigma = sigma;
@@ -331,7 +331,7 @@ void ac_geo_bng_to_lat_lon(ac_geo_t *geo)
 
 	phi = atan2(z_2, p*(1-e2));
 	double phiold = 2 * M_PI;
-	while (abs(phi-phiold) > pow(10, -16.0)) {
+	while (fabs(phi-phiold) > pow(10, -16.0)) {
 		phiold = phi;
 		nu = a/sqrt(1-e2*pow(sin(phi), 2.0));
 		phi = atan2(z_2+e2*nu*sin(phi), p);
@@ -394,7 +394,7 @@ void ac_geo_lat_lon_to_bng(ac_geo_t *geo)
 
 	phi = atan2(z_2, p*(1-e2));
 	double phiold = 2 * M_PI;
-	while (abs(phi-phiold) > pow(10, -16.0)) {
+	while (fabs(phi-phiold) > pow(10, -16.0)) {
 		phiold = phi;
 		nu = a/sqrt(1-e2*pow(sin(phi), 2.0));
 		phi = atan2(z_2+e2*nu*sin(phi), p);
