@@ -450,7 +450,7 @@ static void misc_test(void)
 {
 	ac_misc_ppb_t ppb;
 	int bytes = 14568264;
-	int shuff_list[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	int shuff_list[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	int i;
 	u64 bytes2 = 7375982736;
 	u64 luhn_ok = 1111222233334444;
