@@ -185,144 +185,159 @@ typedef struct ac_slist {
 } ac_slist_t;
 
 #pragma GCC visibility push(default)
-void *ac_btree_new(int (*compar)(const void *, const void *),
-		   void (*free_node)(void *nodep));
-void ac_btree_foreach(ac_btree_t *tree, void (*action)(const void *nodep,
-					      const VISIT which,
-					      const int depth));
-void *ac_btree_lookup(ac_btree_t *tree, const void *key);
-void *ac_btree_add(ac_btree_t *tree, const void *key);
-void *ac_btree_remove(ac_btree_t *tree, const void *key);
-void ac_btree_destroy(ac_btree_t *tree);
+extern void *ac_btree_new(int (*compar)(const void *, const void *),
+			  void (*free_node)(void *nodep));
+extern void ac_btree_foreach(ac_btree_t *tree,
+			     void (*action)(const void *nodep,
+					    const VISIT which,
+					    const int depth));
+extern void *ac_btree_lookup(ac_btree_t *tree, const void *key);
+extern void *ac_btree_add(ac_btree_t *tree, const void *key);
+extern void *ac_btree_remove(ac_btree_t *tree, const void *key);
+extern void ac_btree_destroy(ac_btree_t *tree);
 
-bool ac_fs_is_posix_name(const char *name);
-int ac_fs_mkdir_p(const char *path);
-ssize_t ac_fs_copy(const char *from, const char *to, int flags);
+extern bool ac_fs_is_posix_name(const char *name);
+extern int ac_fs_mkdir_p(const char *path);
+extern ssize_t ac_fs_copy(const char *from, const char *to, int flags);
 
-ac_circ_buf_t *ac_circ_buf_new(u32 size, size_t elem_sz);
-u32 ac_circ_buf_count(const ac_circ_buf_t *cbuf);
-int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, const void *buf, size_t count);
-int ac_circ_buf_push(ac_circ_buf_t *cbuf, const void *buf);
-int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, size_t count);
-void *ac_circ_buf_pop(ac_circ_buf_t *cbuf);
-void ac_circ_buf_foreach(ac_circ_buf_t *cbuf,
-			 void (*action)(void *item, void *data),
-			 void *user_data);
-void ac_circ_buf_reset(ac_circ_buf_t *cbuf);
-void ac_circ_buf_destroy(ac_circ_buf_t *cbuf);
+extern ac_circ_buf_t *ac_circ_buf_new(u32 size, size_t elem_sz);
+extern u32 ac_circ_buf_count(const ac_circ_buf_t *cbuf);
+extern int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, const void *buf,
+			     size_t count);
+extern int ac_circ_buf_push(ac_circ_buf_t *cbuf, const void *buf);
+extern int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, size_t count);
+extern void *ac_circ_buf_pop(ac_circ_buf_t *cbuf);
+extern void ac_circ_buf_foreach(ac_circ_buf_t *cbuf,
+				void (*action)(void *item, void *data),
+				void *user_data);
+extern void ac_circ_buf_reset(ac_circ_buf_t *cbuf);
+extern void ac_circ_buf_destroy(ac_circ_buf_t *cbuf);
 
-void ac_geo_dd_to_dms(double degrees, ac_geo_dms_t *dms);
-double ac_geo_dms_to_dd(const ac_geo_dms_t *dms);
-double ac_geo_haversine(const ac_geo_t *from, const ac_geo_t *to);
-void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
-			    double distance);
-void ac_geo_bng_to_lat_lon(ac_geo_t *geo);
-void ac_geo_lat_lon_to_bng(ac_geo_t *geo);
+extern void ac_geo_dd_to_dms(double degrees, ac_geo_dms_t *dms);
+extern double ac_geo_dms_to_dd(const ac_geo_dms_t *dms);
+extern double ac_geo_haversine(const ac_geo_t *from, const ac_geo_t *to);
+extern void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
+				   double distance);
+extern void ac_geo_bng_to_lat_lon(ac_geo_t *geo);
+extern void ac_geo_lat_lon_to_bng(ac_geo_t *geo);
 
-ac_htable_t *ac_htable_new(u32 (*hash_func)(const void *key),
-			   int (*key_cmp)(const void *a, const void *b),
-			   void (*free_key_func)(void *key),
-			   void (*free_data_func)(void *data));
-void ac_htable_insert(ac_htable_t *htable, void *key, void *data);
-bool ac_htable_remove(ac_htable_t *htable, void *key);
-void *ac_htable_lookup(const ac_htable_t *htable, const void *key);
-void ac_htable_foreach(ac_htable_t *htable,
-		       void (*action)(void *key, void *value, void *user_data),
-		       void *user_data);
-void ac_htable_destroy(ac_htable_t *htable);
+extern ac_htable_t *ac_htable_new(u32 (*hash_func)(const void *key),
+				  int (*key_cmp)(const void *a, const void *b),
+				  void (*free_key_func)(void *key),
+				  void (*free_data_func)(void *data));
+extern void ac_htable_insert(ac_htable_t *htable, void *key, void *data);
+extern bool ac_htable_remove(ac_htable_t *htable, void *key);
+extern void *ac_htable_lookup(const ac_htable_t *htable, const void *key);
+extern void ac_htable_foreach(ac_htable_t *htable,
+			      void (*action)(void *key, void *value,
+					     void *user_data),
+			      void *user_data);
+extern void ac_htable_destroy(ac_htable_t *htable);
 
-ac_jsonw_t *ac_jsonw_init(void);
-void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter);
-void ac_json_add_str(ac_jsonw_t *json, const char *name, const char *value);
-void ac_json_add_int(ac_jsonw_t *json, const char *name, s64 value);
-void ac_json_add_float(ac_jsonw_t *json, const char *name, double value);
-void ac_json_add_bool(ac_jsonw_t *json, const char *name, bool value);
-void ac_json_add_null(ac_jsonw_t *json, const char *name);
-void ac_json_add_str_or_null(ac_jsonw_t *json, const char *name,
-			     const char *value);
-void ac_json_add_array(ac_jsonw_t *json, const char *name);
-void ac_json_end_array(ac_jsonw_t *json);
-void ac_json_add_object(ac_jsonw_t *json, const char *name);
-void ac_json_end_object(ac_jsonw_t *json);
-void ac_json_end(ac_jsonw_t *json);
-void ac_json_free(ac_jsonw_t *json);
-size_t ac_json_len(const ac_jsonw_t *json);
-const char *ac_json_get(const ac_jsonw_t *json);
+extern ac_jsonw_t *ac_jsonw_init(void);
+extern void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter);
+extern void ac_json_add_str(ac_jsonw_t *json, const char *name,
+			    const char *value);
+extern void ac_json_add_int(ac_jsonw_t *json, const char *name, s64 value);
+extern void ac_json_add_float(ac_jsonw_t *json, const char *name,
+			      double value);
+extern void ac_json_add_bool(ac_jsonw_t *json, const char *name, bool value);
+extern void ac_json_add_null(ac_jsonw_t *json, const char *name);
+extern void ac_json_add_str_or_null(ac_jsonw_t *json, const char *name,
+				    const char *value);
+extern void ac_json_add_array(ac_jsonw_t *json, const char *name);
+extern void ac_json_end_array(ac_jsonw_t *json);
+extern void ac_json_add_object(ac_jsonw_t *json, const char *name);
+extern void ac_json_end_object(ac_jsonw_t *json);
+extern void ac_json_end(ac_jsonw_t *json);
+extern void ac_json_free(ac_jsonw_t *json);
+extern size_t ac_json_len(const ac_jsonw_t *json);
+extern const char *ac_json_get(const ac_jsonw_t *json);
 
-void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
-char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
-			ac_crypt_data_t *data);
-const char *ac_misc_gen_uuid4(char *dst);
-int ac_misc_shuffle(void *base, size_t nmemb, size_t size,
-		    ac_misc_shuffle_t algo);
-bool ac_misc_luhn_check(u64 num);
-u32 ac_hash_func_ptr(const void *key);
-u32 ac_hash_func_str(const void *key);
-u32 ac_hash_func_u32(const void *key);
-int ac_cmp_ptr(const void *a, const void *b);
-int ac_cmp_str(const void *a, const void *b);
-int ac_cmp_u32(const void *a, const void *b);
+extern void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
+extern char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
+			       ac_crypt_data_t *data);
+extern const char *ac_misc_gen_uuid4(char *dst);
+extern int ac_misc_shuffle(void *base, size_t nmemb, size_t size,
+			   ac_misc_shuffle_t algo);
+extern bool ac_misc_luhn_check(u64 num);
+extern u32 ac_hash_func_ptr(const void *key);
+extern u32 ac_hash_func_str(const void *key);
+extern u32 ac_hash_func_u32(const void *key);
+extern int ac_cmp_ptr(const void *a, const void *b);
+extern int ac_cmp_str(const void *a, const void *b);
+extern int ac_cmp_u32(const void *a, const void *b);
 
-u16 ac_net_port_from_sa(const struct sockaddr *sa);
-int ac_net_inet_pton(const char *src, void *dst);
-const char *ac_net_inet_ntop(const void *src, char *dst, socklen_t size);
-int ac_net_ns_lookup_by_host(const struct addrinfo *hints, const char *node,
-			     bool (*ac_ns_lookup_cb)(const struct addrinfo *ai,
-						     const char *res));
-int ac_net_ns_lookup_by_ip(const struct addrinfo *hints, const char *node,
-			   bool (*ac_ns_lookup_cb)(const struct addrinfo *ai,
-						   const char *res));
-bool ac_net_ipv4_isin(const char *network, u8 cidr, const char *addr);
-bool ac_net_ipv4_isin_sa(const char *network, u8 prefixlen,
-			 const struct sockaddr *sa);
-bool ac_net_ipv6_isin(const char *network, u8 prefixlen, const char *addr);
-bool ac_net_ipv6_isin_sa(const char *network, u8 prefixlen,
-			 const struct sockaddr *sa);
+extern u16 ac_net_port_from_sa(const struct sockaddr *sa);
+extern int ac_net_inet_pton(const char *src, void *dst);
+extern const char *ac_net_inet_ntop(const void *src, char *dst, socklen_t size);
+extern int ac_net_ns_lookup_by_host(const struct addrinfo *hints,
+				    const char *node,
+				    bool (*ac_ns_lookup_cb)
+				         (const struct addrinfo *ai,
+					  const char *res));
+extern int ac_net_ns_lookup_by_ip(const struct addrinfo *hints,
+				  const char *node,
+				  bool (*ac_ns_lookup_cb)
+				       (const struct addrinfo *ai,
+					const char *res));
+extern bool ac_net_ipv4_isin(const char *network, u8 cidr, const char *addr);
+extern bool ac_net_ipv4_isin_sa(const char *network, u8 prefixlen,
+				const struct sockaddr *sa);
+extern bool ac_net_ipv6_isin(const char *network, u8 prefixlen,
+			     const char *addr);
+extern bool ac_net_ipv6_isin_sa(const char *network, u8 prefixlen,
+				const struct sockaddr *sa);
 
-void ac_quark_init(ac_quark_t *quark, void (*free_func)(void *ptr));
-int ac_quark_from_string(ac_quark_t *quark, const char *str);
-const char *ac_quark_to_string(ac_quark_t *quark, int id);
-void ac_quark_destroy(ac_quark_t *quark);
+extern void ac_quark_init(ac_quark_t *quark, void (*free_func)(void *ptr));
+extern int ac_quark_from_string(ac_quark_t *quark, const char *str);
+extern const char *ac_quark_to_string(ac_quark_t *quark, int id);
+extern void ac_quark_destroy(ac_quark_t *quark);
 
-ac_queue_t *ac_queue_new(void);
-u32 ac_queue_nr_items(const ac_queue_t *queue);
-int ac_queue_push(ac_queue_t *queue, void *item);
-void *ac_queue_pop(ac_queue_t *queue);
-void ac_queue_foreach(const ac_queue_t *queue,
-		      void (*action)(void *item, void *data), void *user_data);
-void ac_queue_destroy(ac_queue_t *queue, void (*free_func)(void *item));
+extern ac_queue_t *ac_queue_new(void);
+extern u32 ac_queue_nr_items(const ac_queue_t *queue);
+extern int ac_queue_push(ac_queue_t *queue, void *item);
+extern void *ac_queue_pop(ac_queue_t *queue);
+extern void ac_queue_foreach(const ac_queue_t *queue,
+			     void (*action)(void *item, void *data),
+			     void *user_data);
+extern void ac_queue_destroy(ac_queue_t *queue, void (*free_func)(void *item));
 
-ac_slist_t *ac_slist_last(ac_slist_t *list);
-long ac_slist_len(ac_slist_t *list);
-void ac_slist_add(ac_slist_t **list, void *data);
-void ac_slist_preadd(ac_slist_t **list, void *data);
-bool ac_slist_remove(ac_slist_t **list, void *data, void (*free_data)
-							 (void *data));
-bool ac_slist_remove_nth(ac_slist_t **list, int n, void (*free_data)
-							(void *data));
-bool ac_slist_remove_custom(ac_slist_t **list, void *data,
-			    int (*compar)(const void *a, const void *b),
+extern ac_slist_t *ac_slist_last(ac_slist_t *list);
+extern long ac_slist_len(ac_slist_t *list);
+extern void ac_slist_add(ac_slist_t **list, void *data);
+extern void ac_slist_preadd(ac_slist_t **list, void *data);
+extern bool ac_slist_remove(ac_slist_t **list, void *data,
 			    void (*free_data)(void *data));
-void ac_slist_reverse(ac_slist_t **list);
-ac_slist_t *ac_slist_find(ac_slist_t *list, const void *data);
-ac_slist_t *ac_slist_find_custom(ac_slist_t *list, const void *data,
-				 int (*compar)(const void *a, const void *b));
-void *ac_slist_nth_data(ac_slist_t *list, int n);
-void ac_slist_foreach(ac_slist_t *list, void (*action)(void *item, void *data),
-		      void *user_data);
-void ac_slist_destroy(ac_slist_t **list, void (*free_data)(void *data));
+extern bool ac_slist_remove_nth(ac_slist_t **list, int n,
+				void (*free_data)(void *data));
+extern bool ac_slist_remove_custom(ac_slist_t **list, void *data,
+				   int (*compar)(const void *a, const void *b),
+				   void (*free_data)(void *data));
+extern void ac_slist_reverse(ac_slist_t **list);
+extern ac_slist_t *ac_slist_find(ac_slist_t *list, const void *data);
+extern ac_slist_t *ac_slist_find_custom(ac_slist_t *list, const void *data,
+					int (*compar)(const void *a,
+						      const void *b));
+extern void *ac_slist_nth_data(ac_slist_t *list, int n);
+extern void ac_slist_foreach(ac_slist_t *list,
+			     void (*action)(void *item, void *data),
+			     void *user_data);
+extern void ac_slist_destroy(ac_slist_t **list, void (*free_data)(void *data));
 
-void ac_str_freev(char **stringv);
-char **ac_str_split(const char *string, int delim, int flags);
-char *ac_str_chomp(char *string);
-char *ac_str_substr(const char *src, void *dest, size_t dest_size, int start,
-		    int len);
-int ac_str_levenshtein(const char *s, const char *t);
+extern void ac_str_freev(char **stringv);
+extern char **ac_str_split(const char *string, int delim, int flags);
+extern char *ac_str_chomp(char *string);
+extern char *ac_str_substr(const char *src, void *dest, size_t dest_size,
+			   int start, int len);
+extern int ac_str_levenshtein(const char *s, const char *t);
 
-double ac_time_tspec_diff(struct timespec *delta, const struct timespec *end,
-			  const struct timespec *start);
-void ac_time_secs_to_hms(long total, int *hours, int *minutes, int *seconds);
-int ac_time_nsleep(u64 period);
+extern double ac_time_tspec_diff(struct timespec *delta,
+				 const struct timespec *end,
+				 const struct timespec *start);
+extern void ac_time_secs_to_hms(long total, int *hours, int *minutes,
+				int *seconds);
+extern int ac_time_nsleep(u64 period);
 #pragma GCC visibility pop
 
 #ifdef __cplusplus
