@@ -507,8 +507,8 @@ functions.
 
 #### ac\_slist\_remove\_nth - remove the nth item from the list
 
-    bool ac_slist_remove_nth(ac_slist_t **list, int n, void (*free_data)
-                                                            (void *data))
+    bool ac_slist_remove_nth(ac_slist_t **list, long n, void (*free_data)
+                                                             (void *data))
 
 #### ac\_slist\_remove\_custom - remove an item from the list with the given data
 
@@ -532,7 +532,7 @@ functions.
 
 #### ac\_slist\_nth\_data - retrieve the item's data at position n
 
-    void *ac_slist_nth_data(ac_slist_t *list, int n)
+    void *ac_slist_nth_data(ac_slist_t *list, long n)
 
 #### ac\_slist\_foreach - execute a function for each item in the list
 

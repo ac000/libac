@@ -309,7 +309,7 @@ extern void ac_slist_add(ac_slist_t **list, void *data);
 extern void ac_slist_preadd(ac_slist_t **list, void *data);
 extern bool ac_slist_remove(ac_slist_t **list, void *data,
 			    void (*free_data)(void *data));
-extern bool ac_slist_remove_nth(ac_slist_t **list, int n,
+extern bool ac_slist_remove_nth(ac_slist_t **list, long n,
 				void (*free_data)(void *data));
 extern bool ac_slist_remove_custom(ac_slist_t **list, void *data,
 				   int (*compar)(const void *a, const void *b),
@@ -319,7 +319,7 @@ extern ac_slist_t *ac_slist_find(ac_slist_t *list, const void *data);
 extern ac_slist_t *ac_slist_find_custom(ac_slist_t *list, const void *data,
 					int (*compar)(const void *a,
 						      const void *b));
-extern void *ac_slist_nth_data(ac_slist_t *list, int n);
+extern void *ac_slist_nth_data(ac_slist_t *list, long n);
 extern void ac_slist_foreach(ac_slist_t *list,
 			     void (*action)(void *item, void *data),
 			     void *user_data);

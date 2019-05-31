@@ -140,13 +140,13 @@ bool ac_slist_remove(ac_slist_t **list, void *data, void (*free_data)
  *
  * true if the item was found and removed, false otherwise
  */
-bool ac_slist_remove_nth(ac_slist_t **list, int n, void (*free_data)
+bool ac_slist_remove_nth(ac_slist_t **list, long n, void (*free_data)
 							(void *data))
 {
 	ac_slist_t **pp = list;
 	ac_slist_t *p;
 	bool ret = false;
-	int i = 0;
+	long i = 0;
 
 	while ((p = *pp) != NULL) {
 		if (i++ == n) {
@@ -278,9 +278,9 @@ ac_slist_t *ac_slist_find_custom(ac_slist_t *list, const void *data,
  *
  * The item data if it was found, NULL otherwise
  */
-void *ac_slist_nth_data(ac_slist_t *list, int n)
+void *ac_slist_nth_data(ac_slist_t *list, long n)
 {
-	int i;
+	long i;
 
 	if (!list)
 		return NULL;
