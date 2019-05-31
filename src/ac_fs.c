@@ -167,17 +167,19 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 		 */
 		sync_file_range(ofd, window * IO_SIZE, IO_SIZE,
 				SYNC_FILE_RANGE_WRITE);
-		if (window) {
-			sync_file_range(ofd, (window-1) * IO_SIZE, IO_SIZE,
-					SYNC_FILE_RANGE_WAIT_BEFORE |
-					SYNC_FILE_RANGE_WRITE |
-					SYNC_FILE_RANGE_WAIT_AFTER);
-			posix_fadvise(ofd, (window-1) * IO_SIZE, IO_SIZE,
-					POSIX_FADV_DONTNEED);
-			posix_fadvise(ifd, (window-1) * IO_SIZE, IO_SIZE,
-					POSIX_FADV_DONTNEED);
-		}
+
+		if (window == 0)
+			continue;
+
 		window++;
+		sync_file_range(ofd, (window-1) * IO_SIZE, IO_SIZE,
+				SYNC_FILE_RANGE_WAIT_BEFORE |
+				SYNC_FILE_RANGE_WRITE |
+				SYNC_FILE_RANGE_WAIT_AFTER);
+		posix_fadvise(ofd, (window-1) * IO_SIZE, IO_SIZE,
+			      POSIX_FADV_DONTNEED);
+		posix_fadvise(ifd, (window-1) * IO_SIZE, IO_SIZE,
+			      POSIX_FADV_DONTNEED);
 	} while (bytes_wrote > 0);
 
 cleanup:
