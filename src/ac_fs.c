@@ -98,7 +98,7 @@ int ac_fs_mkdir_p(const char *path)
 	return ret;
 }
 
-#define IO_SIZE	(1024*1024 * 2)
+#define IO_SIZE	(1024*1024 * 2ul)
 /**
  * ac_fs_copy - copy a file
  *
@@ -119,7 +119,7 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 	int ofd;
 	int ret;
 	int oflags = O_EXCL;
-	int window = 0;
+	unsigned window = 0;
 	ssize_t bytes_wrote = -1;
 	struct stat sb;
 
