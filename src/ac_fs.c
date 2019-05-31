@@ -98,7 +98,7 @@ int ac_fs_mkdir_p(const char *path)
 	return ret;
 }
 
-#define IO_SIZE	(1024*1024 * 2ul)
+#define IO_SIZE	(1024*1024 * 8ul)
 /**
  * ac_fs_copy - copy a file
  *
