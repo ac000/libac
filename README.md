@@ -18,6 +18,7 @@
   * [Network related functions](#network-related-functions)
   * [Quark (string to integer mapping) functions](#quark-functions)
   * [Queue functions](#queue-functions)
+  * [Doubly linked list functions](doubly-linked-list-functions)
   * [Singly linked list functions](#singly-linked-list-functions)
   * [String functions](#string-functions)
   * [Time related functions](#time-related-functions)
@@ -480,6 +481,74 @@ functions.
 #### ac\_queue\_destroy - destroy a queue freeing all its memory
 
     void ac_queue_destroy(ac_queue_t *queue, (*free_func)(void *item))
+
+
+### Doubly linked list functions
+
+#### ac\_list\_last - find the last item in the list
+
+    ac_list_t *ac_list_last(ac_list_t *list)
+
+#### ac\_list\_len - return the number of entries in the list
+
+    long ac_list_len(ac_list_t *list)
+
+#### ac\_list\_add - add an item to the end of the list
+
+    void ac_list_add(ac_list_t **list, void *data)
+
+#### ac\_list\_preadd - add an item to the front of the list
+
+    void ac_list_preadd(ac_list_t **list, void *data)
+
+#### ac\_list\_remove - remove an item from the list
+
+    bool ac_list_remove(ac_list_t **list, void *data,
+                        void (*free_data)(void *data))
+
+#### ac\_list\_remove\_nth - remove the nth item from the list
+
+    bool ac_list_remove_nth(ac_list_t **list, long n,
+                            void (*free_data)(void *data))
+
+#### ac\_list\_remove\_custom - remove an item from the list with the given data
+
+    bool ac_list_remove_custom(ac_list_t **list, void *data,
+                               int (*compar)(const void *a, const void *b),
+                               void (*free_data)(void *data))
+
+#### ac\_list\_reverse - reverse a list
+
+    void ac_list_reverse(ac_list_t **list)
+
+#### ac\_list\_find - find an item in the list
+
+    ac_list_t *ac_list_find(ac_list_t *list, const void *data)
+
+#### ac\_list\_find\_custom - find an item in the list with the given data
+
+    ac_list_t *ac_list_find_custom(ac_list_t *list, const void *data,
+                                   int (*compar)(const void *a, const void *b))
+
+#### ac\_list\_nth\_data - retrieve the item's data at position n
+
+    void *ac_list_nth_data(ac_list_t *list, long n)
+
+#### ac\_list\_foreach - execute a function for each item in the list
+
+    void ac_list_foreach(ac_list_t *list,
+                         void (*action)(void *item, void *data),
+                         void *user_data)
+
+#### ac\_list\_rev\_foreach - execute a function for each item in the list in reverse
+
+    void ac_list_rev_foreach(ac_list_t *list,
+                             void (*action)(void *item, void *data),
+                             void *user_data)
+
+#### ac\_list\_destroy - destroy a list, optionally freeing all its items memory
+
+    void ac_list_destroy(ac_list_t **list, void (*free_data)(void *data))
 
 
 ### Singly linked list functions

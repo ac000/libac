@@ -446,6 +446,41 @@ static void json_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
+static void list_print(void *data, void *user_data __always_unused)
+{
+	printf("Got [%s] from list\n", (const char *)data);
+}
+
+static void list_test(void)
+{
+	ac_list_t *list = NULL;
+	const char *item;
+
+	printf("*** %s\n", __func__);
+
+	ac_list_add(&list, "World");
+	ac_list_add(&list, "Hello");
+	ac_list_reverse(&list);
+	item = ac_list_nth_data(list, 0);
+	printf("Got [%s] from list\n", item);
+	item = ac_list_nth_data(list, 1);
+	printf("Got [%s] from list\n", item);
+
+	printf("- Adding [foobar] to list\n");
+	ac_list_add(&list, "foobar");
+	printf("- Removing item [1] from list\n");
+	ac_list_remove_nth(&list, 1, NULL);
+
+	printf("- list forwards\n");
+	ac_list_foreach(list, list_print, NULL);
+	printf("- list backwards\n");
+	ac_list_rev_foreach(list, list_print, NULL);
+
+	ac_list_destroy(&list, NULL);
+
+	printf("*** %s\n\n", __func__);
+}
+
 static void misc_test(void)
 {
 	ac_misc_ppb_t ppb;
@@ -953,6 +988,7 @@ int main(void)
 	geo_test();
 	htable_test();
 	json_test();
+	list_test();
 	misc_test();
 	net_test();
 	quark_test();

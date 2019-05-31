@@ -153,6 +153,13 @@ typedef struct {
 	char *indenter;
 } ac_jsonw_t;
 
+typedef struct ac_list {
+	void *data;
+
+	struct ac_list *prev;
+	struct ac_list *next;
+} ac_list_t;
+
 typedef struct {
 	ac_misc_ppb_factor_t factor;
 	const char *prefix;
@@ -253,6 +260,31 @@ extern void ac_json_end(ac_jsonw_t *json);
 extern void ac_json_free(ac_jsonw_t *json);
 extern size_t ac_json_len(const ac_jsonw_t *json);
 extern const char *ac_json_get(const ac_jsonw_t *json);
+
+extern ac_list_t *ac_list_last(ac_list_t *list);
+extern long ac_list_len(ac_list_t *list);
+extern void ac_list_add(ac_list_t **list, void *data);
+extern void ac_list_preadd(ac_list_t **list, void *data);
+extern bool ac_list_remove(ac_list_t **list, void *data,
+			   void (*free_data)(void *data));
+extern bool ac_list_remove_nth(ac_list_t **list, long n,
+			       void (*free_data)(void *data));
+extern bool ac_list_remove_custom(ac_list_t **list, void *data,
+				  int (*compar)(const void *a, const void *b),
+				  void (*free_data)(void *data));
+extern void ac_list_reverse(ac_list_t **list);
+extern ac_list_t *ac_list_find(ac_list_t *list, const void *data);
+extern ac_list_t *ac_list_find_custom(ac_list_t *list, const void *data,
+				      int (*compar)(const void *a,
+						    const void *b));
+extern void *ac_list_nth_data(ac_list_t *list, long n);
+extern void ac_list_foreach(ac_list_t *list,
+			    void (*action)(void *item, void *data),
+			    void *user_data);
+extern void ac_list_rev_foreach(ac_list_t *list,
+				void (*action)(void *item, void *data),
+				void *user_data);
+extern void ac_list_destroy(ac_list_t **list, void (*free_data)(void *data));
 
 extern void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb);
 extern char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
