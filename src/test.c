@@ -929,7 +929,7 @@ static void str_test(void)
 	ac_str_freev(fields);
 
 	printf("ac_str_chomp  : %s\n", ac_str_chomp(str1));
-	printf("ac_str_substr : %s\n", ac_str_substr(str2, dst, 32, 3, 4));
+	printf("ac_str_substr : %s\n", ac_str_substr(str2, dst, 3, 4));
 
 	printf("Levenshtein diistance between 'str' and 'strings' is %d\n",
 			ac_str_levenshtein("str", "strings"));

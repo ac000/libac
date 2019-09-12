@@ -630,8 +630,7 @@ functions.
 
 #### ac\_str\_substr - extract a substring from a string
 
-    char *ac_str_substr(const char *src, void *dest, size_t dest_size,
-                        int start, int len)
+    char *ac_str_substr(const char *src, char *dest, size_t start, size_t len)
 
 #### ac\_str\_levenshtein - calculate the Levenshtein distance between two strings
 

@@ -360,8 +360,8 @@ extern void ac_slist_destroy(ac_slist_t **list, void (*free_data)(void *data));
 extern void ac_str_freev(char **stringv);
 extern char **ac_str_split(const char *string, int delim, int flags);
 extern char *ac_str_chomp(char *string);
-extern char *ac_str_substr(const char *src, void *dest, size_t dest_size,
-			   int start, int len);
+extern char *ac_str_substr(const char *src, char *dest, size_t start,
+			   size_t len);
 extern int ac_str_levenshtein(const char *s, const char *t);
 
 extern double ac_time_tspec_diff(struct timespec *delta,

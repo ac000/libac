@@ -3,7 +3,7 @@
 /*
  * ac_str.c - String related utility functions.
  *
- * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2019	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -44,7 +44,7 @@ void ac_str_freev(char **stringv)
  *
  * In either case the returned vector should be free'd by a call to
  * ac_str_freev
- *
+ *q
  * Returns:
  *
  * A NULL terminated vector (array of string pointers)
@@ -121,7 +121,6 @@ char *ac_str_chomp(char *string)
  *
  * @src: The string containing the substring to be extracted
  * @dest: A buffer to place the substring into
- * @dest_size: Size of the output buffer
  * @start: The start position in the string to start extraction
  * @len: How many bytes to extract
  *
@@ -129,10 +128,10 @@ char *ac_str_chomp(char *string)
  *
  * A pointer to the substring
  */
-char *ac_str_substr(const char *src, void *dest, size_t dest_size, int start,
-		    int len)
+char *ac_str_substr(const char *src, char *dest, size_t start, size_t len)
 {
-	snprintf(dest, dest_size, "%.*s", len, src + start);
+	memcpy(dest, src + start, len);
+	dest[len] = '\0';
 
 	return dest;
 }
