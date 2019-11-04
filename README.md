@@ -145,8 +145,8 @@ functions.
 #### ac\_btree\_foreach - iterate over the tree
 
     void ac_btree_foreach(ac_btree_t *tree, void (*action)(const void *nodep,
-                                                  const VISIT which,
-                                                  const int depth))
+                                                           const VISIT which,
+                                                           const int depth))
 
 #### ac\_btree\_destroy - destroy a binary tree freeing all memory
 
