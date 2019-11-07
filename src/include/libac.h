@@ -198,9 +198,9 @@ extern void ac_btree_foreach(ac_btree_t *tree,
 			     void (*action)(const void *nodep,
 					    const VISIT which,
 					    const int depth));
-extern void *ac_btree_lookup_cmp(ac_btree_t *tree, const void *key,
+extern void *ac_btree_lookup_cmp(const ac_btree_t *tree, const void *key,
 				 int (*compar)(const void *, const void *));
-extern void *ac_btree_lookup(ac_btree_t *tree, const void *key);
+extern void *ac_btree_lookup(const ac_btree_t *tree, const void *key);
 extern void *ac_btree_add(ac_btree_t *tree, const void *key);
 extern void *ac_btree_remove(ac_btree_t *tree, const void *key);
 extern void ac_btree_destroy(ac_btree_t *tree);

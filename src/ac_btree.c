@@ -84,7 +84,7 @@ void ac_btree_foreach(ac_btree_t *tree, void (*action)(const void *nodep,
  *
  * A pointer to the node if matched or NULL if not
  */
-void *ac_btree_lookup_cmp(ac_btree_t *tree, const void *key,
+void *ac_btree_lookup_cmp(const ac_btree_t *tree, const void *key,
 			  int (*compar)(const void *, const void *))
 {
 	void *node = tfind(key, &tree->rootp, compar);
@@ -105,7 +105,7 @@ void *ac_btree_lookup_cmp(ac_btree_t *tree, const void *key,
  *
  * A pointer to the node if matched or NULL if not
  */
-void *ac_btree_lookup(ac_btree_t *tree, const void *key)
+void *ac_btree_lookup(const ac_btree_t *tree, const void *key)
 {
 	return ac_btree_lookup_cmp(tree, key, tree->compar);
 }
