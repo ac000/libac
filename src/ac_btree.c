@@ -135,7 +135,7 @@ void *ac_btree_add(ac_btree_t *tree, const void *key)
  * Returns:
  *
  * A pointer to the parent node of the removed item or NULL if the node
- * wasn't found
+ * wasn't found or if the last node was removed
  */
 void *ac_btree_remove(ac_btree_t *tree, const void *key)
 {
@@ -147,7 +147,7 @@ void *ac_btree_remove(ac_btree_t *tree, const void *key)
 
 	pnode = tdelete(key, &tree->rootp, tree->compar);
 	tree->free_node(node);
-	if (!pnode)
+	if (!pnode || !tree->rootp)
 		return NULL;
 
 	return *(void **)pnode;
