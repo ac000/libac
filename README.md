@@ -153,6 +153,10 @@ functions.
                                                            const VISIT which,
                                                            const int depth))
 
+#### ac\_btree\_is\_empty - test if the binary tree is empty
+
+    bool ac_btree_is_empty(const ac_btree_t *tree)
+
 #### ac\_btree\_destroy - destroy a binary tree freeing all memory
 
     void ac_btree_destroy(ac_btree_t *tree)

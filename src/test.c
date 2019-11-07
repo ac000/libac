@@ -72,6 +72,8 @@ static void btree_test(void)
 	printf("*** %s\n", __func__);
 	tree = ac_btree_new(compare, free_tnode);
 
+	printf("tree is %sempty\n", ac_btree_is_empty(tree) ? "" : "not ");
+
 	tn = malloc(sizeof(struct tnode));
 	tn->key = 1;
 	tn->data = strdup("Hello");
@@ -81,6 +83,8 @@ static void btree_test(void)
 	tn->key = 2;
 	tn->data = strdup("World");
 	ac_btree_add(tree, tn);
+
+	printf("tree is %sempty\n", ac_btree_is_empty(tree) ? "" : "not ");
 
 	stn.key = 1;
 	tn = ac_btree_lookup(tree, &stn);

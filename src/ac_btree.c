@@ -136,6 +136,9 @@ void *ac_btree_add(ac_btree_t *tree, const void *key)
  *
  * A pointer to the parent node of the removed item or NULL if the node
  * wasn't found or if the last node was removed
+ *
+ * You can make a call to ac_btree_is_empty() to find out which of the
+ * above
  */
 void *ac_btree_remove(ac_btree_t *tree, const void *key)
 {
@@ -151,4 +154,18 @@ void *ac_btree_remove(ac_btree_t *tree, const void *key)
 		return NULL;
 
 	return *(void **)pnode;
+}
+
+/**
+ * ac_btree_is_empty - test if the binary tree is empty
+ *
+ * @tree: The tree to check
+ *
+ * Returns:
+ *
+ * true if the tree is empty, false otherwise
+ */
+bool ac_btree_is_empty(const ac_btree_t *tree)
+{
+	return !tree->rootp;
 }

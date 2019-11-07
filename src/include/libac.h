@@ -204,6 +204,7 @@ extern void *ac_btree_lookup(ac_btree_t *tree, const void *key);
 extern void *ac_btree_add(ac_btree_t *tree, const void *key);
 extern void *ac_btree_remove(ac_btree_t *tree, const void *key);
 extern void ac_btree_destroy(ac_btree_t *tree);
+extern bool ac_btree_is_empty(const ac_btree_t *tree);
 
 extern bool ac_fs_is_posix_name(const char *name);
 extern int ac_fs_mkdir_p(const char *path);
