@@ -105,7 +105,7 @@ int ac_quark_from_string(ac_quark_t *quark, const char *str)
  *
  * A pointer to the string
  */
-const char *ac_quark_to_string(ac_quark_t *quark, int id)
+const char *ac_quark_to_string(const ac_quark_t *quark, int id)
 {
 	struct quark_node qnl = { .id = id, .string = NULL };
 	struct quark_node *qn;

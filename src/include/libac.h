@@ -338,7 +338,7 @@ extern bool ac_net_ipv6_isin_sa(const char *network, u8 prefixlen,
 
 extern void ac_quark_init(ac_quark_t *quark, void (*free_func)(void *ptr));
 extern int ac_quark_from_string(ac_quark_t *quark, const char *str);
-extern const char *ac_quark_to_string(ac_quark_t *quark, int id);
+extern const char *ac_quark_to_string(const ac_quark_t *quark, int id);
 extern void ac_quark_destroy(ac_quark_t *quark);
 
 extern ac_queue_t *ac_queue_new(void);

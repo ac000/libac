@@ -461,7 +461,7 @@ functions.
 
 #### ac\_quark\_to\_string - retrieve the given string
 
-    const char *ac_quark_to_string(ac_quark_t *quark, int id)
+    const char *ac_quark_to_string(const ac_quark_t *quark, int id)
 
 #### ac\_quark\_destroy - destroy a quark
 
