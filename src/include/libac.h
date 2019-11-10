@@ -62,6 +62,18 @@ typedef struct crypt_data ac_crypt_data_t;
 #define AC_LONG_TO_PTR(x)	((void *)(long)x)
 #define AC_PTR_TO_LONG(p)	((long)p)
 
+#define AC_MAX(a, b) \
+	({ __typeof__(a) _a = (a); \
+           __typeof__ (b) _b = (b); \
+         _a > _b ? _a : _b; })
+
+#define AC_MIN(a, b) \
+	({ __typeof__(a) _a = (a); \
+           __typeof__ (b) _b = (b); \
+         _a < _b ? _a : _b; })
+
+#define AC_ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+
 #define AC_UUID4_LEN		36
 
 typedef enum {

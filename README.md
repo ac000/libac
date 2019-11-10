@@ -98,6 +98,11 @@ Glibc.
     AC_LONG_TO_PTR(x)
     AC_PTR_TO_LONG(p)
 
+    AC_MIN(a, b)
+    AC_MAX(a, b)
+
+    AC_ARRAY_SIZE(a)
+
 ### misc
 
     #define __unused

@@ -555,6 +555,10 @@ static void misc_test(void)
 		printf("%d ", shuff_list[i]);
 	printf("\b\n");
 
+	printf("AC_MIN(30, 10)            : %d\n", AC_MIN(30, 10));
+	printf("AC_MAX(0, -1)             : %d\n", AC_MAX(0, -1));
+	printf("AC_ARRAY_SIZE(shuff_list) : %ld\n", AC_ARRAY_SIZE(shuff_list));
+
 	printf("*** %s\n\n", __func__);
 }
 
