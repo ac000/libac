@@ -71,31 +71,6 @@ void ac_btree_foreach(ac_btree_t *tree, void (*action)(const void *nodep,
 }
 
 /**
- * ac_btree_lookup_cmp - lookup a node in the tree with custom compar function
- *
- * @tree: The tree to do the lookup on
- * @key: The item to be matched
- * @compar: A comparison function. Function should return an integer less
- *          than, equal to or greater than zero if the first argument is
- *          considered to be respectively less than, equal to or greater
- *          than the second
- *
- * Returns:
- *
- * A pointer to the node if matched or NULL if not
- */
-void *ac_btree_lookup_cmp(const ac_btree_t *tree, const void *key,
-			  int (*compar)(const void *, const void *))
-{
-	void *node = tfind(key, &tree->rootp, compar);
-
-	if (!node)
-		return NULL;
-
-	return *(void **)node;
-}
-
-/**
  * ac_btree_lookup - lookup a node in the tree
  *
  * @tree: The tree to do the lookup on
@@ -107,7 +82,12 @@ void *ac_btree_lookup_cmp(const ac_btree_t *tree, const void *key,
  */
 void *ac_btree_lookup(const ac_btree_t *tree, const void *key)
 {
-	return ac_btree_lookup_cmp(tree, key, tree->compar);
+	void *node = tfind(key, &tree->rootp, tree->compar);
+
+	if (!node)
+		return NULL;
+
+	return *(void **)node;
 }
 
 /**

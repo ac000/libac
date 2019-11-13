@@ -55,14 +55,6 @@ static int compare(const void *pa, const void *pb)
 		return 0;
 }
 
-static int compare2(const void *pa, const void *pb)
-{
-	const struct tnode *tn1 = pa;
-	const struct tnode *tn2 = pb;
-
-	return strcmp((char *)tn1->data, (char *)tn2->data);
-}
-
 static void btree_test(void)
 {
 	ac_btree_t *tree;
@@ -94,14 +86,8 @@ static void btree_test(void)
 	tn = ac_btree_lookup(tree, &stn);
 	printf("Found tnode: %d - %s\n", tn->key, (char *)tn->data);
 
-	stn.data = "World";
-	printf("Looking up by data field \"World\"...\n");
-	tn = ac_btree_lookup_cmp(tree, &stn, compare2);
-	printf("Found tnode: %d - %s\n", tn->key, (char *)tn->data);
-
 	ac_btree_foreach(tree, print_node);
 
-	stn.key = 2;
 	ac_btree_remove(tree, &stn);
 	ac_btree_destroy(tree);
 

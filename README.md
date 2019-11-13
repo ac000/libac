@@ -143,11 +143,6 @@ functions.
 
     void *ac_btree_remove(ac_btree_t *tree, const void *key)
 
-####  ac\_btree\_lookup\_cmp - lookup a node in the tree with custom compar function
-
-    void *ac_btree_lookup_cmp(const ac_btree_t *tree, const void *key,
-                              int (*compar)(const void *, const void *))
-
 #### ac\_btree\_lookup - lookup a node in the tree
 
     void *ac_btree_lookup(const ac_btree_t *tree, const void *key)
