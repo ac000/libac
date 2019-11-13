@@ -3,7 +3,7 @@
 /*
  * ac_quark.c - String to integer mapping
  *
- * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2019	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -35,20 +35,10 @@ static void quark_free_node(void *data)
 
 static int quark_compar(const void *pa, const void *pb)
 {
-	const struct quark_node *qn1 = pa;
-	const struct quark_node *qn2 = pb;
+	const char *s1 = ((const struct quark_node *)pa)->string;
+	const char *s2 = ((const struct quark_node *)pb)->string;
 
-	/* quark_from_string */
-	if (qn1->string)
-		return strcmp(qn1->string, qn2->string);
-
-	/* quark_to_string */
-	if (qn1->id < qn2->id)
-		return -1;
-	else if (qn1->id > qn2->id)
-		return 1;
-	else
-		return 0;
+	return strcmp(s1, s2);
 }
 
 /**
@@ -60,7 +50,8 @@ static int quark_compar(const void *pa, const void *pb)
  */
 void ac_quark_init(ac_quark_t *quark, void(*free_func)(void *ptr))
 {
-	quark->mapping = ac_btree_new(quark_compar, quark_free_node);
+	quark->qt = ac_btree_new(quark_compar, quark_free_node);
+	quark->quarks = NULL;
 	quark->last = -1;
 
 	if (!free_func)
@@ -81,15 +72,20 @@ void ac_quark_init(ac_quark_t *quark, void(*free_func)(void *ptr))
  */
 int ac_quark_from_string(ac_quark_t *quark, const char *str)
 {
-	struct quark_node qnl = { .id = -1, .string = (char *)str };
+	struct quark_node qnl = { .string = (char *)str };
 	struct quark_node *qn;
 
-	qn = ac_btree_lookup(quark->mapping, &qnl);
+	qn = ac_btree_lookup(quark->qt, &qnl);
 	if (!qn) {
 		qn = malloc(sizeof(struct quark_node));
 		qn->string = strdup(str);
 		qn->id = ++quark->last;
-		ac_btree_add(quark->mapping, qn);
+		ac_btree_add(quark->qt, qn);
+		quark->quarks = realloc(quark->quarks,
+					sizeof(void *) * (quark->last + 1));
+		quark->quarks[quark->last] = qn;
+
+		return quark->last;
 	}
 
 	return qn->id;
@@ -107,14 +103,8 @@ int ac_quark_from_string(ac_quark_t *quark, const char *str)
  */
 const char *ac_quark_to_string(const ac_quark_t *quark, int id)
 {
-	struct quark_node qnl = { .id = id, .string = NULL };
-	struct quark_node *qn;
-
-	qn = ac_btree_lookup(quark->mapping, &qnl);
-	if (!qn)
-		return NULL;
-
-	return qn->string;
+	return id > quark->last ? NULL :
+		((struct quark_node *)quark->quarks[id])->string;
 }
 
 /**
@@ -124,6 +114,7 @@ const char *ac_quark_to_string(const ac_quark_t *quark, int id)
  */
 void ac_quark_destroy(ac_quark_t *quark)
 {
-	ac_btree_destroy(quark->mapping);
+	ac_btree_destroy(quark->qt);
+	free(quark->quarks);
 	quark->free_func(quark);
 }

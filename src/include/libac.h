@@ -183,7 +183,8 @@ typedef struct {
 } ac_misc_ppb_t;
 
 typedef struct {
-	struct ac_btree *mapping;
+	struct ac_btree *qt;
+	void **quarks;
 	int last;
 
 	void (*free_func)(void *ptr);
