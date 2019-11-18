@@ -494,7 +494,7 @@ static void misc_test(void)
 	u64 bytes2 = 7375982736;
 	u64 luhn_ok = 1111222233334444;
 	u64 luhn_bad = 1111222233334445;
-	ac_crypt_data_t data = { .initialized = 0 };
+	ac_crypt_data_t data;
 	const char *pass = "asdfghjk";
 	char uuid[AC_UUID4_LEN + 1];
 

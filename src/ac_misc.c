@@ -147,6 +147,8 @@ char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 	salt[i] = '$';
 	free(statebuf);
 
+	data->initialized = 0;
+
 	return crypt_r(pass, salt, data);
 }
 
