@@ -713,4 +713,4 @@ See *LGPL-2.1* in the repository root for details.
 
 ## Contributing
 
-See *CodingStyle* & *Contributing.md*
+See *CodingStyle.md* & *Contributing.md*
