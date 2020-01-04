@@ -713,21 +713,4 @@ See *LGPL-2.1* in the repository root for details.
 
 ## Contributing
 
-See *CodingStyle*.
-
-Patches and/or pull requests should be sent to:
-Andrew Clayton <andrew@digital-domain.net>. Or via GitHub.
-
-See: *git-format-patch(1)*, *git-send-email(1)* and *git-request-pull(1)* for
-good ways to do this via email.
-
-Commit messages should be formatted appropriately with a suitable *subject*
-line and properly formatted *mesasge body* describing why the change is
-needed and what the change does.
-
-They should also be *Signed-off*, this means adding a line like
-
-    Signed-off-by: Name <email>
-
-at the end of the commit message (after a blank line). See
-<https://developercertificate.org/>
+See *CodingStyle* & *Contributing.md*
