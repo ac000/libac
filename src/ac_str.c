@@ -3,7 +3,8 @@
 /*
  * ac_str.c - String related utility functions.
  *
- * Copyright (c) 2017, 2019	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2019 - 2020		Andrew Clayton
+ *						<andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -136,7 +137,7 @@ char *ac_str_substr(const char *src, char *dest, size_t start, size_t len)
 	return dest;
 }
 
-static int minimum(int a, int b, int c)
+static inline int minimum(int a, int b, int c)
 {
 	int min = a;
 
