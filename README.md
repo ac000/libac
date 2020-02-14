@@ -13,6 +13,7 @@
   * [Filesystem related functions](#filesystem-related-functions)
   * [Geospatial related functions](#geospatial-related-functions)
   * [Hash Table functions](#hash-table-functions)
+  * [JSON functions](#json-functions)
   * [JOSN Writer functions](#json-writer-functions)
   * [Miscellaneous functions](#miscellaneous-functions)
   * [Network related functions](#network-related-functions)
@@ -276,6 +277,17 @@ functions.
 #### ac\_htable\_destroy - destroy the given hash table
 
     void ac_htable_destroy(ac_htable_t *htable)
+
+
+### JSON functions
+
+#### ac\_json\_load\_from\_fd - loads json from an open file descriptor
+
+    char *ac_json_load_from_fd(int fd, off_t offset)
+
+#### ac\_json\_load\_from\_file - loads json from the specified file
+
+    char *ac_json_load_from_file(const char *file, off_t offset)
 
 
 ### JSON Writer functions

@@ -255,6 +255,9 @@ extern void ac_htable_foreach(ac_htable_t *htable,
 			      void *user_data);
 extern void ac_htable_destroy(ac_htable_t *htable);
 
+extern char *ac_json_load_from_fd(int fd, off_t offset);
+extern char *ac_json_load_from_file(const char *file, off_t offset);
+
 extern ac_jsonw_t *ac_jsonw_init(void);
 extern void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter);
 extern void ac_jsonw_add_str(ac_jsonw_t *json, const char *name,
