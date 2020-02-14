@@ -3,7 +3,7 @@
 /*
  * libac.h - Miscellaneous functions
  *
- * Copyright (c) 2017 - 2019	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2020	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #ifndef _LIBAC_H_
@@ -257,23 +257,23 @@ extern void ac_htable_destroy(ac_htable_t *htable);
 
 extern ac_jsonw_t *ac_jsonw_init(void);
 extern void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter);
-extern void ac_json_add_str(ac_jsonw_t *json, const char *name,
-			    const char *value);
-extern void ac_json_add_int(ac_jsonw_t *json, const char *name, s64 value);
-extern void ac_json_add_float(ac_jsonw_t *json, const char *name,
-			      double value);
-extern void ac_json_add_bool(ac_jsonw_t *json, const char *name, bool value);
-extern void ac_json_add_null(ac_jsonw_t *json, const char *name);
-extern void ac_json_add_str_or_null(ac_jsonw_t *json, const char *name,
-				    const char *value);
-extern void ac_json_add_array(ac_jsonw_t *json, const char *name);
-extern void ac_json_end_array(ac_jsonw_t *json);
-extern void ac_json_add_object(ac_jsonw_t *json, const char *name);
-extern void ac_json_end_object(ac_jsonw_t *json);
-extern void ac_json_end(ac_jsonw_t *json);
-extern void ac_json_free(ac_jsonw_t *json);
-extern size_t ac_json_len(const ac_jsonw_t *json);
-extern const char *ac_json_get(const ac_jsonw_t *json);
+extern void ac_jsonw_add_str(ac_jsonw_t *json, const char *name,
+			     const char *value);
+extern void ac_jsonw_add_int(ac_jsonw_t *json, const char *name, s64 value);
+extern void ac_jsonw_add_float(ac_jsonw_t *json, const char *name,
+			       double value);
+extern void ac_jsonw_add_bool(ac_jsonw_t *json, const char *name, bool value);
+extern void ac_jsonw_add_null(ac_jsonw_t *json, const char *name);
+extern void ac_jsonw_add_str_or_null(ac_jsonw_t *json, const char *name,
+				     const char *value);
+extern void ac_jsonw_add_array(ac_jsonw_t *json, const char *name);
+extern void ac_jsonw_end_array(ac_jsonw_t *json);
+extern void ac_jsonw_add_object(ac_jsonw_t *json, const char *name);
+extern void ac_jsonw_end_object(ac_jsonw_t *json);
+extern void ac_jsonw_end(ac_jsonw_t *json);
+extern void ac_jsonw_free(ac_jsonw_t *json);
+extern size_t ac_jsonw_len(const ac_jsonw_t *json);
+extern const char *ac_jsonw_get(const ac_jsonw_t *json);
 
 extern ac_list_t *ac_list_last(ac_list_t *list);
 extern long ac_list_len(ac_list_t *list);

@@ -288,62 +288,62 @@ functions.
 
     void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter)
 
-#### ac\_json\_add\_str - adds a string to the JSON
+#### ac\_jsonw\_add\_str - adds a string to the JSON
 
-    void ac_json_add_str(ac_jsonw_t *json, const char *name, const char *value)
+    void ac_jsonw_add_str(ac_jsonw_t *json, const char *name, const char *value)
 
-#### ac\_json\_add\_int - adds an integer to the JSON
+#### ac\_jsonw\_add\_int - adds an integer to the JSON
 
-    void ac_json_add_int(ac_jsonw_t *json, const char *name, s64 value)
+    void ac_jsonw_add_int(ac_jsonw_t *json, const char *name, s64 value)
 
-#### ac\_json\_add\_float - adds an floating point number to the JSON
+#### ac\_jsonw\_add\_float - adds an floating point number to the JSON
 
-    void ac_json_add_float(ac_jsonw_t *json, const char *name, double value)
+    void ac_jsonw_add_float(ac_jsonw_t *json, const char *name, double value)
 
-#### ac\_json\_add\_bool - adds a boolean value to the JSON
+#### ac\_jsonw\_add\_bool - adds a boolean value to the JSON
 
-    void ac_json_add_bool(ac_jsonw_t *json, const char *name, bool value)
+    void ac_jsonw_add_bool(ac_jsonw_t *json, const char *name, bool value)
 
-#### ac\_json\_add\_null - adds a null value to the JSON
+#### ac\_jsonw\_add\_null - adds a null value to the JSON
 
-    void ac_json_add_null(ac_jsonw_t *json, const char *name)
+    void ac_jsonw_add_null(ac_jsonw_t *json, const char *name)
 
-#### ac\_json\_add\_str\_or\_null - adds a string or a null value to the JSON
+#### ac\_jsonw\_add\_str\_or\_null - adds a string or a null value to the JSON
 
-    void ac_json_add_str_or_null(ac_jsonw_t *json, const char *name,
-                                 const char *value)
+    void ac_jsonw_add_str_or_null(ac_jsonw_t *json, const char *name,
+                                  const char *value)
 
-#### ac\_json\_add\_array - adds an array to the JSON
+#### ac\_jsonw\_add\_array - adds an array to the JSON
 
-    void ac_json_add_array(ac_jsonw_t *json, const char *name)
+    void ac_jsonw_add_array(ac_jsonw_t *json, const char *name)
 
-#### ac\_json\_end\_array - ends a JSON array
+#### ac\_jsonw\_end\_array - ends a JSON array
 
-    void ac_json_end_array(ac_jsonw_t *json)
+    void ac_jsonw_end_array(ac_jsonw_t *json)
 
-#### ac\_json\_add\_object - adds a new JSON object to the JSON
+#### ac\_jsonw\_add\_object - adds a new JSON object to the JSON
 
-    void ac_json_add_object(ac_jsonw_t *json, const char *name)
+    void ac_jsonw_add_object(ac_jsonw_t *json, const char *name)
 
-#### ac\_json\_end\_object - ends a JSON object
+#### ac\_jsonw\_end\_object - ends a JSON object
 
-    void ac_json_end_object(ac_jsonw_t *json)
+    void ac_jsonw_end_object(ac_jsonw_t *json)
 
-#### ac\_json\_end - ends the JSON
+#### ac\_jsonw\_end - ends the JSON
 
-    void ac_json_end(ac_jsonw_t *json)
+    void ac_jsonw_end(ac_jsonw_t *json)
 
-#### ac\_json\_free - free's the ac\_jsonw\_t object
+#### ac\_jsonw\_free - free's the ac\_jsonw\_t object
 
-    void ac_json_free(ac_jsonw_t *json)
+    void ac_jsonw_free(ac_jsonw_t *json)
 
-#### ac\_json\_len - gets the length of the created JSON
+#### ac\_jsonw\_len - gets the length of the created JSON
 
-    size_t ac_json_len(const ac_jsonw_t *json)
+    size_t ac_jsonw_len(const ac_jsonw_t *json)
 
-#### ac\_json\_get - gets the created JSON
+#### ac\_jsonw\_get - gets the created JSON
 
-    const char *ac_json_get(const ac_jsonw_t *json)
+    const char *ac_jsonw_get(const ac_jsonw_t *json)
 
 
 ### Miscellaneous functions

@@ -1,9 +1,9 @@
 /* SPDX-License-Identifier: LGPL-2.1 */
 
 /*
- * ac_json.c - Functions for writing JSON
+ * ac_jsonw.c - Functions for writing JSON
  *
- * Copyright (c) 2018		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2018, 2020	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -143,7 +143,7 @@ static char *make_escaped_string(const char *str)
 }
 
 /**
- * ac_json_add_str - adds a string to the JSON
+ * ac_jsonw_add_str - adds a string to the JSON
  *
  * @json: The ac_jsonw_t to operate on
  * @name: The field name
@@ -152,7 +152,7 @@ static char *make_escaped_string(const char *str)
  * name can be NULL when no field name is required. i.e when adding
  * array items.
  */
-void ac_json_add_str(ac_jsonw_t *json, const char *name, const char *value)
+void ac_jsonw_add_str(ac_jsonw_t *json, const char *name, const char *value)
 {
 	char *escaped_string = make_escaped_string(value);
 
@@ -166,7 +166,7 @@ void ac_json_add_str(ac_jsonw_t *json, const char *name, const char *value)
 }
 
 /**
- * ac_json_add_int - adds an integer to the JSON
+ * ac_jsonw_add_int - adds an integer to the JSON
  *
  * @json: The ac_jsonw_t to operate on
  * @name: The field name
@@ -177,7 +177,7 @@ void ac_json_add_str(ac_jsonw_t *json, const char *name, const char *value)
  * name can be NULL when no field name is required. i.e when adding
  * array items.
  */
-void ac_json_add_int(ac_jsonw_t *json, const char *name, s64 value)
+void ac_jsonw_add_int(ac_jsonw_t *json, const char *name, s64 value)
 {
 	if (name)
 		json_build_str(json, "\"%s\": %" PRId64 ",\n", name, value);
@@ -186,7 +186,7 @@ void ac_json_add_int(ac_jsonw_t *json, const char *name, s64 value)
 }
 
 /**
- * ac_json_add_float - adds an floating point number to the JSON
+ * ac_jsonw_add_float - adds an floating point number to the JSON
  *
  * @json: The ac_jsonw_t to operate on
  * @name: The field name
@@ -195,7 +195,7 @@ void ac_json_add_int(ac_jsonw_t *json, const char *name, s64 value)
  * name can be NULL when no field name is required. i.e when adding
  * array items.
  */
-void ac_json_add_float(ac_jsonw_t *json, const char *name, double value)
+void ac_jsonw_add_float(ac_jsonw_t *json, const char *name, double value)
 {
 	if (name)
 		json_build_str(json, "\"%s\": %g,\n", name, value);
@@ -204,7 +204,7 @@ void ac_json_add_float(ac_jsonw_t *json, const char *name, double value)
 }
 
 /**
- * ac_json_add_bool - adds a boolean value to the JSON
+ * ac_jsonw_add_bool - adds a boolean value to the JSON
  *
  * @json: The ac_jsonw_t to operate on
  * @name: The field name
@@ -215,7 +215,7 @@ void ac_json_add_float(ac_jsonw_t *json, const char *name, double value)
  * name can be NULL when no field name is required. i.e when adding
  * array items.
  */
-void ac_json_add_bool(ac_jsonw_t *json, const char *name, bool value)
+void ac_jsonw_add_bool(ac_jsonw_t *json, const char *name, bool value)
 {
 	if (name)
 		json_build_str(json, "\"%s\": %s,\n", name,
@@ -225,7 +225,7 @@ void ac_json_add_bool(ac_jsonw_t *json, const char *name, bool value)
 }
 
 /**
- * ac_json_add_null - adds a null value to the JSON
+ * ac_jsonw_add_null - adds a null value to the JSON
  *
  * @json: The ac_jsonw_t to operate on
  * @name: The field name
@@ -233,7 +233,7 @@ void ac_json_add_bool(ac_jsonw_t *json, const char *name, bool value)
  * name can be NULL when no field name is required. i.e when adding
  * array items.
  */
-void ac_json_add_null(ac_jsonw_t *json, const char *name)
+void ac_jsonw_add_null(ac_jsonw_t *json, const char *name)
 {
 	if (name)
 		json_build_str(json, "\"%s\": null,\n", name);
@@ -242,7 +242,7 @@ void ac_json_add_null(ac_jsonw_t *json, const char *name)
 }
 
 /**
- * ac_json_add_str_or_null - adds a string or a null value to the JSON
+ * ac_jsonw_add_str_or_null - adds a string or a null value to the JSON
  *
  * @json: The ac_jsonw_t to operate on
  * @name: The field name
@@ -253,22 +253,22 @@ void ac_json_add_null(ac_jsonw_t *json, const char *name)
  * name can be NULL when no field name is required. i.e when adding
  * array items.
  */
-void ac_json_add_str_or_null(ac_jsonw_t *json, const char *name,
-			     const char *value)
+void ac_jsonw_add_str_or_null(ac_jsonw_t *json, const char *name,
+			      const char *value)
 {
 	if (value && strlen(value) > 0)
-		ac_json_add_str(json, name, value);
+		ac_jsonw_add_str(json, name, value);
 	else
-		ac_json_add_null(json, name);
+		ac_jsonw_add_null(json, name);
 }
 
 /**
- * ac_json_add_array - adds an array to the JSON
+ * ac_jsonw_add_array - adds an array to the JSON
  *
  * @json: The ac_jsonw_t to operate on
  * @name: The array name
  */
-void ac_json_add_array(ac_jsonw_t *json, const char *name)
+void ac_jsonw_add_array(ac_jsonw_t *json, const char *name)
 {
 	json_build_str(json, "\"%s\": [\n", name);
 	json->depth++;
@@ -299,22 +299,22 @@ static void __json_end(ac_jsonw_t *json, const char *closer)
 }
 
 /**
- * ac_json_end_array - ends a JSON array
+ * ac_jsonw_end_array - ends a JSON array
  *
  * @json: The ac_jsonw_t to operate on
  */
-void ac_json_end_array(ac_jsonw_t *json)
+void ac_jsonw_end_array(ac_jsonw_t *json)
 {
 	__json_end(json, "]");
 }
 
 /**
- * ac_json_add_object - adds a new JSON object to the JSON
+ * ac_jsonw_add_object - adds a new JSON object to the JSON
  *
  * @json: The ac_jsonw_t to operate on
  * @name: The array name
  */
-void ac_json_add_object(ac_jsonw_t *json, const char *name)
+void ac_jsonw_add_object(ac_jsonw_t *json, const char *name)
 {
 	if (name)
 		json_build_str(json, "\"%s\": {\n", name);
@@ -325,32 +325,32 @@ void ac_json_add_object(ac_jsonw_t *json, const char *name)
 }
 
 /**
- * ac_json_end_object - ends a JSON object
+ * ac_jsonw_end_object - ends a JSON object
  *
  * @json: The ac_jsonw_t to operate on
  */
-void ac_json_end_object(ac_jsonw_t *json)
+void ac_jsonw_end_object(ac_jsonw_t *json)
 {
 	__json_end(json, "}");
 }
 
 /**
- * ac_json_end - ends the JSON
+ * ac_jsonw_end - ends the JSON
  *
  * @json: The ac_jsonw_t to operate on
  */
-void ac_json_end(ac_jsonw_t *json)
+void ac_jsonw_end(ac_jsonw_t *json)
 {
 	json->depth = 1;
 	__json_end(json, "}");
 }
 
 /**
- * ac_json_free - free's the ac_jsonw_t object
+ * ac_jsonw_free - free's the ac_jsonw_t object
  *
  * @json: The ac_jsonw_t to operate on
  */
-void ac_json_free(ac_jsonw_t *json)
+void ac_jsonw_free(ac_jsonw_t *json)
 {
 	if (!json)
 		return;
@@ -361,7 +361,7 @@ void ac_json_free(ac_jsonw_t *json)
 }
 
 /**
- * ac_json_len - gets the length of the created JSON
+ * ac_jsonw_len - gets the length of the created JSON
  *
  * @json: The ac_jsonw_t to operate on
  *
@@ -369,13 +369,13 @@ void ac_json_free(ac_jsonw_t *json)
  *
  * The length in bytes of the created JSON
  */
-size_t ac_json_len(const ac_jsonw_t *json)
+size_t ac_jsonw_len(const ac_jsonw_t *json)
 {
 	return json->len;
 }
 
 /**
- * ac_json_get - gets the created JSON
+ * ac_jsonw_get - gets the created JSON
  *
  * @json: The ac_jsonw_t to operate on
  *
@@ -383,7 +383,7 @@ size_t ac_json_len(const ac_jsonw_t *json)
  *
  * The created JSON string
  */
-const char *ac_json_get(const ac_jsonw_t *json)
+const char *ac_jsonw_get(const ac_jsonw_t *json)
 {
 	return json->str;
 }

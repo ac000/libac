@@ -410,42 +410,42 @@ static void json_test(void)
 
 	json = ac_jsonw_init();
 
-	ac_json_add_str(json, "domain", "example.com");
-	ac_json_add_bool(json, "active", false);
-	ac_json_add_null(json, "owner");
-	ac_json_add_array(json, "aliases");
-	ac_json_end_array(json);
-	ac_json_add_object(json, "network");
-	ac_json_add_array(json, "ips");
-	ac_json_add_str(json, NULL, "2001:db8::1");
-	ac_json_add_str(json, NULL, "172.16.1.1");
-	ac_json_end_array(json);
-	ac_json_add_object(json, "dns");
-	ac_json_end_object(json);
-	ac_json_end_object(json);
-	ac_json_end(json);
+	ac_jsonw_add_str(json, "domain", "example.com");
+	ac_jsonw_add_bool(json, "active", false);
+	ac_jsonw_add_null(json, "owner");
+	ac_jsonw_add_array(json, "aliases");
+	ac_jsonw_end_array(json);
+	ac_jsonw_add_object(json, "network");
+	ac_jsonw_add_array(json, "ips");
+	ac_jsonw_add_str(json, NULL, "2001:db8::1");
+	ac_jsonw_add_str(json, NULL, "172.16.1.1");
+	ac_jsonw_end_array(json);
+	ac_jsonw_add_object(json, "dns");
+	ac_jsonw_end_object(json);
+	ac_jsonw_end_object(json);
+	ac_jsonw_end(json);
 
-	printf("%s\n\n", ac_json_get(json));
-	ac_json_free(json);
+	printf("%s\n\n", ac_jsonw_get(json));
+	ac_jsonw_free(json);
 
 	json = ac_jsonw_init();
 	ac_jsonw_set_indenter(json, "    ");
 
-	ac_json_add_array(json, "object_array");
-	ac_json_add_object(json, NULL);
-	ac_json_add_str(json, "item1", "Hello");
-	ac_json_add_str(json, "item2", "World\r\n");
-	ac_json_end_object(json);
-	ac_json_add_object(json, NULL);
-	ac_json_add_str(json, "item1", "qwerty");
-	ac_json_add_str(json, "item2", "azerty");
-	ac_json_add_str(json, "item3", "8'6\"");
-	ac_json_end_object(json);
-	ac_json_end_array(json);
-	ac_json_end(json);
+	ac_jsonw_add_array(json, "object_array");
+	ac_jsonw_add_object(json, NULL);
+	ac_jsonw_add_str(json, "item1", "Hello");
+	ac_jsonw_add_str(json, "item2", "World\r\n");
+	ac_jsonw_end_object(json);
+	ac_jsonw_add_object(json, NULL);
+	ac_jsonw_add_str(json, "item1", "qwerty");
+	ac_jsonw_add_str(json, "item2", "azerty");
+	ac_jsonw_add_str(json, "item3", "8'6\"");
+	ac_jsonw_end_object(json);
+	ac_jsonw_end_array(json);
+	ac_jsonw_end(json);
 
-	printf("%s\n", ac_json_get(json));
-	ac_json_free(json);
+	printf("%s\n", ac_jsonw_get(json));
+	ac_jsonw_free(json);
 
 	printf("*** %s\n\n", __func__);
 }
