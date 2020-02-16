@@ -34,19 +34,24 @@ sources     =	$(wildcard *.c)
 objects_all =	$(sources:.c=.o)
 objects     =	$(filter-out test.o,$(objects_all))
 
+v = @
+ifeq ($V,1)
+	v =
+endif
+
 libac: $(objects)
 	@echo -e "  LNK\t$@"
-	@$(CC) $(LDFLAGS),-soname,libac.so.$(SOVER) -o libac.so.${VERSION} $(objects) $(LIBS)
-	@ln -sf libac.so.${VERSION} libac.so.$(SOVER)
-	@ln -sf libac.so.${VERSION} libac.so
+	$(v)$(CC) $(LDFLAGS),-soname,libac.so.$(SOVER) -o libac.so.${VERSION} $(objects) $(LIBS)
+	$(v)ln -sf libac.so.${VERSION} libac.so.$(SOVER)
+	$(v)ln -sf libac.so.${VERSION} libac.so
 
 $(objects): %.o: %.c
 	@echo -e "  CC\t$@"
-	@$(CC) $(CFLAGS) -c -o $@ $<
+	$(v)$(CC) $(CFLAGS) -c -o $@ $<
 
 test: test.c $(objects)
 	@echo -e "  CCLNK\t$@"
-	@$(CC) $(CFLAGS) -o $@ $< $(objects) $(LIBS)
+	$(v)$(CC) $(CFLAGS) -o $@ $< $(objects) $(LIBS)
 
 clean:
 	rm -f libac.so* *.o test
