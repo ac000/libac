@@ -8,7 +8,7 @@
   * [ac\_si\_units\_t](#ac_si_units_t)
   * [misc](#misc)
 3. [Functions](#functions)
-  * [Binary Tree functions](#binary-tree-functions)
+  * [Binary Search Tree functions](#binary-search-tree-functions)
   * [Circular Buffer functions](#circular-buffer-functions)
   * [Filesystem related functions](#filesystem-related-functions)
   * [Geospatial related functions](#geospatial-related-functions)
@@ -126,7 +126,7 @@ These are aliases for \_\_attribute\_\_((unused))
 
 ## Functions
 
-### Binary Tree functions
+### Binary Search Tree functions
 
 These are a thin wrapper around the Glibc TSEARCH(3) set of binary tree
 functions.
@@ -150,9 +150,10 @@ functions.
 
 #### ac\_btree\_foreach - iterate over the tree
 
-    void ac_btree_foreach(ac_btree_t *tree, void (*action)(const void *nodep,
-                                                           const VISIT which,
-                                                           const int depth))
+    void ac_btree_foreach(const ac_btree_t *tree,
+                          void (*action)(const void *nodep, VISIT which,
+                                         void *data),
+                          void *user_data)
 
 #### ac\_btree\_is\_empty - test if the binary tree is empty
 

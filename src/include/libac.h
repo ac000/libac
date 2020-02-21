@@ -207,10 +207,11 @@ typedef struct ac_slist {
 #pragma GCC visibility push(default)
 extern void *ac_btree_new(int (*compar)(const void *, const void *),
 			  void (*free_node)(void *nodep));
-extern void ac_btree_foreach(ac_btree_t *tree,
+extern void ac_btree_foreach(const ac_btree_t *tree,
 			     void (*action)(const void *nodep,
-					    const VISIT which,
-					    const int depth));
+					    VISIT which,
+					    void *data),
+			     void *user_data);
 extern void *ac_btree_lookup(const ac_btree_t *tree, const void *key);
 extern void *ac_btree_add(ac_btree_t *tree, const void *key);
 extern void *ac_btree_remove(ac_btree_t *tree, const void *key);

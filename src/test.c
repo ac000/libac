@@ -3,7 +3,7 @@
 /*
  * test.c - Test harness for libac
  *
- * Copyright (c) 2017 - 2018	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2020	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE			/* strdup(3), struct addrinfo */
@@ -34,12 +34,25 @@ static void free_tnode(void *data)
 	free(tn);
 }
 
-static void print_node(const void *data, const VISIT which __always_unused,
-		       const int depth __always_unused)
+static void print_node(const void *data, VISIT which,
+		       void *user_data __always_unused)
 {
 	struct tnode *tn = *(struct tnode **)data;
 
-	printf("%d : %s\n", tn->key, (char *)tn->data);
+	/*
+	 * See the tsearch(3) man page for an explanation of the below
+	 * values.
+	 *
+	 * Here, we only want to print each node once.
+	 */
+	switch (which) {
+	case preorder:
+	case endorder:
+		return;
+	case postorder:
+	case leaf:
+		printf("%d : %s\n", tn->key, (char *)tn->data);
+	}
 }
 
 static int compare(const void *pa, const void *pb)
@@ -86,7 +99,7 @@ static void btree_test(void)
 	tn = ac_btree_lookup(tree, &stn);
 	printf("Found tnode: %d - %s\n", tn->key, (char *)tn->data);
 
-	ac_btree_foreach(tree, print_node);
+	ac_btree_foreach(tree, print_node, NULL);
 
 	ac_btree_remove(tree, &stn);
 	ac_btree_destroy(tree);

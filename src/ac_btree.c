@@ -1,9 +1,10 @@
 /* SPDX-License-Identifier: LGPL-2.1 */
 
 /*
- * ac_btree.c - Binary tree functions
+ * ac_btree.c - Binary search tree functions
  *
- * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2019 - 2020	Andrew Clayton
+ *					<andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE		/* tdestroy(3) */
@@ -62,12 +63,14 @@ void *ac_btree_new(int (*compar)(const void *, const void *),
  *
  * @tree: The binary tree to operate on
  * @action: Function to be called for each node
+ * @user_data: Optional user data argument passed to action() as closure
  */
-void ac_btree_foreach(ac_btree_t *tree, void (*action)(const void *nodep,
-						       const VISIT which,
-						       const int depth))
+void ac_btree_foreach(const ac_btree_t *tree,
+		      void (*action)(const void *nodep, VISIT which,
+				     void *data),
+		      void *user_data)
 {
-	twalk(tree->rootp, action);
+	twalk_r(tree->rootp, action, user_data);
 }
 
 /**
