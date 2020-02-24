@@ -30,6 +30,11 @@ ifeq "$(GCC_VER_OK)" "1"
         CFLAGS += -fstack-protector-strong
 endif
 
+ifeq ($(ASAN),1)
+	CFLAGS += -fsanitize=address
+	LIBS   += -lasan
+endif
+
 sources     =	$(wildcard *.c)
 objects_all =	$(sources:.c=.o)
 objects     =	$(filter-out test.o,$(objects_all))
