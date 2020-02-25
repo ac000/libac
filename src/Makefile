@@ -31,8 +31,7 @@ ifeq "$(GCC_VER_OK)" "1"
 endif
 
 ifeq ($(ASAN),1)
-	CFLAGS += -fsanitize=address
-	LIBS   += -lasan
+        override ASAN = -fsanitize=address
 endif
 
 sources     =	$(wildcard *.c)
@@ -56,7 +55,7 @@ $(objects): %.o: %.c
 
 test: test.c $(objects)
 	@echo -e "  CCLNK\t$@"
-	$(v)$(CC) $(CFLAGS) -o $@ $< $(objects) $(LIBS)
+	$(v)$(CC) $(CFLAGS) $(ASAN) -o $@ $< $(objects) $(LIBS)
 
 clean:
 	rm -f libac.so* *.o test
