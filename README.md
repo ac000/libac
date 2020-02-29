@@ -161,7 +161,7 @@ functions.
 
 #### ac\_btree\_destroy - destroy a binary tree freeing all memory
 
-    void ac_btree_destroy(ac_btree_t *tree)
+    void ac_btree_destroy(const ac_btree_t *tree)
 
 
 ### Circular Buffer functions
@@ -192,7 +192,7 @@ functions.
 
 #### ac\_circ\_buf\_foreach - iterate over elements in the circular buffer
 
-    void ac_circ_buf_foreach(ac_circ_buf_t *cbuf,
+    void ac_circ_buf_foreach(const ac_circ_buf_t *cbuf,
                              void (*action)(void *item, void *data),
                              void *user_data)
 
@@ -202,7 +202,7 @@ functions.
 
 #### ac\_circ\_buf\_destroy - destroy a circular buffer
 
-    void ac_circ_buf_destroy(ac_circ_buf_t *cbuf)
+    void ac_circ_buf_destroy(const ac_circ_buf_t *cbuf)
 
 
 ### Filesystem related functions
@@ -271,13 +271,13 @@ functions.
 
 #### ac\_htable\_foreach - iterate over each entry in a hash table
 
-    void ac_htable_foreach(ac_htable_t *htable,
+    void ac_htable_foreach(const ac_htable_t *htable,
                            void (*action)(void *key, void *value,
                                           void *user_data), void *user_data)
 
 #### ac\_htable\_destroy - destroy the given hash table
 
-    void ac_htable_destroy(ac_htable_t *htable)
+    void ac_htable_destroy(const ac_htable_t *htable)
 
 
 ### JSON functions
@@ -348,7 +348,7 @@ functions.
 
 #### ac\_jsonw\_free - free's the ac\_jsonw\_t object
 
-    void ac_jsonw_free(ac_jsonw_t *json)
+    void ac_jsonw_free(const ac_jsonw_t *json)
 
 #### ac\_jsonw\_len - gets the length of the created JSON
 
@@ -473,7 +473,7 @@ functions.
 
 #### ac\_quark\_destroy - destroy a quark
 
-    void ac_quark_destroy(ac_quark_t *quark)
+    void ac_quark_destroy(const ac_quark_t *quark)
 
 
 ### Queue functions
@@ -502,7 +502,7 @@ functions.
 
 #### ac\_queue\_destroy - destroy a queue freeing all its memory
 
-    void ac_queue_destroy(ac_queue_t *queue, (*free_func)(void *item))
+    void ac_queue_destroy(const ac_queue_t *queue, (*free_func)(void *item))
 
 
 ### Doubly linked list functions
@@ -513,7 +513,7 @@ functions.
 
 #### ac\_list\_len - return the number of entries in the list
 
-    long ac_list_len(ac_list_t *list)
+    long ac_list_len(const ac_list_t *list)
 
 #### ac\_list\_add - add an item to the end of the list
 
@@ -581,7 +581,7 @@ functions.
 
 #### ac\_slist\_len - return the number of entries in the list
 
-    long ac_slist_len(ac_slist_t *list)
+    long ac_slist_len(const ac_slist_t *list)
 
 #### ac\_slist\_add - add an item to the end of the list
 

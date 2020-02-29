@@ -23,14 +23,14 @@ static void null_free_node(void *data __always_unused)
  *
  * @tree: The binary tree to be destroyed
  */
-void ac_btree_destroy(ac_btree_t *tree)
+void ac_btree_destroy(const ac_btree_t *tree)
 {
 	if (!tree)
 		return;
 
 	tdestroy(tree->rootp, tree->free_node);
 
-	free(tree);
+	free((void *)tree);
 }
 
 /**

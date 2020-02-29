@@ -8,7 +8,7 @@
  * Based on include/linux/circ_buf.h from
  * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree
  *
- * Copyright (c) 2019		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2019 - 2020	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -248,7 +248,7 @@ void *ac_circ_buf_pop(ac_circ_buf_t *cbuf)
  * @action: The function to call on each element
  * @user_data: Optional user data to pass to action. Can be NULL
  */
-void ac_circ_buf_foreach(ac_circ_buf_t *cbuf,
+void ac_circ_buf_foreach(const ac_circ_buf_t *cbuf,
 			 void (*action)(void *item, void *data),
 			 void *user_data)
 {
@@ -286,11 +286,11 @@ void ac_circ_buf_reset(ac_circ_buf_t *cbuf)
  *
  * @cbuf: The circular buffer to work on
  */
-void ac_circ_buf_destroy(ac_circ_buf_t *cbuf)
+void ac_circ_buf_destroy(const ac_circ_buf_t *cbuf)
 {
 	if (cbuf->type == PTR_BUF)
 		free(cbuf->buf.ptr_buf);
 	else
 		free(cbuf->buf.cpy_buf);
-	free(cbuf);
+	free((void *)cbuf);
 }

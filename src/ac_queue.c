@@ -3,7 +3,8 @@
 /*
  * ac_queue.c - A FIFO queue of arbitary size
  *
- * Copyright (c) 2017, 2019	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2019 - 2020	Andrew Clayton
+ *					<andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -133,11 +134,11 @@ void ac_queue_foreach(const ac_queue_t *queue,
  * @queue: The queue to destroy
  * @free_func: A function to free an element of the queue or NULL for none
  */
-void ac_queue_destroy(ac_queue_t *queue, void (*free_func)(void *item))
+void ac_queue_destroy(const ac_queue_t *queue, void (*free_func)(void *item))
 {
 	if (!queue)
 		return;
 
-	ac_slist_destroy(&queue->queue, free_func);
-	free(queue);
+	ac_slist_destroy((ac_slist_t **)&queue->queue, free_func);
+	free((void *)queue);
 }

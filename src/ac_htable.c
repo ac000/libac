@@ -3,7 +3,7 @@
 /*
  * ac_htable.c - Hash Table
  *
- * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2020	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -34,7 +34,7 @@ static ac_slist_t *bucket_list_lookup(const ac_htable_t *htable,
 	return NULL;
 }
 
-static bool bucket_list_remove(ac_htable_t *htable, ac_slist_t **list,
+static bool bucket_list_remove(const ac_htable_t *htable, ac_slist_t **list,
 			       void *key)
 {
 	ac_slist_t **pp = list;
@@ -176,7 +176,7 @@ void *ac_htable_lookup(const ac_htable_t *htable, const void *key)
  *          key, data and optional user supplied data as arguments
  * @user_data: Optional pointer to data to pass to the above function
  */
-void ac_htable_foreach(ac_htable_t *htable,
+void ac_htable_foreach(const ac_htable_t *htable,
 		       void (*action)(void *key, void *value, void *user_data),
 		       void *user_data)
 {
@@ -199,7 +199,7 @@ void ac_htable_foreach(ac_htable_t *htable,
  *
  * @htable: The hash table to destroy/free
  */
-void ac_htable_destroy(ac_htable_t *htable)
+void ac_htable_destroy(const ac_htable_t *htable)
 {
 	u32 bucket;
 
@@ -221,5 +221,5 @@ void ac_htable_destroy(ac_htable_t *htable)
 	}
 
 	free(htable->buckets);
-	free(htable);
+	free((void *)htable);
 }

@@ -3,7 +3,8 @@
 /*
  * ac_quark.c - String to integer mapping
  *
- * Copyright (c) 2017, 2019	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2019 - 2020	Andrew Clayton
+ *					<andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -112,9 +113,9 @@ const char *ac_quark_to_string(const ac_quark_t *quark, int id)
  *
  * @quark: The quark to be destroyed
  */
-void ac_quark_destroy(ac_quark_t *quark)
+void ac_quark_destroy(const ac_quark_t *quark)
 {
 	ac_btree_destroy(quark->qt);
 	free(quark->quarks);
-	quark->free_func(quark);
+	quark->free_func((void *)quark);
 }

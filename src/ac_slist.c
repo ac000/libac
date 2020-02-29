@@ -3,7 +3,7 @@
 /*
  * ac_slist.c - Singly linked list
  *
- * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2020	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -39,7 +39,7 @@ ac_slist_t *ac_slist_last(ac_slist_t *list)
  *
  * The number of entries in the list, 0 if empty
  */
-long ac_slist_len(ac_slist_t *list)
+long ac_slist_len(const ac_slist_t *list)
 {
 	long len = 0;
 

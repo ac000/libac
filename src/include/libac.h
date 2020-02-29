@@ -215,7 +215,7 @@ extern void ac_btree_foreach(const ac_btree_t *tree,
 extern void *ac_btree_lookup(const ac_btree_t *tree, const void *key);
 extern void *ac_btree_add(ac_btree_t *tree, const void *key);
 extern void *ac_btree_remove(ac_btree_t *tree, const void *key);
-extern void ac_btree_destroy(ac_btree_t *tree);
+extern void ac_btree_destroy(const ac_btree_t *tree);
 extern bool ac_btree_is_empty(const ac_btree_t *tree);
 
 extern bool ac_fs_is_posix_name(const char *name);
@@ -229,11 +229,11 @@ extern int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, const void *buf,
 extern int ac_circ_buf_push(ac_circ_buf_t *cbuf, const void *buf);
 extern int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, size_t count);
 extern void *ac_circ_buf_pop(ac_circ_buf_t *cbuf);
-extern void ac_circ_buf_foreach(ac_circ_buf_t *cbuf,
+extern void ac_circ_buf_foreach(const ac_circ_buf_t *cbuf,
 				void (*action)(void *item, void *data),
 				void *user_data);
 extern void ac_circ_buf_reset(ac_circ_buf_t *cbuf);
-extern void ac_circ_buf_destroy(ac_circ_buf_t *cbuf);
+extern void ac_circ_buf_destroy(const ac_circ_buf_t *cbuf);
 
 extern void ac_geo_dd_to_dms(double degrees, ac_geo_dms_t *dms);
 extern double ac_geo_dms_to_dd(const ac_geo_dms_t *dms);
@@ -250,11 +250,11 @@ extern ac_htable_t *ac_htable_new(u32 (*hash_func)(const void *key),
 extern void ac_htable_insert(ac_htable_t *htable, void *key, void *data);
 extern bool ac_htable_remove(ac_htable_t *htable, void *key);
 extern void *ac_htable_lookup(const ac_htable_t *htable, const void *key);
-extern void ac_htable_foreach(ac_htable_t *htable,
+extern void ac_htable_foreach(const ac_htable_t *htable,
 			      void (*action)(void *key, void *value,
 					     void *user_data),
 			      void *user_data);
-extern void ac_htable_destroy(ac_htable_t *htable);
+extern void ac_htable_destroy(const ac_htable_t *htable);
 
 extern char *ac_json_load_from_fd(int fd, off_t offset);
 extern char *ac_json_load_from_file(const char *file, off_t offset);
@@ -275,12 +275,12 @@ extern void ac_jsonw_end_array(ac_jsonw_t *json);
 extern void ac_jsonw_add_object(ac_jsonw_t *json, const char *name);
 extern void ac_jsonw_end_object(ac_jsonw_t *json);
 extern void ac_jsonw_end(ac_jsonw_t *json);
-extern void ac_jsonw_free(ac_jsonw_t *json);
+extern void ac_jsonw_free(const ac_jsonw_t *json);
 extern size_t ac_jsonw_len(const ac_jsonw_t *json);
 extern const char *ac_jsonw_get(const ac_jsonw_t *json);
 
 extern ac_list_t *ac_list_last(ac_list_t *list);
-extern long ac_list_len(ac_list_t *list);
+extern long ac_list_len(const ac_list_t *list);
 extern void ac_list_add(ac_list_t **list, void *data);
 extern void ac_list_preadd(ac_list_t **list, void *data);
 extern bool ac_list_remove(ac_list_t **list, void *data,
@@ -342,7 +342,7 @@ extern bool ac_net_ipv6_isin_sa(const char *network, u8 prefixlen,
 extern void ac_quark_init(ac_quark_t *quark, void (*free_func)(void *ptr));
 extern int ac_quark_from_string(ac_quark_t *quark, const char *str);
 extern const char *ac_quark_to_string(const ac_quark_t *quark, int id);
-extern void ac_quark_destroy(ac_quark_t *quark);
+extern void ac_quark_destroy(const ac_quark_t *quark);
 
 extern ac_queue_t *ac_queue_new(void);
 extern u32 ac_queue_nr_items(const ac_queue_t *queue);
@@ -351,10 +351,11 @@ extern void *ac_queue_pop(ac_queue_t *queue);
 extern void ac_queue_foreach(const ac_queue_t *queue,
 			     void (*action)(void *item, void *data),
 			     void *user_data);
-extern void ac_queue_destroy(ac_queue_t *queue, void (*free_func)(void *item));
+extern void ac_queue_destroy(const ac_queue_t *queue,
+			     void (*free_func)(void *item));
 
 extern ac_slist_t *ac_slist_last(ac_slist_t *list);
-extern long ac_slist_len(ac_slist_t *list);
+extern long ac_slist_len(const ac_slist_t *list);
 extern void ac_slist_add(ac_slist_t **list, void *data);
 extern void ac_slist_preadd(ac_slist_t **list, void *data);
 extern bool ac_slist_remove(ac_slist_t **list, void *data,

@@ -350,14 +350,14 @@ void ac_jsonw_end(ac_jsonw_t *json)
  *
  * @json: The ac_jsonw_t to operate on
  */
-void ac_jsonw_free(ac_jsonw_t *json)
+void ac_jsonw_free(const ac_jsonw_t *json)
 {
 	if (!json)
 		return;
 
 	free(json->str);
 	free(json->indenter);
-	free(json);
+	free((void *)json);
 }
 
 /**

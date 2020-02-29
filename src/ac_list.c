@@ -3,7 +3,7 @@
 /*
  * ac_list.c - doubly linked list
  *
- * Copyright (c) 2019		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2019 - 2020	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -39,7 +39,7 @@ ac_list_t *ac_list_last(ac_list_t *list)
  *
  * The number of entries in the list, 0 if empty
  */
-long ac_list_len(ac_list_t *list)
+long ac_list_len(const ac_list_t *list)
 {
 	long len = 0;
 
