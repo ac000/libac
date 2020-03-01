@@ -387,7 +387,7 @@ static void htable_test(void)
 	printf("New hash table with dynamically allocated string keys/data\n");
 	htable = ac_htable_new(ac_hash_func_str, ac_cmp_str, free, free);
 	ac_htable_insert(htable, strdup("::1"), strdup("localhost"));
-	ac_htable_insert(htable, strdup("fe80::/10"), strdup("link-loca"));
+	ac_htable_insert(htable, strdup("fe80::/10"), strdup("link-local"));
 	printf("There are %lu item(s) in the hash table\n", htable->count);
 	data = ac_htable_lookup(htable, "fe80::/10");
 	printf("lookup: fe80::/10 -> %s\n", data);
