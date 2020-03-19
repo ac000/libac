@@ -248,7 +248,7 @@ extern ac_htable_t *ac_htable_new(u32 (*hash_func)(const void *key),
 				  void (*free_key_func)(void *key),
 				  void (*free_data_func)(void *data));
 extern void ac_htable_insert(ac_htable_t *htable, void *key, void *data);
-extern bool ac_htable_remove(ac_htable_t *htable, void *key);
+extern bool ac_htable_remove(ac_htable_t *htable, const void *key);
 extern void *ac_htable_lookup(const ac_htable_t *htable, const void *key);
 extern void ac_htable_foreach(const ac_htable_t *htable,
 			      void (*action)(void *key, void *value,

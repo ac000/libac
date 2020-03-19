@@ -263,7 +263,7 @@ functions.
 
 #### ac\_htable\_remove - remove an entry from a hash table
 
-    bool ac_htable_remove(ac_htable_t *htable, void *key)
+    bool ac_htable_remove(ac_htable_t *htable, const void *key)
 
 #### ac\_htable\_lookup - lookup an entry in a hash table
 

@@ -35,7 +35,7 @@ static ac_slist_t *bucket_list_lookup(const ac_htable_t *htable,
 }
 
 static bool bucket_list_remove(const ac_htable_t *htable, ac_slist_t **list,
-			       void *key)
+			       const void *key)
 {
 	ac_slist_t **pp = list;
 	ac_slist_t *p;
@@ -134,7 +134,7 @@ void ac_htable_insert(ac_htable_t *htable, void *key, void *data)
  *
  * true if the entry was removed, false otherwise
  */
-bool ac_htable_remove(ac_htable_t *htable, void *key)
+bool ac_htable_remove(ac_htable_t *htable, const void *key)
 {
 	u32 bucket = htable->hash_func(key) % HTABLE_SZ;
 	bool ret;
