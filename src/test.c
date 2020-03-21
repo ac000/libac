@@ -35,7 +35,7 @@ static void free_tnode(void *data)
 }
 
 static void print_node(const void *data, VISIT which,
-		       void *user_data __always_unused)
+		       int depth __always_unused)
 {
 	struct tnode *tn = *(struct tnode **)data;
 
@@ -99,7 +99,7 @@ static void btree_test(void)
 	tn = ac_btree_lookup(tree, &stn);
 	printf("Found tnode: %d - %s\n", tn->key, (char *)tn->data);
 
-	ac_btree_foreach(tree, print_node, NULL);
+	ac_btree_foreach(tree, print_node);
 
 	ac_btree_remove(tree, &stn);
 	ac_btree_destroy(tree);

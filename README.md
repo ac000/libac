@@ -152,8 +152,16 @@ functions.
 
     void ac_btree_foreach(const ac_btree_t *tree,
                           void (*action)(const void *nodep, VISIT which,
+                                         int depth))
+
+#### ac\_btree\_foreach\_data - iterate over the tree with user\_data
+
+    #if __GLIBC__ >= 2 && __GLIBC_MINOR__ >= 30
+    void ac_btree_foreach(const ac_btree_t *tree,
+                          void (*action)(const void *nodep, VISIT which,
                                          void *data),
                           void *user_data)
+    #endif
 
 #### ac\_btree\_is\_empty - test if the binary tree is empty
 

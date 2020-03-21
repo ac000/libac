@@ -63,15 +63,31 @@ void *ac_btree_new(int (*compar)(const void *, const void *),
  *
  * @tree: The binary tree to operate on
  * @action: Function to be called for each node
- * @user_data: Optional user data argument passed to action() as closure
  */
 void ac_btree_foreach(const ac_btree_t *tree,
 		      void (*action)(const void *nodep, VISIT which,
-				     void *data),
-		      void *user_data)
+				     int depth))
+{
+	twalk(tree->rootp, action);
+}
+
+/* twalk_r(3) was introduced in glibc 2.30 */
+#if __GLIBC__ >= 2 && __GLIBC_MINOR__ >= 30
+/**
+ * ac_btree_foreach_data - iterate over the tree with user_data
+ *
+ * @tree: The binary tree to operate on
+ * @action: Function to be called for each node
+ * @user_data: Optional user data argument passed to action() as closure
+ */
+void ac_btree_foreach_data(const ac_btree_t *tree,
+			   void (*action)(const void *nodep, VISIT which,
+					  void *data),
+			   void *user_data)
 {
 	twalk_r(tree->rootp, action, user_data);
 }
+#endif
 
 /**
  * ac_btree_lookup - lookup a node in the tree
