@@ -157,7 +157,7 @@ int ac_net_ns_lookup_by_ip(const struct addrinfo *hints, const char *node,
 		return ret;
 
 	getnameinfo(res->ai_addr, res->ai_addrlen, host, NI_MAXHOST, NULL, 0,
-                        0);
+		    0);
 
 	ac_ns_lookup_cb(res, host);
 	freeaddrinfo(res);
