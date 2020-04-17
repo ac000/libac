@@ -113,8 +113,8 @@ char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 	const char salt_chars[64] =
 		"./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	char salt[21];
-	char *statebuf;
-	struct random_data rndbuf = { 0 };
+	char statebuf[PRNG_BUFSZ];
+	struct random_data rndbuf = { .state = NULL };
 	struct timespec tp;
 	int i;
 
@@ -133,7 +133,6 @@ char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 		return NULL;
 	}
 
-	statebuf = calloc(1, PRNG_BUFSZ);
 	clock_gettime(CLOCK_REALTIME, &tp);
 	initstate_r(tp.tv_nsec / 3, statebuf, PRNG_BUFSZ, &rndbuf);
 
@@ -145,7 +144,6 @@ char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 		salt[i] = salt_chars[r];
 	}
 	salt[i] = '$';
-	free(statebuf);
 
 	data->initialized = 0;
 
