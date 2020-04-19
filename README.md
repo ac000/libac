@@ -686,25 +686,16 @@ functions.
 
 ## Build it
 
-The simplest way is to build the rpm, something like
+The simplest way is to build the rpm by simply doing
 
-    $ cp libac.spec ~/rpmbuild/SPECS
-    $ git archive --format=tar --prefix=libac-<VERSION>/ -o ~/rpmbuild/SOURCES/libac-<VERSION>.tar HEAD
-    $ rpmbuild -bb ~/rpmbuild/SPECS/libac.spec
-    $ sudo dnf install ~/rpmbuild/RPMS/x86_64/libac-<VERSION>-?.<DIST>.x86_64.rpm
+    $ make rpm
 
-e.g when updating to a new version
-
-    $ git archive --format=tar --prefix=libac-0.16.0/ -o ~/rpmbuild/SOURCES/libac-0.16.0.tar HEAD
-    $ cp libac.spec ~/rpmbuild/SPECS/ # Unless you have it symlinked, I do
-    $ rpmbuild -bb ~/rpmbuild/SPECS/libac.spec
-    $ sudo dnf update /home/andrew/rpmbuild/RPMS/x86_64/libac-0.16.0-1.fc24.x86_64.rpm /home/andrew/rpmbuild/RPMS/x86_64/libac-debuginfo-0.16.0-1.fc24.x86_64.rpm
-
-You can create a suitable *rpmbuild/* directory structure with
+in the repository root. It just needs a suitable *rpmbuild/* directory
+structure which can be created with
 
     $ mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 
-*rpmbuild* can be found in the *rpm-build* package.
+and the *rpmbuild* tool which can be found in the *rpm-build* package.
 
 
 ## How to use
