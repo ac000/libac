@@ -39,7 +39,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc README.md LGPL-2.1
+%doc README.md COPYING
 %{_libdir}/libac.*
 %{_includedir}/libac.h
 
