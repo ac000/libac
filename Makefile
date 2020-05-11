@@ -15,7 +15,7 @@ test:
 	@echo -e "Building: test"
 	@$(MAKE) $(MAKE_OPTS) -C src/ test
 
-/PHONY: rpm
+.PHONY: rpm
 rpm:
 	@echo -e "Building: rpm"
 ifeq ($(wildcard ~/rpmbuild/),)
@@ -26,8 +26,8 @@ ifeq ($(wildcard ~/rpmbuild/),)
 	@echo "***"
 	@false
 else
-	@version=$$(git describe); echo "Building $${version}"; \
-		git archive --prefix=libac-$${version:1}/ -o ~/rpmbuild/SOURCES/libac-$${version:1}.tar HEAD
+	@version=$$(git describe | tail -c +2); echo "Building $${version}"; \
+		git archive --prefix=libac-$${version%%-*}/ -o ~/rpmbuild/SOURCES/libac-$${version%%-*}.tar HEAD;
 	@rpmbuild -bb libac.spec
 endif
 
