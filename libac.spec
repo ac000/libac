@@ -39,7 +39,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc README.md COPYING
+%doc README.md COPYING CodingStyle.md Contributing.md
 %{_libdir}/libac.*
 %{_includedir}/libac.h
 
