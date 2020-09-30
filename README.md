@@ -221,7 +221,7 @@ functions.
 
 #### ac\_fs\_mkdir\_p - mkdir with parents
 
-    int ac_fs_mkdir_p(const char *path)
+    int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode)
 
 #### ac\_fs\_copy - copy a file
 

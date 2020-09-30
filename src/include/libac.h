@@ -15,6 +15,7 @@
 #include <netdb.h>
 #include <time.h>
 #include <crypt.h>
+#include <fcntl.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -47,6 +48,7 @@ typedef struct crypt_data ac_crypt_data_t;
 #define AC_BYTE_NIBBLE_HIGH(byte) (((byte) >> 4) & 0x0f)
 #define AC_BYTE_NIBBLE_LOW(byte)  ((byte) & 0x0f)
 
+#define AC_FS_AT_FDCWD		AT_FDCWD
 #define AC_FS_COPY_OVERWRITE	0x01
 
 #define AC_STR_SPLIT_ALWAYS	0x00
@@ -223,7 +225,7 @@ extern void ac_btree_destroy(const ac_btree_t *tree);
 extern bool ac_btree_is_empty(const ac_btree_t *tree);
 
 extern bool ac_fs_is_posix_name(const char *name);
-extern int ac_fs_mkdir_p(const char *path);
+extern int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode);
 extern ssize_t ac_fs_copy(const char *from, const char *to, int flags);
 
 extern ac_circ_buf_t *ac_circ_buf_new(u32 size, size_t elem_sz);

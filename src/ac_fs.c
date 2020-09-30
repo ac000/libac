@@ -3,7 +3,7 @@
 /*
  * ac_fs.c - Filesystem related utility functions.
  *
- * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2020	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE		/* strtok_r(3) & strdup(3) */
@@ -58,39 +58,44 @@ bool ac_fs_is_posix_name(const char *name)
 /**
  * ac_fs_mkdir_p - mkdir with parents
  *
+ * @dirfd: File descriptor for opened directory, can be ignored
  * @path: The path to make
+ * @mode: Mode for the new directory (modified by the process's umask)
  *
  * Returns:
  *
  * 0 on success, -1 on failure check errno
  */
-int ac_fs_mkdir_p(const char *path)
+int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode)
 {
-	int ret = 0;
 	char *dir;
 	char *ptr;
-	char mdir[4096] = "";
+	char mdir[4096] = "\0";
+	int ret = 0;
 
 	if (strlen(path) >= sizeof(mdir)) {
 		errno = ENAMETOOLONG;
 		return -1;
 	}
 
-	if (path[0] == '/')
+	if (*path == '/')
 		strcat(mdir, "/");
 
 	dir = strdup(path);
 	ptr = dir;
-	for ( ; ; ) {
+	for (;;) {
 		char *token;
 
 		token = strsep(&dir, "/");
-		if (token == NULL)
+		if (!token)
 			break;
+
 		strcat(mdir, token);
-		ret = mkdir(mdir, 0777);
-		if (ret == -1 && errno != EEXIST)
+		ret = mkdirat(dirfd, mdir, mode);
+		if (ret == -1 && errno != EEXIST) {
+			ret = -1;
 			break;
+		}
 		strcat(mdir, "/");
 	}
 	free(ptr);

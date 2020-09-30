@@ -303,8 +303,11 @@ static void fs_test(void)
 		printf("Bad  : ");
 	printf("'%s'\n", name2);
 
+	rmdir("/tmp/libac/mkdir_p/test");
+	rmdir("/tmp/libac/mkdir_p");
+	rmdir("/tmp/libac");
 	printf("Creating direstory : /tmp/libac/mkdir_p/test\n");
-	ac_fs_mkdir_p("/tmp/libac/mkdir_p/test");
+	ac_fs_mkdir_p(-1, "/tmp/libac/mkdir_p/test", 0777);
 
 	unlink("/tmp/services");
 	printf("Copying /etc/services -> /tmp/services\n");
