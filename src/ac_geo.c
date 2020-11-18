@@ -3,7 +3,8 @@
 /*
  * ac_geo.c - Geospatial related functions
  *
- * Copyright (c) 2017, 2019	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2019 - 2020	Andrew Clayton
+ *					<andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -30,7 +31,7 @@ static const struct ellipsoid ellipsoids[] = {
 	{ "WGS84", 6378137.0, 6356752.314245, 298.257223563 },
 	{ "GRS80", 6378137.0, 6356752.314140, 298.257222100882711 },
 	{ "AIRY1830", 6377563.396, 6356256.909, 299.3249646 },
-	{ (const char *)NULL, 0.0, 0.0, 0.0 }
+	{ NULL, 0.0, 0.0, 0.0 }
 };
 
 /**
