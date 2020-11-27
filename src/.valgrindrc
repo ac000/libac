@@ -1,1 +1,2 @@
---suppressions=.valgrind-supp
+--suppressions=.valgrind-crypt_r-supp
+--suppressions=.valgrind-getaddrinfo-supp
