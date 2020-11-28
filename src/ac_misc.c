@@ -105,7 +105,7 @@ void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb)
  *
  * Returns:
  *
- * A poniter to the crypted password contained in @data
+ * A pointer to the crypted password contained in @data
  */
 char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 			ac_crypt_data_t *data)
