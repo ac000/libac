@@ -89,14 +89,14 @@ void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter)
 	json->indenter = strdup(indenter);
 }
 
-static inline void add_char(char *string, unsigned char c, size_t *offset)
+static inline void add_char(char *string, char c, size_t *offset)
 {
 	memset(string + *offset, c, 1);
 	(*offset)++;
 }
 
 static inline void add_escaped_str(char *string, const char *escaped,
-				   size_t *offset, int len)
+				   size_t *offset, unsigned int len)
 {
 	memcpy(string + *offset, escaped, len);
 	*offset += len;
@@ -105,7 +105,7 @@ static inline void add_escaped_str(char *string, const char *escaped,
 static char *make_escaped_string(const char *str)
 {
 	char *estring;
-	unsigned char c;
+	char c;
 	size_t offset = 0;
 
 	/* strlen(str) * 6 for worst case scenario; all \uXXXX */
