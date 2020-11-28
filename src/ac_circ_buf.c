@@ -51,8 +51,8 @@ static inline u32 circ_space(const ac_circ_buf_t *cbuf)
  */
 static inline u32 circ_count_to_end(const ac_circ_buf_t *cbuf)
 {
-	int end = cbuf->size - (cbuf->tail / cbuf->elem_sz);
-	int n = ((cbuf->head / cbuf->elem_sz) + end) & (cbuf->size - 1);
+	u32 end = cbuf->size - (cbuf->tail / cbuf->elem_sz);
+	u32 n = ((cbuf->head / cbuf->elem_sz) + end) & (cbuf->size - 1);
 
 	return n < end ? n : end;
 }
@@ -65,8 +65,8 @@ static inline u32 circ_count_to_end(const ac_circ_buf_t *cbuf)
  */
 static inline u32 circ_space_to_end(const ac_circ_buf_t *cbuf)
 {
-	int end = cbuf->size - 1 - (cbuf->head / cbuf->elem_sz);
-	int n = (end + (cbuf->tail / cbuf->elem_sz)) & (cbuf->size - 1);
+	u32 end = cbuf->size - 1 - (cbuf->head / cbuf->elem_sz);
+	u32 n = (end + (cbuf->tail / cbuf->elem_sz)) & (cbuf->size - 1);
 
 	return n <= end ? n : end + 1;
 }
@@ -88,7 +88,7 @@ static bool is_pow2(u32 val)
  *
  * A pointer to a newly allocated buffer or NULL on failure
  */
-ac_circ_buf_t *ac_circ_buf_new(u32 size, size_t elem_sz)
+ac_circ_buf_t *ac_circ_buf_new(u32 size, u32 elem_sz)
 {
 	ac_circ_buf_t *cbuf;
 
@@ -137,7 +137,7 @@ u32 ac_circ_buf_count(const ac_circ_buf_t *cbuf)
  *
  * 0 on success or -1 if there was no room (contiguous space)
  */
-int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, const void *buf, size_t count)
+int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, const void *buf, u32 count)
 {
 	if (circ_space_to_end(cbuf) < count) {
 		if (circ_count(cbuf) == 0 && count <= cbuf->size)
@@ -196,7 +196,7 @@ int ac_circ_buf_push(ac_circ_buf_t *cbuf, const void *buf)
  * 0 on success and buf will contain the popped items or -1 if there
  * was not enough contiguous items to satisfy @count
  */
-int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, size_t count)
+int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, u32 count)
 {
 	if (circ_count_to_end(cbuf) < count)
 		return -1;

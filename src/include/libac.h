@@ -127,7 +127,7 @@ typedef struct {
 	u32 tail;
 
 	u32 size;
-	size_t elem_sz;
+	u32 elem_sz;
 
 	int type;
 } ac_circ_buf_t;
@@ -228,12 +228,12 @@ extern bool ac_fs_is_posix_name(const char *name);
 extern int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode);
 extern ssize_t ac_fs_copy(const char *from, const char *to, int flags);
 
-extern ac_circ_buf_t *ac_circ_buf_new(u32 size, size_t elem_sz);
+extern ac_circ_buf_t *ac_circ_buf_new(u32 size, u32 elem_sz);
 extern u32 ac_circ_buf_count(const ac_circ_buf_t *cbuf);
 extern int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, const void *buf,
-			     size_t count);
+			     u32 count);
 extern int ac_circ_buf_push(ac_circ_buf_t *cbuf, const void *buf);
-extern int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, size_t count);
+extern int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, u32 count);
 extern void *ac_circ_buf_pop(ac_circ_buf_t *cbuf);
 extern void ac_circ_buf_foreach(const ac_circ_buf_t *cbuf,
 				void (*action)(void *item, void *data),

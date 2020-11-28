@@ -176,7 +176,7 @@ functions.
 
 #### ac\_circ\_buf\_new - create a new circular buffer (size must be power of 2)
 
-    ac_circ_buf_t *ac_circ_buf_new(u32 size, size_t elem_sz)
+    ac_circ_buf_t *ac_circ_buf_new(u32 size, u32 elem_sz)
 
 #### ac\_circ\_buf\_count - how many items are in the buffer
 
@@ -184,7 +184,7 @@ functions.
 
 #### ac\_circ\_buf\_pushm - push multiple items into the buffer
 
-    int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, void *buf, size_t count)
+    int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, void *buf, u32 count)
 
 #### ac\_circ\_buf\_push - push an item into the buffer
 
@@ -192,7 +192,7 @@ functions.
 
 #### ac\_circ\_buf\_popm - pop multiple items from buffer
 
-    int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, size_t count)
+    int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, u32 count)
 
 #### ac\_circ\_buf\_pop - pop an item from the buffer
 
