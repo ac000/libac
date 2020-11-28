@@ -56,7 +56,7 @@ char **ac_str_split(const char *string, int delim, int flags)
 	char *p;
 	char **fields;
 	char *tok;
-	int i = 1;
+	unsigned int i = 1;
 
 	/* Check for unknown flags */
 	if (flags & ~(AC_STR_SPLIT_STRICT)) {
@@ -180,12 +180,12 @@ int ac_str_levenshtein(const char *s, const char *t)
 	v1 = malloc((tlen + 1) * sizeof(int));
 
 	for (i = 0; i < tlen + 1; i++)
-		v0[i] = i;
+		v0[i] = (int)i;
 
 	for (i = 0; i < slen; i++) {
 		size_t j;
 
-		v1[0] = i + 1;
+		v1[0] = (int)i + 1;
 
 		for (j = 0; j < tlen; j++) {
 			int cost = (s[i] == t[j]) ? 0 : 1;
