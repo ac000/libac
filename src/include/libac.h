@@ -57,9 +57,9 @@ typedef struct crypt_data ac_crypt_data_t;
 /*
  * Define a second, millisecond and microsecond in terms of nanoseconds.
  */
-#define AC_TIME_NS_SEC		1000000000ULL
-#define AC_TIME_NS_MSEC		   1000000ULL
-#define AC_TIME_NS_USEC		      1000ULL
+#define AC_TIME_NS_SEC		1000000000L
+#define AC_TIME_NS_MSEC		   1000000L
+#define AC_TIME_NS_USEC		      1000L
 
 #define AC_LONG_TO_PTR(x)	((void *)(long)x)
 #define AC_PTR_TO_LONG(p)	((long)p)
