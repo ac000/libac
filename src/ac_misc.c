@@ -75,22 +75,22 @@ void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb)
 		ppb->value.v_u16 = bytes;
 	} else if (bytes < M(si)) {
 		ppb->factor = AC_MISC_PPB_KBYTES;
-		ppb->value.v_float = (float)bytes / K(si);
+		ppb->value.v_float = (double)bytes / K(si);
 	} else if (bytes < G(si)) {
 		ppb->factor = AC_MISC_PPB_MBYTES;
-		ppb->value.v_float = (float)bytes / M(si);
+		ppb->value.v_float = (double)bytes / M(si);
 	} else if (bytes < T(si)) {
 		ppb->factor = AC_MISC_PPB_GBYTES;
-		ppb->value.v_float = (float)bytes / G(si);
+		ppb->value.v_float = (double)bytes / G(si);
 	} else if (bytes < P(si)) {
 		ppb->factor = AC_MISC_PPB_TBYTES;
-		ppb->value.v_float = (float)bytes / T(si);
+		ppb->value.v_float = (double)bytes / T(si);
 	} else if (bytes < E(si)) {
 		ppb->factor = AC_MISC_PPB_PBYTES;
-		ppb->value.v_float = (float)bytes / P(si);
+		ppb->value.v_float = (double)bytes / P(si);
 	} else {
 		ppb->factor = AC_MISC_PPB_EBYTES;
-		ppb->value.v_float = (float)bytes / E(si);
+		ppb->value.v_float = (double)bytes / E(si);
 	}
 
 	ppp_set_prefix(si, ppb);
