@@ -285,7 +285,7 @@ static void circ_buf_test(void)
 
 static void fs_test(void)
 {
-	int ret;
+	ssize_t copied;
 	const char name1[] = "-bad name";
 	const char name2[] = "a_good_name";
 
@@ -315,8 +315,8 @@ static void fs_test(void)
 	printf("Copying /etc/services -> /tmp/services (overwrite)\n");
 	ac_fs_copy("/etc/services", "/tmp/services", AC_FS_COPY_OVERWRITE);
 	printf("Copying /etc/services -> /tmp/services\n");
-	ret = ac_fs_copy("/etc/services", "/tmp/services", 0);
-	if (ret == -1)
+	copied = ac_fs_copy("/etc/services", "/tmp/services", 0);
+	if (copied == -1)
 		perror("ac_fs_copy");
 
 	printf("*** %s\n\n", __func__);
