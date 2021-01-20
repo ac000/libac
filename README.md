@@ -317,9 +317,10 @@ functions.
 
     void ac_jsonw_add_int(ac_jsonw_t *json, const char *name, s64 value)
 
-#### ac\_jsonw\_add\_float - adds an floating point number to the JSON
+#### ac\_jsonw\_add\_real - adds a realnumber to the JSON
 
-    void ac_jsonw_add_float(ac_jsonw_t *json, const char *name, double value)
+    void ac_jsonw_add_real(ac_jsonw_t *json, const char *name, double value,
+                           int dp)
 
 #### ac\_jsonw\_add\_bool - adds a boolean value to the JSON
 

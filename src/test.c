@@ -15,6 +15,7 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <time.h>
+#include <math.h>
 
 #include "include/libac.h"
 
@@ -458,6 +459,7 @@ static void json_test(void)
 	ac_jsonw_add_str(json, "item3", "8'6\"");
 	ac_jsonw_end_object(json);
 	ac_jsonw_end_array(json);
+	ac_jsonw_add_real(json, "pi", M_PI, 2);
 	ac_jsonw_end(json);
 
 	printf("%s\n", ac_jsonw_get(json));

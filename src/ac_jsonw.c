@@ -3,7 +3,8 @@
 /*
  * ac_jsonw.c - Functions for writing JSON
  *
- * Copyright (c) 2018, 2020	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2018, 2020 - 2021	Andrew Clayton
+ *					<andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE
@@ -186,21 +187,33 @@ void ac_jsonw_add_int(ac_jsonw_t *json, const char *name, s64 value)
 }
 
 /**
- * ac_jsonw_add_float - adds an floating point number to the JSON
+ * ac_jsonw_add_real - adds a real number to the JSON
  *
  * @json: The ac_jsonw_t to operate on
  * @name: The field name
  * @value: The value of the field
+ * @dp: The number of decimal places to show, -1 for default
  *
  * name can be NULL when no field name is required. i.e when adding
  * array items.
  */
-void ac_jsonw_add_float(ac_jsonw_t *json, const char *name, double value)
+void ac_jsonw_add_real(ac_jsonw_t *json, const char *name, double value,
+		       int dp)
 {
+	char fmt[32] = "\0";
+	int len = 0;
+
 	if (name)
-		json_build_str(json, "\"%s\": %g,\n", name, value);
+		len = sprintf(fmt, "\"%%s\": ");
+	if (dp == -1)
+		sprintf(fmt + len, "%%f,\n");
 	else
-		json_build_str(json, "%g,\n", value);
+		snprintf(fmt + len, sizeof(fmt) - len, "%%.%df,\n", dp);
+
+	if (name)
+		json_build_str(json, fmt, name, value);
+	else
+		json_build_str(json, fmt, value);
 }
 
 /**

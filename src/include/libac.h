@@ -3,7 +3,8 @@
 /*
  * libac.h - Miscellaneous functions
  *
- * Copyright (c) 2017 - 2020	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2020 - 2021	Andrew Clayton
+ *					<andrew@digital-domain.net>
  */
 
 #ifndef _LIBAC_H_
@@ -270,8 +271,8 @@ extern void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter);
 extern void ac_jsonw_add_str(ac_jsonw_t *json, const char *name,
 			     const char *value);
 extern void ac_jsonw_add_int(ac_jsonw_t *json, const char *name, s64 value);
-extern void ac_jsonw_add_float(ac_jsonw_t *json, const char *name,
-			       double value);
+extern void ac_jsonw_add_real(ac_jsonw_t *json, const char *name,
+			      double value, int dp);
 extern void ac_jsonw_add_bool(ac_jsonw_t *json, const char *name, bool value);
 extern void ac_jsonw_add_null(ac_jsonw_t *json, const char *name);
 extern void ac_jsonw_add_str_or_null(ac_jsonw_t *json, const char *name,
