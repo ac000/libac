@@ -85,7 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Feb 19 2018 Andrew Clayton <andrew@digital-domain.net> - 0.27.0-1
 - Add some JSON writing functions
 
-* Fri Nov 15 2017 Andrew Clayton <andrew@digital-domain.net> - 0.26.0-1
+* Wed Nov 15 2017 Andrew Clayton <andrew@digital-domain.net> - 0.26.0-1
 - Add some hash table functions
 
 * Thu Nov 9 2017 Andrew Clayton <andrew@digital-domain.net> - 0.25.0-1
