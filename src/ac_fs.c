@@ -3,7 +3,8 @@
 /*
  * ac_fs.c - Filesystem related utility functions.
  *
- * Copyright (c) 2017, 2020	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2020 - 2021	Andrew Clayton
+ *					<andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE		/* strtok_r(3) & strdup(3) */
@@ -116,7 +117,7 @@ int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode)
  *
  * Returns:
  *
- * 0 on success, -1 otherwise, check errno
+ * number of bytes written on success, -1 otherwise, check errno
  */
 ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 {
