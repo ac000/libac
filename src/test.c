@@ -287,22 +287,27 @@ static void circ_buf_test(void)
 static void fs_test(void)
 {
 	ssize_t copied;
-	const char name1[] = "-bad name";
-	const char name2[] = "a_good_name";
+	const char * const names[] = {
+		NULL,
+		"\0",
+		".",
+		"..",
+		".foo",
+		"..bar",
+		"bar\n",
+		"-foo",
+		"bar-",
+		"foo_bar ",
+		"foobar",
+		" foobar",
+	};
+	int n = sizeof(names) / sizeof(names[0]);
 
 	printf("*** %s\n", __func__);
 
-	if (ac_fs_is_posix_name(name1))
-		printf("Good : ");
-	else
-		printf("Bad  : ");
-	printf("'%s'\n", name1);
-
-	if (ac_fs_is_posix_name(name2))
-		printf("Good : ");
-	else
-		printf("Bad  : ");
-	printf("'%s'\n", name2);
+	for (int i = 0; i < n; i++)
+		printf("(%s) -> %s\n", names[i],
+		       ac_fs_is_posix_name(names[i]) ? "GOOD" : "BAD");
 
 	rmdir("/tmp/libac/mkdir_p/test");
 	rmdir("/tmp/libac/mkdir_p");

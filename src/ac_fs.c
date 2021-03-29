@@ -32,7 +32,9 @@
  */
 bool ac_fs_is_posix_name(const char *name)
 {
-	if (name[0] == '-')
+	if (!name || *name == '\0' || *name == '-')
+		return false;
+	if (strcmp(name, ".") == 0 || strcmp(name, "..") == 0)
 		return false;
 
 	/*
