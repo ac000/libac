@@ -28,7 +28,7 @@
  *
  * Returns:
  *
- * true if if follows the guidelines, false otherwise
+ * true if name follows the guidelines, false otherwise
  */
 bool ac_fs_is_posix_name(const char *name)
 {
