@@ -5,7 +5,7 @@ CC	= gcc
 CFLAGS  = -Wall -Wextra -Wdeclaration-after-statement -Wvla -std=c99 \
 	  -g -O2 -fexceptions -fno-common -fvisibility=hidden \
 	  -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
-LDFLAGS	= -fpic -shared -Wl,-z,now,-z,defs,-z,relro,--as-needed
+LDFLAGS	= -shared -Wl,-z,now,-z,defs,-z,relro,--as-needed
 LIBS    = -lm -lcrypt
 
 GLIBC_MAJOR	:= $(shell ldd --version | grep -Eo '[0-9]+\.[0-9]+' | \
