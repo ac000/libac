@@ -19,7 +19,7 @@
 #include "include/libac.h"
 
 static const size_t ALLOC_SZ = 4096;
-static const char *JSON_INDENT = "\t";
+static const char *JSON_INDENT = "    ";
 
 static void json_build_str(ac_jsonw_t *json, const char *fmt, ...)
 {

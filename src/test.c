@@ -431,6 +431,28 @@ static void json_test(void)
 	printf("*** %s\n", __func__);
 
 	json = ac_jsonw_init();
+	ac_jsonw_set_indenter(json, "\t");
+
+	ac_jsonw_add_str(json, "domain", "example.com");
+	ac_jsonw_add_bool(json, "active", false);
+	ac_jsonw_add_null(json, "owner");
+	ac_jsonw_add_array(json, "aliases");
+	ac_jsonw_end_array(json);
+	ac_jsonw_add_object(json, "network");
+	ac_jsonw_add_array(json, "ips");
+	ac_jsonw_add_str(json, NULL, "2001:db8::1");
+	ac_jsonw_add_str(json, NULL, "172.16.1.1");
+	ac_jsonw_end_array(json);
+	ac_jsonw_add_object(json, "dns");
+	ac_jsonw_end_object(json);
+	ac_jsonw_end_object(json);
+	ac_jsonw_end(json);
+
+	printf("%s\n\n", ac_jsonw_get(json));
+	ac_jsonw_free(json);
+
+	json = ac_jsonw_init();
+	ac_jsonw_indent_sz(json, 2);
 
 	ac_jsonw_add_str(json, "domain", "example.com");
 	ac_jsonw_add_bool(json, "active", false);
