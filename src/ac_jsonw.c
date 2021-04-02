@@ -80,6 +80,22 @@ ac_jsonw_t *ac_jsonw_init(void)
 }
 
 /**
+ * ac_jsonw_indent_sz - set the number of spaces to use for indentation
+ *
+ * @json: The ac_jsonw_t to operate on
+ * @size: The number of spaces to use (between 1 and 16)
+ */
+void ac_jsonw_indent_sz(ac_jsonw_t *json, int size)
+{
+	if (size < 1 || size > 16)
+		return;
+
+	json->indenter = malloc(size + 1);
+	memset(json->indenter, ' ', size);
+	json->indenter[size] = '\0';
+}
+
+/**
  * ac_jsonw_set_indenter - set the indentation character/string
  *
  * @json: The ac_jsonw_t to operate on

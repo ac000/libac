@@ -305,6 +305,10 @@ functions.
 
     ac_jsonw_t *ac_jsonw_init(void)
 
+#### void ac\_jsonw\_indent\_sz - set the JSON indentation size
+
+    void ac_jsonw_indent_sz(ac_jsonw_t *json, int size)
+
 #### ac\_jsonw\_set\_indenter - set the indentation character/string
 
     void ac_jsonw_set_indenter(ac_jsonw_t *json, const char *indenter)

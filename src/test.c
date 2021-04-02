@@ -451,7 +451,7 @@ static void json_test(void)
 	ac_jsonw_free(json);
 
 	json = ac_jsonw_init();
-	ac_jsonw_set_indenter(json, "    ");
+	ac_jsonw_indent_sz(json, 4);
 
 	ac_jsonw_add_array(json, "object_array");
 	ac_jsonw_add_object(json, NULL);
