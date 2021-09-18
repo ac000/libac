@@ -16,9 +16,9 @@ GLIBC_VER_OK	:= $(shell test $(GLIBC_MAJOR) -ge 2 && \
                            test $(GLIBC_MINOR) -ge 17 && \
                            echo 1)
 
-GCC_MAJOR	:= $(shell gcc -dumpversion | cut -d . -f 1)
-GCC_MINOR	:= $(shell gcc -dumpversion | cut -d . -f 2)
-GCC_SUB		:= $(shell gcc -dumpversion | cut -d . -f 3)
+GCC_MAJOR	:= $(shell gcc -dumpfullversion -dumpversion | cut -d . -f 1)
+GCC_MINOR	:= $(shell gcc -dumpfullversion -dumpversion | cut -d . -f 2)
+GCC_SUB		:= $(shell gcc -dumpfullversion -dumpversion | cut -d . -f 3)
 GCC_VER_OK	:= $(shell test $(GCC_MAJOR) -ge 5 || test $(GCC_MAJOR) -ge 4 \
                            -a $(GCC_MINOR) -ge 9 && echo 1)
 
