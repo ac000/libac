@@ -177,9 +177,8 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 				SYNC_FILE_RANGE_WRITE);
 
 		if (window == 0)
-			continue;
+			goto incr_win;
 
-		window++;
 		sync_file_range(ofd, (window-1) * IO_SIZE, IO_SIZE,
 				SYNC_FILE_RANGE_WAIT_BEFORE |
 				SYNC_FILE_RANGE_WRITE |
@@ -188,6 +187,9 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 			      POSIX_FADV_DONTNEED);
 		posix_fadvise(ifd, (window-1) * IO_SIZE, IO_SIZE,
 			      POSIX_FADV_DONTNEED);
+
+incr_win:
+		window++;
 	} while (bytes_wrote > 0);
 
 cleanup:
