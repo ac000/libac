@@ -8,15 +8,17 @@ CFLAGS  += -Wall -Wextra -Wdeclaration-after-statement -Wvla -std=c99 \
 LDFLAGS	+= -shared -Wl,-z,now,-z,defs,-z,relro,--as-needed
 LIBS    += -lm -lcrypt
 
-GCC_MAJOR	:= $(shell gcc -dumpfullversion -dumpversion | cut -d . -f 1)
-GCC_MINOR	:= $(shell gcc -dumpfullversion -dumpversion | cut -d . -f 2)
-GCC_SUB		:= $(shell gcc -dumpfullversion -dumpversion | cut -d . -f 3)
-GCC_VER_OK	:= $(shell test $(GCC_MAJOR) -ge 5 || test $(GCC_MAJOR) -ge 4 \
-                           -a $(GCC_MINOR) -ge 9 && echo 1)
+ifeq ($(CC),gcc)
+        GCC_MAJOR  := $(shell gcc -dumpfullversion -dumpversion | cut -d . -f 1)
+        GCC_MINOR  := $(shell gcc -dumpfullversion -dumpversion | cut -d . -f 2)
+        GCC_SUB	   := $(shell gcc -dumpfullversion -dumpversion | cut -d . -f 3)
+        GCC_VER_OK := $(shell test $(GCC_MAJOR) -ge 5 || test $(GCC_MAJOR) -ge 4 \
+                        -a $(GCC_MINOR) -ge 9 && echo 1)
 
-ifeq "$(GCC_VER_OK)" "1"
-        # Need GCC >= 4.9 for -fstack-protector-strong
-        CFLAGS += -fstack-protector-strong
+        ifeq ($(GCC_VER_OK),1)
+                # Need GCC >= 4.9 for -fstack-protector-strong
+                CFLAGS += -fstack-protector-strong
+        endif
 endif
 
 ifeq ($(ASAN),1)
