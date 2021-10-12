@@ -2,30 +2,17 @@ SOVER	= 1
 VERSION	= $(SOVER).99.0
 
 CC	= gcc
-CFLAGS  = -Wall -Wextra -Wdeclaration-after-statement -Wvla -std=c99 \
-	  -g -O2 -fexceptions -fno-common -fvisibility=hidden \
-	  -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
-LDFLAGS	= -shared -Wl,-z,now,-z,defs,-z,relro,--as-needed
-LIBS    = -lm -lcrypt
-
-GLIBC_MAJOR	:= $(shell ldd --version | grep -Eo '[0-9]+\.[0-9]+' | \
-                           cut -d . -f 1)
-GLIBC_MINOR	:= $(shell ldd --version | grep -Eo '[0-9]+\.[0-9]+' | \
-                           cut -d . -f 2)
-GLIBC_VER_OK	:= $(shell test $(GLIBC_MAJOR) -ge 2 && \
-                           test $(GLIBC_MINOR) -ge 17 && \
-                           echo 1)
+CFLAGS  += -Wall -Wextra -Wdeclaration-after-statement -Wvla -std=c99 \
+	   -g -O2 -fexceptions -fno-common -fvisibility=hidden \
+	   -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
+LDFLAGS	+= -shared -Wl,-z,now,-z,defs,-z,relro,--as-needed
+LIBS    += -lm -lcrypt
 
 GCC_MAJOR	:= $(shell gcc -dumpfullversion -dumpversion | cut -d . -f 1)
 GCC_MINOR	:= $(shell gcc -dumpfullversion -dumpversion | cut -d . -f 2)
 GCC_SUB		:= $(shell gcc -dumpfullversion -dumpversion | cut -d . -f 3)
 GCC_VER_OK	:= $(shell test $(GCC_MAJOR) -ge 5 || test $(GCC_MAJOR) -ge 4 \
                            -a $(GCC_MINOR) -ge 9 && echo 1)
-
-ifneq "$(GLIBC_VER_OK)" "1"
-        # clock_* functions need linking against -lrt in glibc < 2.17
-        LIBS += -lrt
-endif
 
 ifeq "$(GCC_VER_OK)" "1"
         # Need GCC >= 4.9 for -fstack-protector-strong
