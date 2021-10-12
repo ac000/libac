@@ -128,6 +128,7 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 	int ret;
 	int oflags = O_EXCL;
 	unsigned window = 0;
+	ssize_t total = 0;
 	ssize_t bytes_wrote = -1;
 	struct stat sb;
 
@@ -165,6 +166,9 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 
 	do {
 		bytes_wrote = sendfile(ofd, ifd, NULL, IO_SIZE);
+		if (bytes_wrote == -1)
+			break;
+		total += bytes_wrote;
 
 		/*
 		 * Try not to blow the page cache. After each sendfile() we
@@ -196,5 +200,5 @@ cleanup:
 	close(ifd);
 	close(ofd);
 
-	return bytes_wrote;
+	return bytes_wrote == -1 ? bytes_wrote : total;
 }
