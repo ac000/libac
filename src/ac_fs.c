@@ -16,10 +16,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <sys/sendfile.h>
 #include <errno.h>
 
 #include "include/libac.h"
+#include "platform.h"
 
 /**
  * ac_fs_is_posix_name - checks if a filename follows POSIX guidelines
@@ -106,16 +106,12 @@ int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode)
 	return ret;
 }
 
-#define IO_SIZE	(1024*1024 * 8ul)
 /**
  * ac_fs_copy - copy a file
  *
  * @from: The source
  * @to: The destination
  * @flags: Can be 0 or AC_FS_COPY_OVERWRITE (to overwrite the destination)
- *
- * This is implemented using sendfile(2) and should work fine if your using
- * a 2.4 or >= 2.6.33 kernel.
  *
  * Returns:
  *
@@ -127,8 +123,6 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 	int ofd;
 	int ret;
 	int oflags = O_EXCL;
-	unsigned window = 0;
-	ssize_t total = 0;
 	ssize_t bytes_wrote = -1;
 	struct stat sb;
 
@@ -164,41 +158,11 @@ ssize_t ac_fs_copy(const char *from, const char *to, int flags)
 		 */
 		goto cleanup;
 
-	do {
-		bytes_wrote = sendfile(ofd, ifd, NULL, IO_SIZE);
-		if (bytes_wrote == -1)
-			break;
-		total += bytes_wrote;
-
-		/*
-		 * Try not to blow the page cache. After each sendfile() we
-		 * write out the data and then make sure the previous lot
-		 * of data got written out and tell the kernel we no longer
-		 * need those pages in memory any more for both the input
-		 * and output files.
-		 */
-		sync_file_range(ofd, window * IO_SIZE, IO_SIZE,
-				SYNC_FILE_RANGE_WRITE);
-
-		if (window == 0)
-			goto incr_win;
-
-		sync_file_range(ofd, (window-1) * IO_SIZE, IO_SIZE,
-				SYNC_FILE_RANGE_WAIT_BEFORE |
-				SYNC_FILE_RANGE_WRITE |
-				SYNC_FILE_RANGE_WAIT_AFTER);
-		posix_fadvise(ofd, (window-1) * IO_SIZE, IO_SIZE,
-			      POSIX_FADV_DONTNEED);
-		posix_fadvise(ifd, (window-1) * IO_SIZE, IO_SIZE,
-			      POSIX_FADV_DONTNEED);
-
-incr_win:
-		window++;
-	} while (bytes_wrote > 0);
+	bytes_wrote = file_copy(ifd, ofd);
 
 cleanup:
 	close(ifd);
 	close(ofd);
 
-	return bytes_wrote == -1 ? bytes_wrote : total;
+	return bytes_wrote;
 }

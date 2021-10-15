@@ -17,6 +17,7 @@
 #include <errno.h>
 
 #include "include/libac.h"
+#include "platform.h"
 
 #define K(si)	((si) ? 1000 : 1024)
 #define M(si)	((si) ? 1000*1000 : 1024*1024)
@@ -165,22 +166,7 @@ char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
  */
 const char *ac_misc_gen_uuid4(char *dst)
 {
-	FILE *fp;
-	size_t bytes_read;
-
-	fp = fopen("/proc/sys/kernel/random/uuid", "r");
-	if (!fp)
-		return NULL;
-
-	bytes_read = fread(dst, 1, AC_UUID4_LEN, fp);
-	if (bytes_read < AC_UUID4_LEN) {
-		fclose(fp);
-		return NULL;
-	}
-	fclose(fp);
-	dst[AC_UUID4_LEN] = '\0';
-
-	return dst;
+	return gen_uuid(dst);
 }
 
 /**

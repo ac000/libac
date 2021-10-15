@@ -25,7 +25,9 @@ ifeq ($(ASAN),1)
         override ASAN = -fsanitize=address
 endif
 
-sources     =	$(wildcard *.c)
+UNAME_S := $(shell uname -s | tr A-Z a-z)
+
+sources     =	$(wildcard platform/$(UNAME_S)/*.c *.c)
 objects_all =	$(sources:.c=.o)
 objects     =	$(filter-out test.o,$(objects_all))
 
@@ -49,4 +51,4 @@ test: test.c $(objects)
 	$(v)$(CC) $(CFLAGS) $(ASAN) -o $@ $< $(objects) $(LIBS)
 
 clean:
-	rm -f libac.so* *.o test
+	rm -f libac.so* $(objects) test
