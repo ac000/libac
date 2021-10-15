@@ -10,12 +10,16 @@
 #ifndef _LIBAC_H_
 #define _LIBAC_H_
 
+#include <sys/types.h>
 #include <inttypes.h>
 #include <stdbool.h>
 #include <search.h>
+#include <sys/socket.h>
 #include <netdb.h>
 #include <time.h>
+#ifndef __FreeBSD__
 #include <crypt.h>
+#endif
 #include <fcntl.h>
 
 #ifdef __cplusplus
