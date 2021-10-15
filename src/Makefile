@@ -31,7 +31,7 @@ ifeq ($(UNAME_S),freebsd)
         LIBS	:= -L/usr/local/lib $(LIBS) -luuid
 endif
 
-sources     =	$(wildcard platform/$(UNAME_S)/*.c *.c)
+sources     =	$(wildcard platform/common/*.c platform/$(UNAME_S)/*.c *.c)
 objects_all =	$(sources:.c=.o)
 objects     =	$(filter-out test.o,$(objects_all))
 

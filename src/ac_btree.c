@@ -72,8 +72,6 @@ void ac_btree_foreach(const ac_btree_t *tree,
 	twalk(tree->rootp, action);
 }
 
-/* twalk_r(3) was introduced in glibc 2.30 */
-#if __FreeBSD__ || (__GLIBC__ >= 2 && __GLIBC_MINOR__ >= 30)
 /**
  * ac_btree_foreach_data - iterate over the tree with user_data
  *
@@ -88,7 +86,6 @@ void ac_btree_foreach_data(const ac_btree_t *tree,
 {
 	twalk_r(tree->rootp, action, user_data);
 }
-#endif
 
 /**
  * ac_btree_lookup - lookup a node in the tree

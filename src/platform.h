@@ -26,15 +26,19 @@ struct random_data {
 };
 
 extern int fallocate(int fd, int mode, off_t offset, off_t len);
-extern void twalk_r(const void *vroot,
-		    void (*action) (const void *, VISIT, void *),
-		    void *closure);
+
 extern void tdestroy(void *root, void (*destroy_func)(void *));
 extern int random_r(struct random_data *buf, int32_t *result);
 extern int srandom_r(unsigned int seed, struct random_data *buf);
 extern int initstate_r(unsigned int seed, char *statebuf,
 		       size_t statelen, struct random_data *buf);
 extern int setstate_r(char *statebuf, struct random_data *buf);
+#endif
+
+#if defined(__FreeBSD__) || (__GLIBC__ <= 2 && __GLIBC_MINOR__ < 30)
+extern void twalk_r(const void *vroot,
+		    void (*action) (const void *, VISIT, void *),
+		    void *closure);
 #endif
 
 extern ssize_t file_copy(int in_fd, int out_fd);

@@ -90,6 +90,8 @@
 #include <string.h>
 #include <search.h>
 
+#if defined(__FreeBSD__) || (__GLIBC__ <= 2 && __GLIBC_MINOR__ < 30)
+
 /* Assume malloc returns naturally aligned (alignof (max_align_t))
    pointers so we can use the low bits to store some extra info.  This
    works for the left/right node pointers since they are not user
@@ -228,3 +230,5 @@ void twalk_r(const void *vroot, void (*action) (const void *, VISIT, void *),
   if (root != NULL && action != NULL)
     trecurse_r (root, action, closure);
 }
+
+#endif
