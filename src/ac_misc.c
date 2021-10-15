@@ -12,7 +12,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#if __linux__
 #include <crypt.h>
+#elif __FreeBSD__
+#include <unistd.h>
+#endif
 #include <time.h>
 #include <errno.h>
 

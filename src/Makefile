@@ -26,6 +26,10 @@ ifeq ($(ASAN),1)
 endif
 
 UNAME_S := $(shell uname -s | tr A-Z a-z)
+ifeq ($(UNAME_S),freebsd)
+        CFLAGS 	+= -I/usr/local/include
+        LIBS	:= -L/usr/local/lib $(LIBS) -luuid
+endif
 
 sources     =	$(wildcard platform/$(UNAME_S)/*.c *.c)
 objects_all =	$(sources:.c=.o)

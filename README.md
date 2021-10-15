@@ -156,7 +156,7 @@ functions.
 
 #### ac\_btree\_foreach\_data - iterate over the tree with user\_data
 
-    #if __GLIBC__ >= 2 && __GLIBC_MINOR__ >= 30
+    #if __FreeBSD__ || (__GLIBC__ >= 2 && __GLIBC_MINOR__ >= 30)
     void ac_btree_foreach(const ac_btree_t *tree,
                           void (*action)(const void *nodep, VISIT which,
                                          void *data),
@@ -691,6 +691,11 @@ functions.
 
 ## Build it
 
+libac is primarily developed under Linux but it also builds and runs under
+FreeBSD.
+
+### Linux
+
 The simplest way is to build the rpm by simply doing
 
     $ make rpm
@@ -702,6 +707,20 @@ structure which can be created with
 
 and the *rpmbuild* tool which can be found in the *rpm-build* package.
 
+### FreeBSD
+
+libac has a single dependency on FreeBSD of libuuid, it also need to be built
+with gmake (GNU make), these can be installed with
+
+    $ sudo pkg install e2fsprogs-libuuid gmake
+
+then libac can be built with
+
+    $ gmake
+
+or if you don't have GCC installed
+
+    $ gmake CC=clang
 
 ## How to use
 

@@ -13,6 +13,7 @@
 #include <search.h>
 
 #include "include/libac.h"
+#include "platform.h"
 
 static void null_free_node(void *data __always_unused)
 {
@@ -72,7 +73,7 @@ void ac_btree_foreach(const ac_btree_t *tree,
 }
 
 /* twalk_r(3) was introduced in glibc 2.30 */
-#if __GLIBC__ >= 2 && __GLIBC_MINOR__ >= 30
+#if __FreeBSD__ || (__GLIBC__ >= 2 && __GLIBC_MINOR__ >= 30)
 /**
  * ac_btree_foreach_data - iterate over the tree with user_data
  *

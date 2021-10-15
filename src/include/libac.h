@@ -223,7 +223,7 @@ extern void *ac_btree_new(int (*compar)(const void *, const void *),
 extern void ac_btree_foreach(const ac_btree_t *tree,
 			     void (*action)(const void *nodep, VISIT which,
 					    int depth));
-#if __GLIBC__ >= 2 && __GLIBC_MINOR__ >= 30
+#if __FreeBSD__ || (__GLIBC__ >= 2 && __GLIBC_MINOR__ >= 30)
 extern void ac_btree_foreach_data(const ac_btree_t *tree,
 				  void (*action)(const void *nodep,
 						 VISIT which, void *data),
