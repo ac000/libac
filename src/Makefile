@@ -2,7 +2,7 @@ SOVER	= 1
 VERSION	= $(SOVER).99.0
 
 CC	= gcc
-CFLAGS  += -Wall -Wextra -Wdeclaration-after-statement -Wvla -std=c99 \
+CFLAGS  += -Wall -Wextra -Wdeclaration-after-statement -Wvla -std=gnu99 \
 	   -g -O2 -fexceptions -fno-common -fvisibility=hidden \
 	   -Wp,-D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fPIC
 LDFLAGS	+= -shared -Wl,-z,now,-z,defs,-z,relro,--as-needed
