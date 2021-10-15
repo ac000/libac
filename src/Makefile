@@ -55,4 +55,4 @@ test: test.c $(objects)
 	$(v)$(CC) $(CFLAGS) $(ASAN) -o $@ $< $(objects) $(LIBS)
 
 clean:
-	rm -f libac.so* $(objects) test
+	rm -f libac.so* *.o platform/*/*.o test
