@@ -3,7 +3,7 @@
 /*
  * test.c - Test harness for libac
  *
- * Copyright (c) 2017 - 2020	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2021	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE			/* strdup(3), struct addrinfo */

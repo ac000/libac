@@ -3,7 +3,7 @@
 /*
  * ac_btree.c - Binary search tree functions
  *
- * Copyright (c) 2017, 2019 - 2020	Andrew Clayton
+ * Copyright (c) 2017, 2019 - 2021	Andrew Clayton
  *					<andrew@digital-domain.net>
  */
 

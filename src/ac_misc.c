@@ -3,7 +3,8 @@
 /*
  * ac_misc.c - Miscellaneous functions
  *
- * Copyright (c) 2017, 2019	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017, 2019 - 2021	Andrew Clayton
+ *					<andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE

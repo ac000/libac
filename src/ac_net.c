@@ -3,7 +3,8 @@
 /*
  * ac_net.c - Network related functions
  *
- * Copyright (c) 2017		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2018, 2020 - 2021	Andrew Clayton
+ *						<andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE		/* getaddrinfo(3), freeaddrinfo(3) */
