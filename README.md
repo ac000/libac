@@ -1,3 +1,7 @@
+# libac
+
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/ac000/libac.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ac000/libac/context:cpp)
+
 1. [Overview](#overview)
 2. [Types, defines, etc](#types-defines-etc)
   * [Library version](#library-version)
