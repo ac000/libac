@@ -106,7 +106,7 @@ ac_circ_buf_t *ac_circ_buf_new(u32 size, u32 elem_sz)
 	} else {
 		cbuf->elem_sz = elem_sz;
 		cbuf->type = CPY_BUF;
-		cbuf->buf.cpy_buf = malloc(size * elem_sz);
+		cbuf->buf.cpy_buf = malloc((size_t)size * elem_sz);
 	}
 
 	return cbuf;
@@ -151,7 +151,7 @@ int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, const void *buf, u32 count)
 		       count * sizeof(void *));
 	else
 		memcpy(cbuf->buf.cpy_buf + cbuf->head, buf,
-		       count * cbuf->elem_sz);
+		       (size_t)count * cbuf->elem_sz);
 
 	cbuf->head = (cbuf->head + (count * cbuf->elem_sz)) &
 		     ((cbuf->size - 1) * cbuf->elem_sz);
@@ -206,7 +206,7 @@ int ac_circ_buf_popm(ac_circ_buf_t *cbuf, void *buf, u32 count)
 		       count * sizeof(void *));
 	else
 		memcpy(buf, cbuf->buf.cpy_buf + cbuf->tail,
-		       count * cbuf->elem_sz);
+		       (size_t)count * cbuf->elem_sz);
 
 	cbuf->tail = (cbuf->tail + (count * cbuf->elem_sz)) &
 		     ((cbuf->size - 1) * cbuf->elem_sz);
