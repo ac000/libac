@@ -1,0 +1,10 @@
+freebsd_instance:
+  image_family: freebsd-13-0
+  cpu: 1
+  memory: 1G
+
+task:
+  name: freebsd_13 (clang)
+  skip: "!changesInclude('.cirrus.yml', 'Makefile', 'src/**')"
+  install_script: pkg install -y gmake e2fsprogs-libuuid
+  script: CFLAGS=-Werror gmake CC=clang V=1
