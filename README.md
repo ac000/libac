@@ -1,6 +1,7 @@
 # libac
 
 [![Builds](https://github.com/ac000/libac/actions/workflows/build_tests.yaml/badge.svg)](https://github.com/ac000/libac/actions/workflows/build_tests.yaml)
+[![FreeBSD Build Status](https://api.cirrus-ci.com/github/ac000/libac.svg)](https://cirrus-ci.com/github/ac000/libac)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/ac000/libac.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ac000/libac/context:cpp)
 
 1. [Overview](#overview)
