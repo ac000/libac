@@ -1,6 +1,6 @@
 # libac
 
-![Builds](https://github.com/ac000/libac/actions/workflows/build_tests.yaml/badge.svg)
+[![Builds](https://github.com/ac000/libac/actions/workflows/build_tests.yaml/badge.svg)](https://github.com/ac000/libac/actions/workflows/build_tests.yaml)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/ac000/libac.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ac000/libac/context:cpp)
 
 1. [Overview](#overview)
