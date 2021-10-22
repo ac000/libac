@@ -135,9 +135,9 @@ static void byte_test(void)
 			"not ");
 
 	byte = 0x24;
-	printf("Lower nibble of byte(0x24) : %hhu\n",
+	printf("Lower nibble of byte(0x24) : %d\n",
 			AC_BYTE_NIBBLE_LOW(byte));
-	printf("Upper nibble of byte(0x24) : %hhu\n",
+	printf("Upper nibble of byte(0x24) : %d\n",
                         AC_BYTE_NIBBLE_HIGH(byte));
 
 	printf("*** %s\n\n", __func__);
