@@ -3,18 +3,16 @@
 /*
  * platform.h - Platform dependant stuff
  *
- * Copyright (c) 2021		Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2021 - 2022	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #ifndef _PLATFORM_H_
 #define _PLATFORM_H_
 
 #include <sys/types.h>
-
-#ifdef __FreeBSD__
-#include <fcntl.h>
 #include <search.h>
 
+#ifndef __GLIBC__
 struct random_data {
 	int32_t *fptr;		    /* Front pointer.			   */
 	int32_t *rptr;		    /* Rear pointer.			   */
@@ -25,14 +23,16 @@ struct random_data {
 	int32_t *end_ptr;	    /* Pointer behind state table.	   */
 };
 
-extern int fallocate(int fd, int mode, off_t offset, off_t len);
-
-extern void tdestroy(void *root, void (*destroy_func)(void *));
 extern int random_r(struct random_data *buf, int32_t *result);
 extern int srandom_r(unsigned int seed, struct random_data *buf);
 extern int initstate_r(unsigned int seed, char *statebuf,
 		       size_t statelen, struct random_data *buf);
 extern int setstate_r(char *statebuf, struct random_data *buf);
+#endif
+
+#ifdef __FreeBSD__
+extern int fallocate(int fd, int mode, off_t offset, off_t len);
+extern void tdestroy(void *root, void (*destroy_func)(void *));
 #endif
 
 #if defined(__FreeBSD__) || (__GLIBC__ <= 2 && __GLIBC_MINOR__ < 30)

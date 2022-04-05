@@ -57,6 +57,8 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+#ifndef __GLIBC__
+
 #include "../../platform.h"
 
 /* An improved random number generation package.  In addition to the standard
@@ -391,3 +393,4 @@ int random_r (struct random_data *buf, int32_t *result)
 }
 
 #pragma GCC diagnostic pop
+#endif /* ! __GLIBC__ */
