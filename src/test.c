@@ -646,8 +646,8 @@ static void net_test(void)
 	if (err)
 		perror("ac_net_ns_lookup_by_ip");
 
-	printf("Port : %hu\n", ac_net_port_from_sa((struct sockaddr *)&in6));
-	printf("Port : %hu\n", ac_net_port_from_sa((struct sockaddr *)&in4));
+	printf("Port : %d\n", ac_net_port_from_sa((struct sockaddr *)&in6));
+	printf("Port : %d\n", ac_net_port_from_sa((struct sockaddr *)&in4));
 
 	getaddrinfo("www.google.com", "443", &hints, &res);
 	printf("www.google.com -> %s -> ", ac_net_inet_ntop(

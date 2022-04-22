@@ -3,7 +3,7 @@
 /*
  * libac.h - Miscellaneous functions
  *
- * Copyright (c) 2017 - 2020 - 2021	Andrew Clayton
+ * Copyright (c) 2017 - 2020 - 2022	Andrew Clayton
  *					<andrew@digital-domain.net>
  */
 
@@ -334,7 +334,7 @@ extern int ac_cmp_ptr(const void *a, const void *b);
 extern int ac_cmp_str(const void *a, const void *b);
 extern int ac_cmp_u32(const void *a, const void *b);
 
-extern u16 ac_net_port_from_sa(const struct sockaddr *sa);
+extern int ac_net_port_from_sa(const struct sockaddr *sa);
 extern int ac_net_inet_pton(const char *src, void *dst);
 extern const char *ac_net_inet_ntop(const void *src, char *dst, socklen_t size);
 extern int ac_net_ns_lookup_by_host(const struct addrinfo *hints,

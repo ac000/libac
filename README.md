@@ -430,7 +430,7 @@ functions.
 
 #### ac\_net\_port\_from\_sa - extract the port number from a struct sockaddr
 
-    u16 ac_net_port_from_sa(const struct sockaddr *sa);
+    int ac_net_port_from_sa(const struct sockaddr *sa);
 
 #### ac\_net\_inet\_pton - address family agnostic wrapper around inet\_pton(3)
 

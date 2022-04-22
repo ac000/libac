@@ -3,7 +3,7 @@
 /*
  * ac_net.c - Network related functions
  *
- * Copyright (c) 2017 - 2018, 2020 - 2021	Andrew Clayton
+ * Copyright (c) 2017 - 2018, 2020 - 2022	Andrew Clayton
  *						<andrew@digital-domain.net>
  */
 
@@ -33,9 +33,9 @@
  *
  * Returns:
  *
- * The port number in host byte order or 0 for an unknown address family
+ * The port number in host byte order or -1 for an unknown address family
  */
-u16 ac_net_port_from_sa(const struct sockaddr *sa)
+int ac_net_port_from_sa(const struct sockaddr *sa)
 {
 	switch (sa->sa_family) {
 	case AF_INET6:
@@ -43,7 +43,7 @@ u16 ac_net_port_from_sa(const struct sockaddr *sa)
 	case AF_INET:
 		return ntohs(((struct sockaddr_in *)sa)->sin_port);
 	default:
-		return 0;
+		return -1;
 	}
 }
 
