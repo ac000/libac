@@ -718,7 +718,7 @@ and the *rpmbuild* tool which can be found in the *rpm-build* package.
 
 ### FreeBSD
 
-libac has a single dependency on FreeBSD of libuuid, it also need to be built
+libac has a single dependency on FreeBSD of libuuid, it also needs to be built
 with gmake (GNU make), these can be installed with
 
     $ sudo pkg install e2fsprogs-libuuid gmake
