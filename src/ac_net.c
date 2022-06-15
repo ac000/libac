@@ -175,7 +175,7 @@ static inline bool __ipv4_isin(const char *network, u8 cidr,
 
 	inet_pton(AF_INET, network, &net_addr);
 
-	ip_addr.s_addr = addr->s_addr & htonl(~0U << (32 - cidr));
+	ip_addr.s_addr = addr->s_addr & htonl(~0UL << (32 - cidr));
 
 	return ip_addr.s_addr == net_addr.s_addr;
 }
