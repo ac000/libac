@@ -16,6 +16,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <limits.h>
 #include <errno.h>
 
 #include "include/libac.h"
@@ -73,15 +74,15 @@ int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode)
 {
 	char *dir;
 	char *ptr;
-	char mdir[4096] = "\0";
+	char mdir[PATH_MAX + 1] = "\0";	/* +1 for a trailing '/' */
 	int ret = 0;
 
-	if (strlen(path) >= sizeof(mdir)) {
+	if (strlen(path) >= PATH_MAX) {
 		errno = ENAMETOOLONG;
 		return -1;
 	}
 
-	if (*path == '/')
+	if (*path != '/')
 		strcat(mdir, "/");
 
 	dir = strdup(path);
