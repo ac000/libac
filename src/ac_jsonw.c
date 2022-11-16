@@ -217,19 +217,21 @@ void ac_jsonw_add_real(ac_jsonw_t *json, const char *name, double value,
 		       int dp)
 {
 	char fmt[32] = "\0";
+	const char *pfmt = fmt;
 	int len = 0;
 
 	if (name)
 		len = sprintf(fmt, "\"%%s\": ");
+
 	if (dp == -1)
 		sprintf(fmt + len, "%%f,\n");
 	else
 		snprintf(fmt + len, sizeof(fmt) - len, "%%.%df,\n", dp);
 
 	if (name)
-		json_build_str(json, fmt, name, value);
+		json_build_str(json, pfmt, name, value);
 	else
-		json_build_str(json, fmt, value);
+		json_build_str(json, pfmt, value);
 }
 
 /**
