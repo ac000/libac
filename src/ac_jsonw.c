@@ -220,8 +220,11 @@ void ac_jsonw_add_real(ac_jsonw_t *json, const char *name, double value,
 	const char *pfmt = fmt;
 	int len = 0;
 
-	if (name)
+	if (name) {
 		len = sprintf(fmt, "\"%%s\": ");
+		if (len == -1)
+			return;
+	}
 
 	if (dp == -1)
 		sprintf(fmt + len, "%%f,\n");
