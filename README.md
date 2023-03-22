@@ -20,7 +20,7 @@
   * [Geospatial related functions](#geospatial-related-functions)
   * [Hash Table functions](#hash-table-functions)
   * [JSON functions](#json-functions)
-  * [JOSN Writer functions](#json-writer-functions)
+  * [JSON Writer functions](#json-writer-functions)
   * [Miscellaneous functions](#miscellaneous-functions)
   * [Network related functions](#network-related-functions)
   * [Quark (string to integer mapping) functions](#quark-functions)
@@ -691,7 +691,7 @@ functions.
     void ac_time_secs_to_hms(long total, int *hours, int *minutes,
                              int *seconds);
 
-#### ac\_time\_nsleep - wrapper around nanosleep(2) thats sleeps through interrupts
+#### ac\_time\_nsleep - wrapper around nanosleep(2) that sleeps through interrupts
 
     int ac_time_nsleep(u64 nsecs);
 
