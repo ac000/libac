@@ -40,7 +40,7 @@ ifeq ($V,1)
 	v =
 endif
 
-libac: $(objects)
+libac.so: $(objects)
 	@echo -e "  LNK\t$@"
 	$(v)$(CC) $(LDFLAGS),-soname,libac.so.$(SOVER) -o libac.so.${VERSION} $(objects) $(LIBS)
 	$(v)ln -sf libac.so.${VERSION} libac.so.$(SOVER)
