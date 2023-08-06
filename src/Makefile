@@ -41,17 +41,17 @@ ifeq ($V,1)
 endif
 
 libac.so: $(objects)
-	@echo -e "  LNK\t$@"
+	@echo "  LNK    $@"
 	$(v)$(CC) $(LDFLAGS),-soname,libac.so.$(SOVER) -o libac.so.${VERSION} $(objects) $(LIBS)
 	$(v)ln -sf libac.so.${VERSION} libac.so.$(SOVER)
 	$(v)ln -sf libac.so.${VERSION} libac.so
 
 $(objects): %.o: %.c
-	@echo -e "  CC\t$@"
+	@echo "  CC     $@"
 	$(v)$(CC) $(CFLAGS) -c -o $@ $<
 
 test: test.c $(objects)
-	@echo -e "  CCLNK\t$@"
+	@echo "  CCLNK  $@"
 	$(v)$(CC) $(CFLAGS) $(ASAN) -o $@ $< $(objects) $(LIBS)
 
 clean:
