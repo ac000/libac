@@ -7,17 +7,17 @@ MAKE_OPTS = --no-print-directory V=$V
 
 .PHONY: libac
 libac:
-	@echo -e "Building: libac"
+	@echo "Building: libac"
 	@$(MAKE) $(MAKE_OPTS) -C src/
 
 .PHONY: test
 test:
-	@echo -e "Building: test"
+	@echo "Building: test"
 	@$(MAKE) $(MAKE_OPTS) -C src/ test
 
 .PHONY: rpm
 rpm:
-	@echo -e "Building: rpm"
+	@echo "Building: rpm"
 ifeq ($(wildcard ~/rpmbuild/),)
 	@echo "***"
 	@echo "*** ~/rpmbuild not found, create with"
@@ -33,5 +33,5 @@ endif
 
 .PHONY: clean
 clean:
-	@echo -e "Cleaning: libac test"
+	@echo "Cleaning: libac test"
 	@$(MAKE) $(MAKE_OPTS) -C src/ clean
