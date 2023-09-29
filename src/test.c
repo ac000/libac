@@ -3,7 +3,7 @@
 /*
  * test.c - Test harness for libac
  *
- * Copyright (c) 2017 - 2021	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2023	Andrew Clayton <andrew@digital-domain.net>
  */
 
 #define _GNU_SOURCE			/* strdup(3), struct addrinfo */
@@ -1029,27 +1029,38 @@ static void time_test(void)
 	printf("*** %s\n\n", __func__);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
+	static const char *test_name;
+
 	printf("**** Testing libac version %d.%d.%d ****\n",
 			LIBAC_MAJOR_VERSION, LIBAC_MINOR_VERSION,
 			LIBAC_MICRO_VERSION);
 
-	btree_test();
-	byte_test();
-	circ_buf_test();
-	fs_test();
-	geo_test();
-	htable_test();
-	json_test();
-	list_test();
-	misc_test();
-	net_test();
-	quark_test();
-	queue_test();
-	slist_test();
-	str_test();
-	time_test();
+	if (argc == 2)
+		test_name = argv[1];
+
+#define gate(name) \
+	do { \
+		if (!test_name || strcmp(test_name, #name) == 0) \
+			name##_test(); \
+	} while (0)
+
+	gate(btree);
+	gate(byte);
+	gate(circ_buf);
+	gate(fs);
+	gate(geo);
+	gate(htable);
+	gate(json);
+	gate(list);
+	gate(misc);
+	gate(net);
+	gate(quark);
+	gate(queue);
+	gate(slist);
+	gate(str);
+	gate(time);
 
 	exit(EXIT_SUCCESS);
 }
