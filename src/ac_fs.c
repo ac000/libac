@@ -82,9 +82,6 @@ int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode)
 		return -1;
 	}
 
-	if (*path != '/')
-		strcat(mdir, "/");
-
 	dir = strdup(path);
 	ptr = dir;
 	for (;;) {
@@ -94,13 +91,18 @@ int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode)
 		if (!token)
 			break;
 
+		if (*token == '\0' && *path == '/')
+			strcat(mdir, "/");
+
 		strcat(mdir, token);
 		ret = mkdirat(dirfd, mdir, mode);
 		if (ret == -1 && errno != EEXIST) {
 			ret = -1;
 			break;
 		}
-		strcat(mdir, "/");
+
+		if (*token != '\0')
+			strcat(mdir, "/");
 	}
 	free(dir);
 
