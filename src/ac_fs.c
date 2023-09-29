@@ -3,7 +3,7 @@
 /*
  * ac_fs.c - Filesystem related utility functions.
  *
- * Copyright (c) 2017, 2020 - 2021	Andrew Clayton
+ * Copyright (c) 2017, 2020 - 2023	Andrew Clayton
  *					<andrew@digital-domain.net>
  */
 
@@ -90,7 +90,7 @@ int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode)
 	for (;;) {
 		char *token;
 
-		token = strsep(&dir, "/");
+		token = strsep(&ptr, "/");
 		if (!token)
 			break;
 
@@ -102,7 +102,7 @@ int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode)
 		}
 		strcat(mdir, "/");
 	}
-	free(ptr);
+	free(dir);
 
 	return ret;
 }
