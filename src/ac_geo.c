@@ -252,7 +252,7 @@ void ac_geo_vincenty_direct(const ac_geo_t *from, ac_geo_t *to,
  * 	  and the new altitude
  *
  * This function is largely based on Python code from Dr Hannah Fry.
- * http://www.hannahfry.co.uk/blog/2012/02/01/converting-british-national-grid-to-latitude-and-longitude-ii
+ * <https://web.archive.org/web/20170211043005/http://www.hannahfry.co.uk/blog/2012/02/01/converting-british-national-grid-to-latitude-and-longitude-ii>
  */
 void ac_geo_bng_to_lat_lon(ac_geo_t *geo)
 {
