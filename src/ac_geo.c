@@ -17,7 +17,7 @@
 #define DEG_TO_RAD		(M_PI/180)
 #define RAD_TO_DEG		(180/M_PI)
 
-struct ellipsoid {
+static const struct {
 	const char *shape;
 	/* Equatorial radius in meters */
 	const double a;
@@ -25,13 +25,13 @@ struct ellipsoid {
 	const double b;
 	/* Inverse flattening */
 	const double f;
-};
-
-static const struct ellipsoid ellipsoids[] = {
-	{ "WGS84", 6378137.0, 6356752.314245, 298.257223563 },
-	{ "GRS80", 6378137.0, 6356752.314140, 298.257222100882711 },
-	{ "AIRY1830", 6377563.396, 6356256.909, 299.3249646 },
-	{ NULL, 0.0, 0.0, 0.0 }
+} ellipsoids[] = {
+	[AC_GEO_EREF_WGS84]	=
+		{ "WGS84", 6378137.0, 6356752.314245, 298.257223563 },
+	[AC_GEO_EREF_GRS80]	=
+		{ "GRS80", 6378137.0, 6356752.314140, 298.257222100882711 },
+	[AC_GEO_EREF_AIRY1830]	=
+		{ "AIRY1830", 6377563.396, 6356256.909, 299.3249646 },
 };
 
 /**
