@@ -3,8 +3,7 @@
 /*
  * ac_geo.c - Geospatial related functions
  *
- * Copyright (c) 2017, 2019 - 2020	Andrew Clayton
- *					<andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2024		Andrew Clayton <ac@sigsegv.uk>
  */
 
 #define _GNU_SOURCE
