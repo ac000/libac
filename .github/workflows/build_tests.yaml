@@ -18,32 +18,20 @@ jobs:
   # GitHub Currently only supports running directly on Ubuntu,
   # for any other Linux we need to use a container.
 
-  # CentOS 7 / glibc 2.17 / gcc 4.8.5
-  centos_7:
+  rocky-linux:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ 'rockylinux:8', 'rockylinux:9']
+
     container:
-      image: centos:7
+      image: ${{ matrix.os }}
 
     steps:
       - name: Install tools/deps
-        run: yum -y install gcc make
-
-      - uses: actions/checkout@v2
-
-      - name: make
-        run: CFLAGS=-Werror make V=1
-
-  # Rocky Linux 8 (RHEL clone) / glibc 2.28 / gcc 8.5.0
-  rocky-linux-8:
-    runs-on: ubuntu-latest
-
-    container:
-      image: rockylinux:8
-
-    steps:
-      - name: Install tools/deps
-        run: yum -y install gcc make
+        run: dnf -y install gcc make
 
       - uses: actions/checkout@v2
         with:
@@ -52,12 +40,16 @@ jobs:
       - name: make
         run: CFLAGS=-Werror make V=1
 
-  # Debian 11 / glibc 2.31 / gcc 10.2
-  debian_11:
+  debian:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ 'debian:11', 'debian:12']
+
     container:
-      image: debian:11
+      image: ${{ matrix.os }}
 
     steps:
       - name: Install deps
@@ -90,15 +82,15 @@ jobs:
       - name: make
         run: CFLAGS=-Werror make V=1
 
-  # Fedora 37 / glibc 2.36 / gcc 12.1 / clang 15
-  # Fedora 38 / glibc 2.37 / gcc 13.1 / clang 16
+  # Fedora 40 / glibc 2.39 / gcc 14.2 / clang 18
+  # Fedora 41 / glibc 2.40 / gcc 14.2 / clang 19
   fedora:
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        os: [ 'fedora:37', 'fedora:38' ]
+        os: [ 'fedora:40', 'fedora:41' ]
         compiler: [ 'gcc', 'clang' ]
 
     container:
