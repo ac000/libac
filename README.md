@@ -118,6 +118,10 @@ Glibc.
 
 These are aliases for \_\_attribute\_\_((unused))
 
+    #define __nonstring
+
+This is an alias for \_\_attribute\_\_((nonstring))
+
     #define AC_FS_COPY_OVERWRITE
 
     #define AC_UUID4_LEN	36

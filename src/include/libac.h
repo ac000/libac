@@ -3,8 +3,7 @@
 /*
  * libac.h - Miscellaneous functions
  *
- * Copyright (c) 2017 - 2020 - 2022	Andrew Clayton
- *					<andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2025	Andrew Clayton <ac@sigsegv.uk>
  */
 
 #ifndef _LIBAC_H_
@@ -47,6 +46,14 @@ typedef int8_t    s8;
 #endif
 #ifndef __always_unused
 #define __always_unused		__attribute__((unused))
+#endif
+
+#ifndef __nonstring
+#if (defined(__GNUC__) && !defined(__clang__))
+#define __nonstring		__attribute__((nonstring))
+#else
+#define __nonstring
+#endif
 #endif
 
 typedef struct crypt_data ac_crypt_data_t;
