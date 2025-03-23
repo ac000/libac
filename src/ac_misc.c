@@ -3,8 +3,7 @@
 /*
  * ac_misc.c - Miscellaneous functions
  *
- * Copyright (c) 2017, 2019 - 2021	Andrew Clayton
- *					<andrew@digital-domain.net>
+ * Copyright (c) 2017 - 2025	Andrew Clayton <ac@sigsegv.uk>
  */
 
 #define _GNU_SOURCE
@@ -116,7 +115,7 @@ void ac_misc_ppb(u64 bytes, ac_si_units_t si, ac_misc_ppb_t *ppb)
 char *ac_misc_passcrypt(const char *pass, ac_hash_algo_t hash_type,
 			ac_crypt_data_t *data)
 {
-	const char salt_chars[64] =
+	static const char salt_chars[64] __nonstring =
 		"./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	char salt[21];
 	char statebuf[PRNG_BUFSZ];
