@@ -43,13 +43,8 @@ jobs:
   debian:
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ 'debian:11', 'debian:12']
-
     container:
-      image: ${{ matrix.os }}
+      image: debian:12
 
     steps:
       - name: Install deps
@@ -71,30 +66,32 @@ jobs:
     container:
       image: alpine:edge
 
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [ 'gcc', 'clang' ]
+
     steps:
       - name: Install tools/deps
-        run: apk add build-base
+        run: apk add build-base ${{ matrix.compiler }}
 
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
 
-      - name: make
-        run: CFLAGS=-Werror make V=1
+      - name: make CC=${{ matrix.compiler }}
+        run: CFLAGS=-Werror make CC=${{ matrix.compiler }} V=1
 
-  # Fedora 40 / glibc 2.39 / gcc 14.2 / clang 18
-  # Fedora 41 / glibc 2.40 / gcc 14.2 / clang 19
   fedora:
     runs-on: ubuntu-latest
+
+    container:
+      image: fedora:latest
 
     strategy:
       fail-fast: false
       matrix:
-        os: [ 'fedora:40', 'fedora:41' ]
         compiler: [ 'gcc', 'clang' ]
-
-    container:
-      image: ${{ matrix.os }}
 
     steps:
       - name: Install tools/deps
