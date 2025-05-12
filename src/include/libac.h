@@ -240,10 +240,6 @@ extern void *ac_btree_remove(ac_btree_t *tree, const void *key);
 extern void ac_btree_destroy(const ac_btree_t *tree);
 extern bool ac_btree_is_empty(const ac_btree_t *tree);
 
-extern bool ac_fs_is_posix_name(const char *name);
-extern int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode);
-extern ssize_t ac_fs_copy(const char *from, const char *to, int flags);
-
 extern ac_circ_buf_t *ac_circ_buf_new(u32 size, u32 elem_sz);
 extern u32 ac_circ_buf_count(const ac_circ_buf_t *cbuf);
 extern int ac_circ_buf_pushm(ac_circ_buf_t *cbuf, const void *buf,
@@ -256,6 +252,10 @@ extern void ac_circ_buf_foreach(const ac_circ_buf_t *cbuf,
 				void *user_data);
 extern void ac_circ_buf_reset(ac_circ_buf_t *cbuf);
 extern void ac_circ_buf_destroy(const ac_circ_buf_t *cbuf);
+
+extern bool ac_fs_is_posix_name(const char *name);
+extern int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode);
+extern ssize_t ac_fs_copy(const char *from, const char *to, int flags);
 
 extern void ac_geo_dd_to_dms(double degrees, ac_geo_dms_t *dms);
 extern double ac_geo_dms_to_dd(const ac_geo_dms_t *dms);
