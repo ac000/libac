@@ -6,5 +6,5 @@ freebsd_instance:
 task:
   name: freebsd_14 (clang)
   skip: "!changesInclude('.cirrus.yml', 'Makefile', 'src/**')"
-  install_script: pkg install -y gmake e2fsprogs-libuuid
+  install_script: pkg install -y gmake libuuid
   script: CFLAGS=-Werror gmake CC=clang V=1
