@@ -84,27 +84,44 @@ int ac_fs_mkdir_p(int dirfd, const char *path, mode_t mode)
 
 	dir = strdup(path);
 	ptr = dir;
-	for (;;) {
-		char *token;
 
-		token = strsep(&ptr, "/");
+	if (*path == '/') {
+		strcat(mdir, "/");
+		dir++;
+	}
+
+	for (;;) {
+		struct stat sb;
+		char *token;
+		int err;
+
+		token = strsep(&dir, "/");
 		if (!token)
 			break;
 
-		if (*token == '\0' && *path == '/')
-			strcat(mdir, "/");
-
 		strcat(mdir, token);
-		ret = mkdirat(dirfd, mdir, mode);
-		if (ret == -1 && errno != EEXIST) {
+
+		err = fstatat(dirfd, mdir, &sb, 0);
+		if (!err) {
+			if (!S_ISDIR(sb.st_mode)) {
+				errno = ENOTDIR;
+				ret = -1;
+				break;
+			}
+
+			goto next_component;
+		}
+
+		err = mkdirat(dirfd, mdir, mode);
+		if (err == -1 && errno != EEXIST) {
 			ret = -1;
 			break;
 		}
 
-		if (*token != '\0')
-			strcat(mdir, "/");
+next_component:
+		strcat(mdir, "/");
 	}
-	free(dir);
+	free(ptr);
 
 	return ret;
 }
