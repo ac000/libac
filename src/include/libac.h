@@ -49,7 +49,7 @@ typedef int8_t    s8;
 #endif
 
 #ifndef __nonstring
-#if (defined(__GNUC__) && !defined(__clang__))
+#if __has_attribute(nonstring)
 #define __nonstring		__attribute__((nonstring))
 #else
 #define __nonstring
