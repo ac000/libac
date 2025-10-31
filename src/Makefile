@@ -1,5 +1,5 @@
-SOVER	= 1
-VERSION	= $(SOVER).99.0
+SOVER	= 2
+VERSION	= $(SOVER).0.0
 
 CC	= gcc
 CFLAGS  += -Wall -Wextra -Wdeclaration-after-statement -Wvla -std=gnu11 \
