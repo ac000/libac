@@ -39,18 +39,18 @@ typedef uint8_t   u8;
 typedef int8_t    s8;
 
 #ifndef __unused
-#define __unused		__attribute__((unused))
+#define __unused		__attribute__((__unused__))
 #endif
 #ifndef __maybe_unused
-#define __maybe_unused		__attribute__((unused))
+#define __maybe_unused		__attribute__((__unused__))
 #endif
 #ifndef __always_unused
-#define __always_unused		__attribute__((unused))
+#define __always_unused		__attribute__((__unused__))
 #endif
 
 #ifndef __nonstring
-#if __has_attribute(nonstring)
-#define __nonstring		__attribute__((nonstring))
+#if __has_attribute(__nonstring__)
+#define __nonstring		__attribute__((__nonstring__))
 #else
 #define __nonstring
 #endif
